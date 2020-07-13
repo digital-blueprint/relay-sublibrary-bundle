@@ -1,0 +1,29 @@
+{
+    "name": "dbp/api-alma-bundle",
+    "type": "symfony-bundle",
+    "license": "AGPL-3.0-or-later",
+    "require": {
+        "php": "^7.2.24",
+        "api-platform/core": "^2.4",
+        "symfony/framework-bundle": "^4.1.12",
+        "myclabs/php-enum": "^1.7"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "DBP\\API\\AlmaBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "DBP\\API\\AlmaBundle\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "@php vendor/bin/simple-phpunit"
+        ]
+    }
+}

@@ -1,0 +1,30 @@
+<?php
+
+namespace DBP\API\AlmaBundle\Controller;
+
+use DBP\API\AlmaBundle\Entity\Book;
+use DBP\API\AlmaBundle\Entity\BookOffer;
+use App\Entity\TUGOnline\Organization;
+use App\Exception\ItemNotLoadedException;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use SimpleXMLElement;
+
+class GetLibraryBookOffersByOrganization extends OrganizationController
+{
+    /**
+     * @param Organization $data
+     * @return ArrayCollection
+     * @throws ItemNotLoadedException
+     */
+    public function __invoke(Organization $data): ArrayCollection
+    {
+        $this->tugOnlineApi->checkOrganizationPermissions($data);
+        $this->almaApi->setAnalyticsUpdateDateHeader();
+
+        $collection = new ArrayCollection();
+        $this->almaApi->addAllBookOffersByOrganizationToCollection($data, $collection);
+
+        return $collection;
+    }
+}

@@ -1,0 +1,35 @@
+services:
+    DBP\API\AlmaBundle\Service\AlmaApi:
+        public: false
+        autowire: true
+
+    DBP\API\AlmaBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+        autowire: true
+
+    DBP\API\AlmaBundle\DataPersister\:
+        resource: '../../DataPersister'
+        tags: ['api_platform.data_persister']
+        autowire: true
+
+    DBP\API\AlmaBundle\DataProvider\BookItemDataProvider:
+        tags: ['api_platform.item_data_provider']
+        autowire: true
+
+    DBP\API\AlmaBundle\DataProvider\BookLoanItemDataProvider:
+        tags: ['api_platform.item_data_provider']
+        autowire: true
+
+    DBP\API\AlmaBundle\DataProvider\BookOfferCollectionDataProvider:
+        tags: [{ name: 'api_platform.collection_data_provider'}]
+        autowire: true
+
+    DBP\API\AlmaBundle\DataProvider\BookOfferItemDataProvider:
+        tags: ['api_platform.item_data_provider']
+        autowire: true
+
+    DBP\API\AlmaBundle\DataProvider\BookOrderItemDataProvider:
+        tags: ['api_platform.item_data_provider']
+        autowire: true
+
