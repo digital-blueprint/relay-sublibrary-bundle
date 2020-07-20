@@ -36,19 +36,6 @@ Enable this bundle in `./config/bundles.php` by adding this element to the array
 }
 ```
 
-### Step 3.
-
-Add the Entities of this bundle to `./config/packages/api_platform.yaml`:
-
-```yaml
-...
- 	        paths:
-                ...
-	            - '%kernel.project_dir%/vendor/dbp/api-alma-bundle/src/Entity'
-        exception_to_status:
-...
-```
-
 ### Step 4
 
 Hide some Entities from exposure by api_platform by adding them to `./src/Swagger/SwaggerDecorator.php`:
