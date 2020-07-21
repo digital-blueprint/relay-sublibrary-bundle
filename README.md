@@ -36,22 +36,7 @@ Enable this bundle in `./config/bundles.php` by adding this element to the array
 }
 ```
 
-### Step 4
-
-Hide some Entities from exposure by api_platform by adding them to `./src/Swagger/SwaggerDecorator.php`:
-
-```php
-...
-        $pathsToHide = [
-            "/parcel_deliveries/{id}",
-            "/delivery_statuses/{id}",
-            "/order_items/library_book_order_items/{id}",
-            ...
-        ];
-
-```
-
-### Step 5
+### Step 3
 
 Add this bundle to `./symfony.lock`:
 
