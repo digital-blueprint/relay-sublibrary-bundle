@@ -11,7 +11,10 @@
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.4",
-        "mockery/mockery": "^1.4"
+        "mockery/mockery": "^1.4",
+        "vimeo/psalm": "^3.12",
+        "phpstan/phpstan": "^0.12.33",
+        "phpstan/phpstan-phpunit": "^0.12.13"
     },
     "autoload": {
         "psr-4": {
@@ -26,6 +29,16 @@
     "scripts": {
         "test": [
             "@php vendor/bin/simple-phpunit"
+        ],
+        "phpstan": [
+            "@php vendor/bin/phpstan analyze --ansi"
+        ],
+        "psalm": [
+            "@php vendor/bin/psalm"
+        ],
+        "lint": [
+            "@composer run phpstan",
+            "@composer run psalm"
         ]
     }
 }
