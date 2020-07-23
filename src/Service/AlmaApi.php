@@ -37,8 +37,8 @@ use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use SimpleXMLElement;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Security;
 
 class AlmaApi
@@ -58,7 +58,7 @@ class AlmaApi
     private $analyticsApiKey;
     private $urls;
     private $logger;
-    private $kernel;
+    private $container;
     private $guzzleLogger;
     private $analyticsUpdatesHash = "";
 
@@ -70,7 +70,7 @@ class AlmaApi
 
     const ROLE_BIB = "ROLE_F_BIB_F";
 
-    public function __construct(KernelInterface $kernel, PersonProviderInterface $personProvider, Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger)
+    public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider, Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
@@ -80,7 +80,7 @@ class AlmaApi
             $_ENV['ALMA_ANALYTICS_API_KEY'] : $_ENV['ALMA_API_KEY'];
         $this->urls = new AlmaUrlApi();
         $this->logger = $logger;
-        $this->kernel = $kernel;
+        $this->container = $container;
         $this->guzzleLogger = $guzzleLogger;
     }
 
@@ -138,9 +138,7 @@ class AlmaApi
 
         $stack->push($this->guzzleLogger->getClientHandler());
 
-        $guzzeCachePool = $this->kernel->getContainer()->get('cache.dbp.guzzle');
-        assert($guzzeCachePool instanceof CacheItemPoolInterface);
-
+        $guzzeCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
             new GreedyCacheStrategy(
                 new Psr6CacheStorage($guzzeCachePool),
@@ -155,6 +153,13 @@ class AlmaApi
         $client = new Client($client_options);
 
         return $client;
+    }
+
+    private function getCachePool() : CacheItemPoolInterface
+    {
+        $guzzeCachePool = $this->container->get('dbp_api.cache.alma.analytics');
+        assert($guzzeCachePool instanceof CacheItemPoolInterface);
+        return $guzzeCachePool;
     }
 
     private function getAnalyticsUpdatesClient() : Client
@@ -172,9 +177,7 @@ class AlmaApi
 
         $stack->push($this->guzzleLogger->getClientHandler());
 
-        $guzzeCachePool = $this->kernel->getContainer()->get('cache.dbp.guzzle');
-        assert($guzzeCachePool instanceof CacheItemPoolInterface);
-
+        $guzzeCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
             new GreedyCacheStrategy(
                 new Psr6CacheStorage($guzzeCachePool),

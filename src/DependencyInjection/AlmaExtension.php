@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class AlmaExtension extends Extension
 {
@@ -21,6 +22,11 @@ class AlmaExtension extends Extension
             "/order_items/library_book_order_items/{id}",
             "/event_status_types/{id}"
         ]);
+
+        $def = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);
+        $def->setArguments(['dbp_api.cache.alma.analytics', 60, '%kernel.cache_dir%/dbp/alma-analytics']);
+        $def->setPublic(true);
+        $def->addTag("cache.pool");
 
         $loader = new YamlFileLoader(
             $container,
