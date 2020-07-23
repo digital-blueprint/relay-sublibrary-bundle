@@ -3,14 +3,14 @@
 namespace DBP\API\AlmaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class AlmaExtension extends Extension
+class DbpAlmaExtension extends ConfigurableExtension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function loadInternal(array $configs, ContainerBuilder $container)
     {
         $this->extendArrayParameter(
             $container, 'api_platform.resource_class_directories', [__DIR__ . '/../Entity']);
@@ -33,6 +33,8 @@ class AlmaExtension extends Extension
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yaml');
+
+        $container->setParameter('dbp_api.alma.config', $configs);
     }
 
     private function extendArrayParameter(ContainerBuilder $container, string $parameter, array $values) {

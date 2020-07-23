@@ -56,6 +56,8 @@ class AlmaApi
     private $clientHandler;
     private $apiKey;
     private $analyticsApiKey;
+    private $apiUrl;
+    private $readonly;
     private $urls;
     private $logger;
     private $container;
@@ -75,13 +77,16 @@ class AlmaApi
         $this->security = $security;
         $this->personProvider = $personProvider;
         $this->clientHandler = null;
-        $this->apiKey = $_ENV['ALMA_API_KEY'];
-        $this->analyticsApiKey = $_ENV['ALMA_ANALYTICS_API_KEY'] != "" ?
-            $_ENV['ALMA_ANALYTICS_API_KEY'] : $_ENV['ALMA_API_KEY'];
         $this->urls = new AlmaUrlApi();
         $this->logger = $logger;
         $this->container = $container;
         $this->guzzleLogger = $guzzleLogger;
+
+        $config = $container->getParameter('dbp_api.alma.config');
+        $this->apiKey = $config['api_key'] ?? '';
+        $this->analyticsApiKey = $config['analytics_api_key'] ?? $this->apiKey;
+        $this->apiUrl = $config['api_url'] ?? '';
+        $this->readonly = $config['readonly'];
     }
 
     public function setApiKey(string $key)
@@ -107,7 +112,7 @@ class AlmaApi
     private function getClient() : Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $_ENV['ALMA_API_URL'];
+        $base_uri = $this->apiUrl;
         if (substr($base_uri, -1) !== '/')
             $base_uri .= '/';
 
@@ -126,7 +131,7 @@ class AlmaApi
     private function getAnalyticsClient() : Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $_ENV['ALMA_API_URL'];
+        $base_uri = $this->apiUrl;
         if (substr($base_uri, -1) !== '/')
             $base_uri .= '/';
 
@@ -165,7 +170,7 @@ class AlmaApi
     private function getAnalyticsUpdatesClient() : Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $_ENV['ALMA_API_URL'];
+        $base_uri = $this->apiUrl;
         if (substr($base_uri, -1) !== '/')
             $base_uri .= '/';
 
@@ -1618,7 +1623,7 @@ class AlmaApi
      */
     private function isReadOnlyMode(): bool
     {
-        return $_ENV['ALMA_READONLY'] == 'true';
+        return $this->readonly;
     }
 
     private function checkReadOnlyMode()
