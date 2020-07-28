@@ -20,7 +20,7 @@ use App\Exception\ItemNotLoadedException;
 use App\Exception\ItemNotStoredException;
 use App\Exception\ItemNotUsableException;
 use App\Helpers\JsonException;
-use App\Helpers\Tools;
+use DBP\API\CoreBundle\Helpers\Tools;
 use App\Service\AuditLogger;
 use App\Service\GuzzleLogger;
 use App\Service\PersonProviderInterface;

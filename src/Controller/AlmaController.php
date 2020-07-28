@@ -4,7 +4,7 @@ namespace DBP\API\AlmaBundle\Controller;
 
 use App\Exception\ItemNotStoredException;
 use App\Helpers\JsonException;
-use App\Helpers\Tools;
+use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Request;
 
