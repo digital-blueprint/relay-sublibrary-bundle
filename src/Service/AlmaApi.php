@@ -21,7 +21,7 @@ use App\Exception\ItemNotStoredException;
 use App\Exception\ItemNotUsableException;
 use App\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools;
-use App\Service\AuditLogger;
+use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
 use App\Service\PersonProviderInterface;
 use DateTime;
