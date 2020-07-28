@@ -22,7 +22,7 @@ use App\Exception\ItemNotUsableException;
 use App\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools;
 use App\Service\AuditLogger;
-use App\Service\GuzzleLogger;
+use DBP\API\CoreBundle\Service\GuzzleLogger;
 use App\Service\PersonProviderInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
