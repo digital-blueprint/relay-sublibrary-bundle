@@ -2,7 +2,7 @@
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use App\Entity\Person;
+use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;

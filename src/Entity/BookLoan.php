@@ -4,7 +4,7 @@ namespace DBP\API\AlmaBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Person as Person;
+use DBP\API\CoreBundle\Entity\Person;
 use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 

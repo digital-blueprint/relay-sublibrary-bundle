@@ -2,7 +2,7 @@
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use App\Entity\TUGOnline\Organization;
+use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use Doctrine\Common\Collections\ArrayCollection;
 

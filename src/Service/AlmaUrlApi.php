@@ -3,7 +3,7 @@
 namespace DBP\API\AlmaBundle\Service;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use App\Entity\TUGOnline\Organization;
+use DBP\API\CoreBundle\Entity\Organization;
 use function GuzzleHttp\uri_template;
 
 class AlmaUrlApi

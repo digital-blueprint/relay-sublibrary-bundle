@@ -3,7 +3,7 @@ namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DataProvider\ArrayFullPaginator;
+use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 

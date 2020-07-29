@@ -1,14 +1,9 @@
 <?php
 
 namespace DBP\API\AlmaBundle\Controller;
-
-use DBP\API\AlmaBundle\Entity\Book;
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use App\Entity\TUGOnline\Organization;
+use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use SimpleXMLElement;
 
 class GetLibraryBookOffersByOrganization extends OrganizationController
 {
