@@ -3,8 +3,8 @@
 namespace DBP\API\AlmaBundle\Controller;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use App\Exception\ItemNotLoadedException;
-use App\Exception\ItemNotStoredException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 
 /**
  * Class PostReturnByBookOffer

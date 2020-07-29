@@ -28,7 +28,7 @@ final class BookOfferCollectionDataProvider implements CollectionDataProviderInt
      * @param string|null $operationName
      * @param array $context
      * @return ArrayFullPaginator
-     * @throws \App\Exception\ItemNotLoadedException
+     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
     {

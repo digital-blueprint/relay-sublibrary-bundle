@@ -7,7 +7,7 @@ use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use App\Entity\Person;
 use App\Entity\TUGOnline\Organization;
-use App\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use SimpleXMLElement;

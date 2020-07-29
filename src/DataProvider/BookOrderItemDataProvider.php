@@ -5,7 +5,7 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BookOrder;
-use App\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use App\Service\TUGOnlineApi;
 use Doctrine\Common\Collections\ArrayCollection;

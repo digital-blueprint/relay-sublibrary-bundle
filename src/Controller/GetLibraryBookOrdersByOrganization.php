@@ -3,7 +3,7 @@
 namespace DBP\API\AlmaBundle\Controller;
 
 use App\Entity\TUGOnline\Organization;
-use App\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLibraryBookOrdersByOrganization extends OrganizationController

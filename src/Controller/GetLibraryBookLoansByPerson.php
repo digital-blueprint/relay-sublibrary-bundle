@@ -3,9 +3,9 @@
 namespace DBP\API\AlmaBundle\Controller;
 
 use App\Entity\Person;
-use App\Exception\ItemNotLoadedException;
-use App\Exception\ItemNotStoredException;
-use App\Exception\ItemNotUsableException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotStoredException;
+use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLibraryBookLoansByPerson extends AlmaController

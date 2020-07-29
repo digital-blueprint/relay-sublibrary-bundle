@@ -4,8 +4,8 @@ namespace DBP\API\AlmaBundle\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use App\Exception\ItemNotLoadedException;
-use App\Exception\ItemNotStoredException;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

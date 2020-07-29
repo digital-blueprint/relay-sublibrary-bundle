@@ -26,8 +26,8 @@ final class BookLoanItemDataProvider implements ItemDataProviderInterface, Restr
      * @param string|null $operationName
      * @param array $context
      * @return BookLoan|null
-     * @throws \App\Exception\ItemNotLoadedException
-     * @throws \App\Exception\ItemNotStoredException
+     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
+     * @throws \DBP\API\CoreBundle\Exception\ItemNotStoredException
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?BookLoan
     {

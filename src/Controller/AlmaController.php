@@ -2,7 +2,7 @@
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use App\Exception\ItemNotStoredException;
+use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
