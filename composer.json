@@ -5,11 +5,12 @@
     "require": {
         "php": "^7.2.24",
         "api-platform/core": "^2.4",
+        "dbp/api-core-bundle": "@dev",
+        "doctrine/common": "^3.0",
         "guzzlehttp/guzzle": "^6.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "myclabs/php-enum": "^1.7",
-        "symfony/framework-bundle": "^4.1.12",
-        "dbp/api-core-bundle": "@dev"
+        "symfony/framework-bundle": "^4.1.12"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.4",
