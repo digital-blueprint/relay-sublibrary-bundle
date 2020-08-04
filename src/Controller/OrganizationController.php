@@ -3,7 +3,7 @@
 namespace DBP\API\AlmaBundle\Controller;
 
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use App\Service\TUGOnlineApi;
+use DBP\API\CoreBundle\Service\TUGOnlineApi;
 
 abstract class OrganizationController {
     protected $tugOnlineApi;

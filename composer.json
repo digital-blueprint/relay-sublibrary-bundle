@@ -10,7 +10,8 @@
         "guzzlehttp/guzzle": "^6.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "myclabs/php-enum": "^1.7",
-        "symfony/framework-bundle": "^4.1.12"
+        "symfony/framework-bundle": "^4.1.12",
+        "symfony/security-core": "^4.4"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.4",

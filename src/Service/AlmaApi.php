@@ -23,7 +23,7 @@ use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
-use App\Service\PersonProviderInterface;
+use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
@@ -1613,7 +1613,7 @@ class AlmaApi
      * @param string $message
      * @param array|string|mixed|null $data
      */
-    private function log(string $message, ?array $data = null)
+    private function log(string $message, $data = null)
     {
         $this->logger->log("Alma", $message, $data);
     }
