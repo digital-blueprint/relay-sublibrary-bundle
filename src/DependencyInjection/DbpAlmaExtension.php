@@ -24,7 +24,7 @@ class DbpAlmaExtension extends ConfigurableExtension
         ]);
 
         $def = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);
-        $def->setArguments(['dbp_api.cache.alma.analytics', 60, '%kernel.cache_dir%/dbp/alma-analytics']);
+        $def->setArguments(['alma-analytics', 60, '%kernel.cache_dir%/dbp/alma-analytics']);
         $def->setPublic(true);
         $def->addTag("cache.pool");
 
