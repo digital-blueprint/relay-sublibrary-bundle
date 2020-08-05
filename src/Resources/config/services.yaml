@@ -33,7 +33,7 @@ services:
         tags: ['api_platform.item_data_provider']
         autowire: true
 
-    DBP\API\AlmaBundle\Serializer\LibraryNormalizer:
+    DBP\API\AlmaBundle\Serializer\PersonNormalizer:
         autowire: true
         autoconfigure: true
 

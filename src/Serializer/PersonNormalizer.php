@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
-class LibraryNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+class PersonNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -26,7 +26,7 @@ class LibraryNormalizer implements ContextAwareNormalizerInterface, NormalizerAw
     public function normalize($object, $format = null, array $context = [])
     {
         if ($this->security->isGranted('ROLE_F_BIB_F')) {
-            $context['groups'][] = 'role_library';
+            $context['groups'][] = 'birthdate_access';
         }
 
         $context[self::ALREADY_CALLED] = true;
