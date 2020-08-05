@@ -6,6 +6,7 @@
 namespace DBP\API\AlmaBundle\Service;
 
 use ApiPlatform\Core\Exception\ItemNotFoundException;
+use DateTime;
 use DBP\API\AlmaBundle\Entity\Book;
 use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Entity\BookOffer;
@@ -13,9 +14,9 @@ use DBP\API\AlmaBundle\Entity\BookOrder;
 use DBP\API\AlmaBundle\Entity\BookOrderItem;
 use DBP\API\AlmaBundle\Entity\DeliveryEvent;
 use DBP\API\AlmaBundle\Entity\EventStatusType;
-use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\AlmaBundle\Entity\ParcelDelivery;
 use DBP\API\CoreBundle\Entity\Organization;
+use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;
@@ -24,7 +25,6 @@ use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -38,7 +38,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use SimpleXMLElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Security;
 
 class AlmaApi
@@ -469,7 +468,7 @@ class AlmaApi
     }
 
     /**
-     * see: https://developers.exlibrisgroup.com/console/?url=/wp-content/uploads/alma/openapi/bibs.json#/Catalog/get/almaws/v1/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}
+     * @see: https://developers.exlibrisgroup.com/console/?url=/wp-content/uploads/alma/openapi/bibs.json#/Catalog/get/almaws/v1/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}
      *
      * @param array $item
      * @return BookOffer
@@ -554,6 +553,50 @@ class AlmaApi
             }
         }
         return $bookOffers;
+    }
+
+    /**
+     * @param array $filters
+     * @return ArrayCollection
+     * @throws ItemNotLoadedException
+     */
+    public function getBookLoans(array $filters) : ArrayCollection
+    {
+        $collection = new ArrayCollection();
+
+        if ($filters['name']) {
+            $person = $this->personProvider->getPerson($filters['name'], true);
+            $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
+            if (isset($filters['organization'])) {
+                // TODO: this leads to up to date results,
+                //       while searching for an organization only leads to "old" results
+                //       -- how to deal with this?
+                //       throw new \Exception('search for name and organization at the same time is forbidden');
+                $alternateName = explode('-', $filters['organization'])[1];
+                $bookLoansData = array_filter($bookLoansData, function ($item) use($alternateName) {
+                    $bookLoan = $this->bookLoanFromJsonItem($item);
+                    return $alternateName === $bookLoan->getLibrary();
+                });
+            }
+            foreach ($bookLoansData as $bookLoanData)
+            {
+                $collection->add($this->bookLoanFromJsonItem($bookLoanData));
+            }
+            return $collection;
+        }
+
+        if ($filters['organization']) {
+            $alternateName = explode('-', $filters['organization'])[1];
+            $organization = new Organization();
+            $organization->setIdentifier($filters['organization']);
+            $organization->setAlternateName($alternateName);
+
+            $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
+
+            return $collection;
+        }
+
+        return $collection;
     }
 
     /**
@@ -1105,7 +1148,7 @@ class AlmaApi
      * @param BookOffer $bookOffer
      * @param bool $throwException
      * @return bool
-     * @throws AccessDeniedHttpException
+     * @throws AccessDeniedHttpException|ItemNotLoadedException
      */
     public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
     {

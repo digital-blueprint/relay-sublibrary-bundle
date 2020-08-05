@@ -37,3 +37,6 @@ services:
         autowire: true
         autoconfigure: true
 
+    DBP\API\AlmaBundle\DataProvider\BookLoanCollectionDataProvider:
+        tags: [{ name: 'api_platform.collection_data_provider'}]
+        autowire: true

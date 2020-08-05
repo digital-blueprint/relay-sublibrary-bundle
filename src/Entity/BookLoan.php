@@ -4,13 +4,18 @@ namespace DBP\API\AlmaBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use DBP\API\CoreBundle\Entity\Person;
 use DateTimeInterface;
+use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"},
+ *     collectionOperations={
+ *     "get"={"openapi_context"={
+ *       "parameters"={
+ *         {"name"="name", "in"="query", "description"="Search for all loans of a person", "type"="string", "example"="woody007"},
+ *         {"name"="organization", "in"="query", "description"="Search for all loans of on organization", "type"="string", "example"="F1450"},
+ *     }}}},
  *     itemOperations={"get", "put"},
  *     iri="http://schema.org/LendAction",
  *     routePrefix="/loans",
@@ -58,6 +63,7 @@ class BookLoan
 
     /**
      * TODO: there is no returnTime in the http://schema.org/LendAction schema!
+     *
      * @var DateTimeInterface
      * @ApiProperty(iri="https://schema.org/DateTime")
      * @Groups({"LibraryBookLoanByOrganization"})
@@ -151,5 +157,10 @@ class BookLoan
         $this->loanStatus = $loanStatus;
 
         return $this;
+    }
+
+    public function getLibrary(): ?string
+    {
+        return $this->object ? $this->object->getLibrary() : null;
     }
 }
