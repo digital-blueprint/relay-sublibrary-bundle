@@ -281,7 +281,7 @@ class AlmaApi
 
             return $dataArray;
         } catch (RequestException $e) {
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -317,7 +317,7 @@ class AlmaApi
 
                 return [$dataArray];
             } catch (RequestException $e) {
-                if ($e->getCode() == 400) {
+                if ($e->getCode() === 400) {
                     $dataArray = $this->decodeResponse($e->getResponse());
                     $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -357,7 +357,7 @@ class AlmaApi
 
             return $dataArray;
         } catch (RequestException $e) {
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -401,7 +401,7 @@ class AlmaApi
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -605,7 +605,7 @@ class AlmaApi
         $jsonData['item_data']['alternative_call_number'] = $locationIdentifier;
 
         // alternative_call_number_type is just needed internally for the library
-        $jsonData['item_data']['alternative_call_number_type']['value'] = $locationIdentifier != '' ? '8' : '';
+        $jsonData['item_data']['alternative_call_number_type']['value'] = $locationIdentifier !== '' ? '8' : '';
 
         // we want to save a "modified date" to be able to sort by it in \App\Service\AlmaUrlApi::getBookOfferLocationsIdentifierUrl
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/R0VUIC9hbG1hd3MvdjEvYmlicy97bW1zX2lkfS9ob2xkaW5ncy97aG9sZGluZ19pZH0vaXRlbXM=/
@@ -699,7 +699,7 @@ class AlmaApi
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -746,7 +746,7 @@ class AlmaApi
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
         $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
 
-        $isFinished = ((string) $xml->IsFinished) != 'false';
+        $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         /** @var SimpleXMLElement $row */
@@ -810,10 +810,10 @@ class AlmaApi
 
             $author = $values['Bibliographic Details::Author'] ?? '';
 
-            if ($author == '') {
+            if ($author === '') {
                 $author = $values['Bibliographic Details::Publisher'] ?? '';
 
-                if ($author != '') {
+                if ($author !== '') {
                     $author = trim(explode(';', $author)[0]);
                 }
             }
@@ -878,7 +878,7 @@ class AlmaApi
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
 
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -941,7 +941,7 @@ class AlmaApi
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() == 400) {
+            if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -1324,7 +1324,7 @@ class AlmaApi
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
         $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
 
-        $isFinished = ((string) $xml->IsFinished) != 'false';
+        $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         /** @var SimpleXMLElement $row */
@@ -1407,7 +1407,7 @@ class AlmaApi
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
         $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
 
-        $isFinished = ((string) $xml->IsFinished) != 'false';
+        $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         // FIXME: We get duplicated entries where Invoice Line-Currency/Invoice-Currency/Invoice Line Total Price
@@ -1484,7 +1484,7 @@ class AlmaApi
             $bookOrderItem->setOrderedItem($book);
 
             // "Invoice Line Total Price" should be used if status is closed, otherwise "PO Line Total Price" should be used
-            $price = ($eventStatus->getName() == 'closed') ?
+            $price = ($eventStatus->getName() === 'closed') ?
                 ($values['Fund Transactions::Invoice Line Total Price'] ?? 0) :
                 ($values['Fund Transactions::PO Line Total Price'] ?? 0);
             $bookOrderItem->setPrice((float) $price);
@@ -1509,7 +1509,7 @@ class AlmaApi
      */
     private function getAnalyticsUpdatesHash()
     {
-        if ($this->analyticsUpdatesHash != '') {
+        if ($this->analyticsUpdatesHash !== '') {
             return $this->analyticsUpdatesHash;
         }
 
@@ -1521,7 +1521,7 @@ class AlmaApi
 
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
-        if (count($rows) == 0) {
+        if (count($rows) === 0) {
             return $this->getFallbackAnalyticsUpdatesHash();
         }
 
@@ -1546,7 +1546,7 @@ class AlmaApi
 
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
-        if (count($rows) == 0) {
+        if (count($rows) === 0) {
             return null;
         }
 
@@ -1571,7 +1571,7 @@ class AlmaApi
     {
         $values = $this->getAnalyticsUpdatesData();
 
-        if ($values == null) {
+        if ($values === null) {
             return null;
         }
 
@@ -1592,7 +1592,7 @@ class AlmaApi
     {
         $datetime = $this->getAnalyticsUpdateDate();
 
-        if ($datetime != null) {
+        if ($datetime !== null) {
             header('X-Analytics-Update-Date: '.$datetime->format(DateTime::ATOM));
         }
     }

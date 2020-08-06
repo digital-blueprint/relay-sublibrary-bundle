@@ -60,7 +60,7 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
         // search for the correct book order in the collection of book orders
         /** @var BookOrder $bookOrder */
         foreach ($collection as $bookOrder) {
-            if ($bookOrder->getIdentifier() == $id) {
+            if ($bookOrder->getIdentifier() === $id) {
                 return $bookOrder;
             }
         }
