@@ -38,6 +38,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use SimpleXMLElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Security;
 
 class AlmaApi
@@ -562,6 +563,7 @@ class AlmaApi
      */
     public function getBookLoans(array $filters) : ArrayCollection
     {
+        /** @var ArrayCollection<int,BookLoan> $collection */
         $collection = new ArrayCollection();
 
         if ($filters['name']) {
