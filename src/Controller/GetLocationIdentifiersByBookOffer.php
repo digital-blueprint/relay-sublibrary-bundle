@@ -8,8 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class GetLocationIdentifiersByBookOffer extends AlmaController
 {
     /**
-     * @param BookOffer $data
-     * @return ArrayCollection
      * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
      */
     public function __invoke(BookOffer $data): ArrayCollection

@@ -12,21 +12,25 @@ class AlmaApiUrlTest extends WebTestCase
     /* @var AlmaUrlApi */
     private $urls;
 
-    protected function setUp() : void {
+    protected function setUp(): void
+    {
         $this->urls = new AlmaUrlApi();
     }
 
-    public function test_getBookUrl() {
-        $this->assertEquals("bibs/foob%3Far", $this->urls->getBookUrl("foob?ar"));
+    public function test_getBookUrl()
+    {
+        $this->assertEquals('bibs/foob%3Far', $this->urls->getBookUrl('foob?ar'));
     }
 
-    public function test_getBookLoanPostUrl() {
+    public function test_getBookLoanPostUrl()
+    {
         $this->assertEquals(
-            "bibs/foo/holdings/b%3Fr/items/baz/loans?user_id=bar",
-            $this->urls->getBookLoanPostUrl("foo-b?r-baz", "bar"));
+            'bibs/foo/holdings/b%3Fr/items/baz/loans?user_id=bar',
+            $this->urls->getBookLoanPostUrl('foo-b?r-baz', 'bar'));
     }
 
-    public function test_getBookOfferUrl() {
+    public function test_getBookOfferUrl()
+    {
         $this->assertEquals(
             'bibs/%C3%B6%C3%A4%2F/holdings/%C3%B6%23/items/a%3B',
             $this->urls->getBookOfferUrl('öä/-ö#-a;'));
@@ -35,7 +39,8 @@ class AlmaApiUrlTest extends WebTestCase
         $this->urls->getBookOfferUrl('foo');
     }
 
-    public function test_getBookLoanUrl() {
+    public function test_getBookLoanUrl()
+    {
         $this->assertEquals(
             'bibs/%C3%B6%C3%A4%2F/holdings/%C3%B6%23/items/a%3B/loans/%20',
             $this->urls->getBookLoanUrl('öä/-ö#-a;- '));
@@ -44,44 +49,49 @@ class AlmaApiUrlTest extends WebTestCase
         $this->urls->getBookLoanUrl('foo');
     }
 
-    public function test_getReturnBookOfferUrl() {
+    public function test_getReturnBookOfferUrl()
+    {
         $this->assertEquals(
             'bibs/foo/holdings/ba%3Fr/items/baz?op=scan&library=&circ_desk=DEFAULT_CIRC_DESK',
             $this->urls->getReturnBookOfferUrl('foo-ba?r-baz'));
         $this->assertEquals(
             'bibs/foo/holdings/ba%3Fr/items/baz?op=scan&library=lib&circ_desk=DEFAULT_CIRC_DESK',
-            $this->urls->getReturnBookOfferUrl('foo-ba?r-baz', "lib"));
+            $this->urls->getReturnBookOfferUrl('foo-ba?r-baz', 'lib'));
     }
 
-    public function test_getBookOfferLoansUrl() {
+    public function test_getBookOfferLoansUrl()
+    {
         $this->assertEquals(
-            "bibs/fo/holdings/ba%3Fr/items/baz/loans",
-            $this->urls->getBookOfferLoansUrl("fo-ba?r-baz"));
+            'bibs/fo/holdings/ba%3Fr/items/baz/loans',
+            $this->urls->getBookOfferLoansUrl('fo-ba?r-baz'));
     }
 
-    public function test_getLoansByUserIdUrl() {
+    public function test_getLoansByUserIdUrl()
+    {
         $this->assertEquals(
-            "users/bla%3F/loans?limit=100&offset=0",
-            $this->urls->getLoansByUserIdUrl("bla?"));
+            'users/bla%3F/loans?limit=100&offset=0',
+            $this->urls->getLoansByUserIdUrl('bla?'));
         $this->assertEquals(
-            "users/bla%3F/loans?limit=20&offset=0",
-            $this->urls->getLoansByUserIdUrl("bla?", 20));
+            'users/bla%3F/loans?limit=20&offset=0',
+            $this->urls->getLoansByUserIdUrl('bla?', 20));
     }
 
-    public function test_getBarcodeBookOfferUrl() {
+    public function test_getBarcodeBookOfferUrl()
+    {
         $this->assertEquals(
-            "items?item_barcode=bla%3F",
-            $this->urls->getBarcodeBookOfferUrl("bla?"));
+            'items?item_barcode=bla%3F',
+            $this->urls->getBarcodeBookOfferUrl('bla?'));
     }
 
-    public function test_getBookOfferLocationsIdentifierUrl() {
+    public function test_getBookOfferLocationsIdentifierUrl()
+    {
         $offer = new BookOffer();
-        $offer->setIdentifier("foo-ba?r-baz");
+        $offer->setIdentifier('foo-ba?r-baz');
         $this->assertEquals(
             'bibs/foo/holdings/ba%3Fr/items?order_by=chron_i&limit=100',
             $this->urls->getBookOfferLocationsIdentifierUrl($offer));
 
-        $offer->setIdentifier("bla");
+        $offer->setIdentifier('bla');
         $this->expectException(InvalidIdentifierException::class);
         $this->urls->getBookOfferLocationsIdentifierUrl($offer);
     }

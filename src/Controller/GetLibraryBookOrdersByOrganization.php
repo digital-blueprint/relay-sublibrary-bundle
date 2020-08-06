@@ -9,8 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class GetLibraryBookOrdersByOrganization extends OrganizationController
 {
     /**
-     * @param Organization $data
-     * @return ArrayCollection
      * @throws ItemNotLoadedException
      */
     public function __invoke(Organization $data): ArrayCollection

@@ -4,10 +4,9 @@ namespace DBP\API\AlmaBundle\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use DBP\API\AlmaBundle\Entity\BookOffer;
+use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
-use DBP\API\AlmaBundle\Service\AlmaApi;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class BookOfferDataPersister implements DataPersisterInterface
@@ -28,10 +27,12 @@ final class BookOfferDataPersister implements DataPersisterInterface
     }
 
     /**
-     * Updates an item in Alma
+     * Updates an item in Alma.
      *
      * @param BookOffer $bookOffer
+     *
      * @return BookOffer
+     *
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      */

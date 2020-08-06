@@ -37,7 +37,7 @@ class BookOrderItem
     private $orderDelivery;
 
     /**
-     * A BookOrderItem usually doesn't have a price, but we are assigning one so we don't need to add another BookOffer layer to our book loan list
+     * A BookOrderItem usually doesn't have a price, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrdersByOrganization"})
      * @ApiProperty(iri="http://schema.org/price")
@@ -45,7 +45,7 @@ class BookOrderItem
     private $price;
 
     /**
-     * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one so we don't need to add another BookOffer layer to our book loan list
+     * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrdersByOrganization"})
      * @ApiProperty(iri="http://schema.org/priceCurrency")
@@ -98,6 +98,7 @@ class BookOrderItem
 
     /**
      * @param mixed $price
+     *
      * @return BookOrderItem
      */
     public function setPrice($price): self
@@ -107,16 +108,12 @@ class BookOrderItem
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPriceCurrency(): string
     {
         return $this->priceCurrency;
     }
 
     /**
-     * @param string $priceCurrency
      * @return BookOrderItem
      */
     public function setPriceCurrency(string $priceCurrency): self

@@ -8,7 +8,8 @@ use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Example ids: 990002338910204517, 990003577070204517
+ * Example ids: 990002338910204517, 990003577070204517.
+ *
  * @ApiResource(
  *     collectionOperations={"get"},
  *     itemOperations={"get"},
@@ -46,14 +47,16 @@ class Book
     private $author;
 
     /**
-     * Note that we are using a string here
+     * Note that we are using a string here.
+     *
      * @ApiProperty(iri="http://schema.org/publisher")
      * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
      */
     private $publisher;
 
     /**
-     * Note that Alma only has the year stored
+     * Note that Alma only has the year stored.
+     *
      * @ApiProperty(iri="https://schema.org/DateTime")
      * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
      */

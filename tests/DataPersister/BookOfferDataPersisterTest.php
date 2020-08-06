@@ -12,9 +12,11 @@ class BookOfferDataPersisterTest extends WebTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testMock() {
+    public function testMock()
+    {
         // TODO: fix me
         $this->markTestIncomplete('This test has not been implemented yet.');
+
         return;
 
         // TODO: AlmaApi needs Security class

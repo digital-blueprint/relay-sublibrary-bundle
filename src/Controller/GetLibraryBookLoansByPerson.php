@@ -11,8 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class GetLibraryBookLoansByPerson extends AlmaController
 {
     /**
-     * @param Person $data
-     * @return ArrayCollection
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
@@ -22,8 +20,7 @@ class GetLibraryBookLoansByPerson extends AlmaController
         $jsonData = $this->api->getBookLoansJsonDataByPerson($data);
         $collection = new ArrayCollection();
 
-        foreach ($jsonData as $item)
-        {
+        foreach ($jsonData as $item) {
             $bookLoan = $this->api->bookLoanFromJsonItem($item);
             $bookOffer = $bookLoan->getObject();
 

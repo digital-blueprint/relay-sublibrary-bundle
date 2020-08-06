@@ -9,39 +9,40 @@ use function GuzzleHttp\uri_template;
 class AlmaUrlApi
 {
     /**
-     * Returns [mmsId, holdingId, itemPid]
+     * Returns [mmsId, holdingId, itemPid].
      *
-     * @param string $identifier
      * @return string[]
+     *
      * @throws InvalidIdentifierException
      */
-    private function extractBookOfferID(string $identifier) : array {
-        $list = explode("-", $identifier);
-        if (count($list) !== 3)
-            throw new InvalidIdentifierException("Invalid identifier: must contain 3 parts");
-        return $list;
-    }
-
-    /**
-     * Returns [mmsId, holdingId, itemPid, loanId]
-     *
-     * @param string $identifier
-     * @return string[]
-     * @throws InvalidIdentifierException
-     */
-    private function extractBookLoanID(string $identifier) : array
+    private function extractBookOfferID(string $identifier): array
     {
-        $list = explode("-", $identifier);
-        if (count($list) !== 4)
-            throw new InvalidIdentifierException("Invalid identifier: must contain 4 parts");
+        $list = explode('-', $identifier);
+        if (count($list) !== 3) {
+            throw new InvalidIdentifierException('Invalid identifier: must contain 3 parts');
+        }
+
         return $list;
     }
 
     /**
-     * @param string $identifier
-     * @return string
+     * Returns [mmsId, holdingId, itemPid, loanId].
+     *
+     * @return string[]
+     *
+     * @throws InvalidIdentifierException
      */
-    public function getBookUrl(string $identifier) : string
+    private function extractBookLoanID(string $identifier): array
+    {
+        $list = explode('-', $identifier);
+        if (count($list) !== 4) {
+            throw new InvalidIdentifierException('Invalid identifier: must contain 4 parts');
+        }
+
+        return $list;
+    }
+
+    public function getBookUrl(string $identifier): string
     {
         return uri_template('bibs/{identifier}', [
             'identifier' => $identifier,
@@ -49,12 +50,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @param string $userId
-     * @return string
      * @throws InvalidIdentifierException
      */
-    public function getBookLoanPostUrl(string $identifier, string $userId) : string
+    public function getBookLoanPostUrl(string $identifier, string $userId): string
     {
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
@@ -67,11 +65,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @return string
      * @throws InvalidIdentifierException
      */
-    public function getBookOfferUrl(string $identifier) : string
+    public function getBookOfferUrl(string $identifier): string
     {
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
@@ -83,11 +79,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @return string
      * @throws InvalidIdentifierException
      */
-    public function getBookLoanUrl(string $identifier) : string
+    public function getBookLoanUrl(string $identifier): string
     {
         [$mmsId, $holdingId, $itemPid, $loanId] = $this->extractBookLoanID($identifier);
 
@@ -100,12 +94,11 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
      * @param string $library "F" + number of institution (e.g. F1390)
-     * @return string
+     *
      * @throws InvalidIdentifierException
      */
-    public function getReturnBookOfferUrl(string $identifier, $library = "") : string
+    public function getReturnBookOfferUrl(string $identifier, $library = ''): string
     {
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
@@ -118,11 +111,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @return string
      * @throws InvalidIdentifierException
      */
-    public function getBookOfferLoansUrl(string $identifier) : string
+    public function getBookOfferLoansUrl(string $identifier): string
     {
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
@@ -133,13 +124,7 @@ class AlmaUrlApi
         ]);
     }
 
-    /**
-     * @param string $userId
-     * @param int $limit
-     * @param int $offset
-     * @return string
-     */
-    public function getLoansByUserIdUrl(string $userId, int $limit = 100, int $offset = 0) : string
+    public function getLoansByUserIdUrl(string $userId, int $limit = 100, int $offset = 0): string
     {
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/users/R0VUIC9hbG1hd3MvdjEvdXNlcnMve3VzZXJfaWR9L2xvYW5z/
         return uri_template('users/{userId}/loans{?limit,offset}', [
@@ -149,11 +134,7 @@ class AlmaUrlApi
         ]);
     }
 
-    /**
-     * @param string $barcode
-     * @return string
-     */
-    public function getBarcodeBookOfferUrl(string $barcode) : string
+    public function getBarcodeBookOfferUrl(string $barcode): string
     {
         return uri_template('items{?item_barcode}', [
             'item_barcode' => $barcode,
@@ -161,11 +142,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param BookOffer $bookOffer
-     * @return string
      * @throws InvalidIdentifierException
      */
-    public function getBookOfferLocationsIdentifierUrl(BookOffer $bookOffer) : string
+    public function getBookOfferLocationsIdentifierUrl(BookOffer $bookOffer): string
     {
         [$mmsId, $holdingId] = $this->extractBookOfferID($bookOffer->getIdentifier());
 
@@ -181,11 +160,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Organization $organization
      * @param string $resumptionToken
-     * @return string
      */
-    public function getBookOfferAnalyticsUrl(Organization $organization, $resumptionToken = "") : string
+    public function getBookOfferAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
     {
         $institute = $organization->getAlternateName();
         $limit = 1000;
@@ -193,18 +170,16 @@ class AlmaUrlApi
 
         return uri_template('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}', [
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Bestand-Institute-pbeke',
-            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA[' . $institute . ']]></sawx:expr></sawx:expr>',
+            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
         ]);
     }
 
     /**
-     * @param Organization $organization
      * @param string $resumptionToken
-     * @return string
      */
-    public function getBookLoanAnalyticsUrl(Organization $organization, $resumptionToken = "") : string
+    public function getBookLoanAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
     {
         $limit = 1000;
 //        $limit = 25;
@@ -219,8 +194,8 @@ class AlmaUrlApi
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                 <sawx:expr xsi:type="sawx:comparison" op="equal">
-                    <sawx:expr xsi:type="sawx:sqlExpression">' . $filterExpression . '</sawx:expr>
-                    <sawx:expr xsi:type="xsd:string"><![CDATA[' . $institute . ']]></sawx:expr>
+                    <sawx:expr xsi:type="sawx:sqlExpression">'.$filterExpression.'</sawx:expr>
+                    <sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr>
                 </sawx:expr>
                 <sawx:expr xsi:type="sawx:comparison" op="null">
                     <sawx:expr xsi:type="sawx:sqlExpression">"Return Date"."Return Date"</sawx:expr>
@@ -236,11 +211,9 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Organization $organization
      * @param string $resumptionToken
-     * @return string
      */
-    public function getBookOrderAnalyticsUrl(Organization $organization, $resumptionToken = "") : string
+    public function getBookOrderAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
     {
         $institute = $organization->getAlternateName();
         $limit = 1000;
@@ -248,16 +221,13 @@ class AlmaUrlApi
 
         return uri_template('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}', [
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF',
-            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"PO Line"."PO Line Inventory Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA[' . $institute . ']]></sawx:expr></sawx:expr>',
+            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"PO Line"."PO Line Inventory Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getAnalyticsUpdatesAnalyticsUrl() : string
+    public function getAnalyticsUpdatesAnalyticsUrl(): string
     {
         return uri_template('analytics/reports?path={path}&col_names=true', [
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Analytics-Updates',

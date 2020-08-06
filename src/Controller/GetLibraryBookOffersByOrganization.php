@@ -1,6 +1,7 @@
 <?php
 
 namespace DBP\API\AlmaBundle\Controller;
+
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,8 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class GetLibraryBookOffersByOrganization extends OrganizationController
 {
     /**
-     * @param Organization $data
-     * @return ArrayCollection
      * @throws ItemNotLoadedException
      */
     public function __invoke(Organization $data): ArrayCollection

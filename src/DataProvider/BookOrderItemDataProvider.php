@@ -1,12 +1,13 @@
 <?php
+
 namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BookOrder;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Service\TUGOnlineApi;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -28,13 +29,10 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
     }
 
     /**
-     * Fetches a book order from the list of book orders on an organization (there is no valid other api to do this)
+     * Fetches a book order from the list of book orders on an organization (there is no valid other api to do this).
      *
-     * @param string $resourceClass
      * @param array|int|string $id
-     * @param string|null $operationName
-     * @param array $context
-     * @return BookOrder|null
+     *
      * @throws ItemNotLoadedException
      * @throws ItemNotFoundException
      */
@@ -45,9 +43,7 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
 
         $matches = [];
         if (!preg_match('/^kbo-(\w+-F\w+)-(.+)$/i', $id, $matches)) {
-            throw new ItemNotFoundException(
-                sprintf("BookOrder with id '%s' could not be found!", $id)
-            );
+            throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
         }
 
         // load organizaiton
@@ -69,8 +65,6 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
             }
         }
 
-        throw new ItemNotFoundException(
-            sprintf("BookOrder with id '%s' could not be found!", $id)
-        );
+        throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
     }
 }

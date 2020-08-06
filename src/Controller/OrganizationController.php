@@ -5,7 +5,8 @@ namespace DBP\API\AlmaBundle\Controller;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Service\TUGOnlineApi;
 
-abstract class OrganizationController {
+abstract class OrganizationController
+{
     protected $tugOnlineApi;
 
     protected $almaApi;

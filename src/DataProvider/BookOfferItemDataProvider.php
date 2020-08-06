@@ -1,4 +1,5 @@
 <?php
+
 namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
@@ -21,11 +22,8 @@ final class BookOfferItemDataProvider implements ItemDataProviderInterface, Rest
     }
 
     /**
-     * @param string $resourceClass
      * @param array|int|string $id
-     * @param string|null $operationName
-     * @param array $context
-     * @return BookOffer|null
+     *
      * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
      * @throws \DBP\API\CoreBundle\Exception\ItemNotStoredException
      */
@@ -38,9 +36,9 @@ final class BookOfferItemDataProvider implements ItemDataProviderInterface, Rest
 
         // check for the user's permissions to the requested book offer for certain item operations
         switch ($operationName) {
-            case "post_loan":
-            case "get_loans":
-            case "post_return":
+            case 'post_loan':
+            case 'get_loans':
+            case 'post_return':
                 $api->checkBookOfferPermissions($bookOffer);
                 break;
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
@@ -21,11 +22,8 @@ final class BookLoanItemDataProvider implements ItemDataProviderInterface, Restr
     }
 
     /**
-     * @param string $resourceClass
      * @param array|int|string $id
-     * @param string|null $operationName
-     * @param array $context
-     * @return BookLoan|null
+     *
      * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
      * @throws \DBP\API\CoreBundle\Exception\ItemNotStoredException
      */

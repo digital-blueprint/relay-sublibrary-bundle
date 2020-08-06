@@ -1,4 +1,5 @@
 <?php
+
 namespace DBP\API\AlmaBundle\Serializer;
 
 use DBP\API\CoreBundle\Entity\Person;

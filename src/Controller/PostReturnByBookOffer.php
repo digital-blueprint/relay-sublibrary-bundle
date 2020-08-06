@@ -7,7 +7,7 @@ use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 
 /**
- * Class PostReturnByBookOffer
+ * Class PostReturnByBookOffer.
  *
  * We need to set the annotation `"defaults":{"_api_persist"=false}` in class BookOffer to prevent that the BookOffer
  * will be updated after our controller is done
@@ -15,8 +15,6 @@ use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 class PostReturnByBookOffer extends AlmaController
 {
     /**
-     * @param BookOffer $data
-     * @return BookOffer
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      */
