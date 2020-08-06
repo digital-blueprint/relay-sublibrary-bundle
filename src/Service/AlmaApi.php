@@ -70,7 +70,7 @@ class AlmaApi
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    const ROLE_BIB = 'ROLE_F_BIB_F';
+    public const ROLE_BIB = 'ROLE_F_BIB_F';
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider, Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger)
     {
@@ -1033,7 +1033,7 @@ class AlmaApi
             $response = $client->request('GET', $this->urls->getBookOfferLoansUrl($identifier), $options);
             $dataArray = $this->decodeResponse($response);
 
-            return isset($dataArray['item_loan']) ? $dataArray['item_loan'] : [];
+            return $dataArray['item_loan'] ?? [];
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {

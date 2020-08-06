@@ -10,7 +10,7 @@ use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
 
 final class BookOfferCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
-    const ITEMS_PER_PAGE = 100;
+    public const ITEMS_PER_PAGE = 100;
 
     private $api;
 
