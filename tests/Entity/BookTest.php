@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Tests\Entity;
 
 use DBP\API\AlmaBundle\Entity\Book;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Controller;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Alma API wrapper service.
  */
@@ -211,9 +213,9 @@ class AlmaApi
      */
     private function decodeResponse(ResponseInterface $response)
     {
-        $body = (string) $response->getBody();
+        $body = $response->getBody();
         try {
-            return Tools::decodeJSON($body, true);
+            return Tools::decodeJSON((string) $body, true);
         } catch (JsonException $e) {
             throw new ItemNotLoadedException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }
@@ -245,7 +247,7 @@ class AlmaApi
 
         // try to handle json errors
         try {
-            $decoded = Tools::decodeJSON($body, true);
+            $decoded = Tools::decodeJSON((string) $body, true);
         } catch (JsonException $e) {
             return Tools::filterErrorMessage($e->getMessage());
         }
@@ -1599,7 +1601,7 @@ class AlmaApi
 
     private function getFallbackAnalyticsUpdatesHash(): string
     {
-        return $this->analyticsUpdatesHash = sha1(rand(0, 10000) + time());
+        return $this->analyticsUpdatesHash = sha1((string) (rand(0, 10000) + time()));
     }
 
     /**
