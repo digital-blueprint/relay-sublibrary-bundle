@@ -1109,7 +1109,7 @@ class AlmaApi
         $bookOfferLibrary = $bookOffer->getLibrary();
 
         // check if current user has F_BIB permissions to the institute of the book offer
-        if (!in_array($bookOfferLibrary, $institutes)) {
+        if (!in_array($bookOfferLibrary, $institutes, true)) {
             // throw an exception if we want to
             if ($throwException) {
                 throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOfferLibrary));
