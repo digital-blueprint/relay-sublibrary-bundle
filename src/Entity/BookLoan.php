@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     "get"={"openapi_context"={
  *       "parameters"={
  *         {"name"="name", "in"="query", "description"="Search for all loans of a person", "type"="string", "example"="woody007"},
- *         {"name"="organization", "in"="query", "description"="Search for all loans of on organization", "type"="string", "example"="F1450"},
+ *         {"name"="organization", "in"="query", "description"="Search for all loans of on organization", "type"="string", "example"="681-F1490"},
  *     }}}},
  *     itemOperations={"get", "put"},
  *     iri="http://schema.org/LendAction",
