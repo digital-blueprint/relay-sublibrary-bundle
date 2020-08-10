@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/loans",
  *     shortName="LibraryBookLoan",
  *     description="A book loan in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan", "LibraryBookLoan:output", "LDAPPerson", "LibraryBookOffer"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan", "LibraryBookLoan:output", "LDAPPerson", "LibraryBookOffer", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization"}},
  *     denormalizationContext={"groups"={"LibraryBookLoan:input"}}
  * )
  */

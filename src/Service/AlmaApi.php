@@ -574,6 +574,8 @@ class AlmaApi
             $organization->setIdentifier($filters['organization']);
             $organization->setAlternateName($alternateName);
 
+            $this->setAnalyticsUpdateDateHeader();
+
             $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
 
             return $collection;
