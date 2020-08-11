@@ -11,14 +11,21 @@
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "myclabs/php-enum": "^1.7",
         "symfony/framework-bundle": "^4.1.12",
-        "symfony/security-core": "^4.4"
+        "symfony/security-core": "^4.4",
+        "symfony/yaml": "^4.4"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.4",
         "mockery/mockery": "^1.2",
-        "vimeo/psalm": "^3.12",
         "phpstan/phpstan": "^0.12.33",
-        "phpstan/phpstan-phpunit": "^0.12.13"
+        "phpstan/phpstan-phpunit": "^0.12.13",
+        "symfony/browser-kit": "^4.4",
+        "symfony/http-client": "^4.4",
+        "symfony/phpunit-bridge": "^4.4",
+        "vimeo/psalm": "^3.12",
+        "nelmio/cors-bundle": "^2.1.0",
+        "symfony/twig-bundle": "^4.4",
+        "symfony/security-bundle": "^4.4",
+        "symfony/config": "^4.4"
     },
     "repositories": [
         {
