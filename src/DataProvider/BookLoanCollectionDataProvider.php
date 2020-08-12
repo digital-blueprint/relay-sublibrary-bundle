@@ -8,10 +8,10 @@ use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Service\AlmaApi;
+use DBP\API\CoreBundle\Exception\ApiError;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final class BookLoanCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -41,7 +41,7 @@ final class BookLoanCollectionDataProvider implements CollectionDataProviderInte
         try {
             $bookOffers = $api->getBookLoans($filters);
         } catch (\Exception $e) {
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $e->getMessage());
+            throw new ApiError(Response::HTTP_BAD_REQUEST, $e->getMessage());
         }
         $perPage = self::ITEMS_PER_PAGE;
         $page = 1;
