@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class DbpAlmaExtension extends ConfigurableExtension
 {
-    public function loadInternal(array $configs, ContainerBuilder $container)
+    public function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
         $this->extendArrayParameter(
             $container, 'api_platform.resource_class_directories', [__DIR__.'/../Entity']);
@@ -36,7 +36,7 @@ class DbpAlmaExtension extends ConfigurableExtension
         );
         $loader->load('services.yaml');
 
-        $container->setParameter('dbp_api.alma.config', $configs);
+        $container->setParameter('dbp_api.alma.config', $mergedConfig);
     }
 
     private function extendArrayParameter(ContainerBuilder $container, string $parameter, array $values)
