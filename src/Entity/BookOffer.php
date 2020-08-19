@@ -17,13 +17,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Example id: 990003577070204517-2211897620004517-2311897610004517.
  *
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
  *     collectionOperations={
  *      "get"={"openapi_context"={"parameters"={
  *                               {"name"="barcode", "in"="query", "description"="Search for a book offer by barcode", "type"="string"}}}}
  *     },
  *     itemOperations={
  *      "get",
- *      "put"={"access_control"="is_granted('ROLE_F_BIB_F')", "access_control_message"="Only a 'Bibliotheksbeauftragter' can edit book offers."},
+ *      "put",
  *      "get_location_identifiers"={
  *         "method"="GET",
  *         "path"="/library_book_offers/{id}/location_identifiers",
