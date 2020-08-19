@@ -44,7 +44,7 @@ class AlmaApiTest extends WebTestCase
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
 
-        $tugapi = new TUGOnlineApi($client->getContainer(), $security, $guzzleLogger);
+        $tugapi = new TUGOnlineApi($client->getContainer(), $guzzleLogger);
         $this->api = new AlmaApi(
             $client->getContainer(),
             $personProvider,

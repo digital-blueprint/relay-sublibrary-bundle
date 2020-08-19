@@ -15,7 +15,7 @@ class GetLibraryBookOffersByOrganization extends OrganizationController
      */
     public function __invoke(Organization $data): ArrayCollection
     {
-        $this->tugOnlineApi->checkOrganizationPermissions($data);
+        $this->checkOrganizationPermissions($data);
         $this->almaApi->setAnalyticsUpdateDateHeader();
 
         $collection = new ArrayCollection();

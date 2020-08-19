@@ -17,13 +17,14 @@ use DBP\API\AlmaBundle\Entity\BookOrderItem;
 use DBP\API\AlmaBundle\Entity\DeliveryEvent;
 use DBP\API\AlmaBundle\Entity\EventStatusType;
 use DBP\API\AlmaBundle\Entity\ParcelDelivery;
+use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use DBP\API\CoreBundle\Helpers\JsonException;
-use DBP\API\CoreBundle\Helpers\Tools;
+use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
 use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
@@ -224,9 +225,9 @@ class AlmaApi
     {
         $body = $response->getBody();
         try {
-            return Tools::decodeJSON((string) $body, true);
+            return CoreTools::decodeJSON((string) $body, true);
         } catch (JsonException $e) {
-            throw new ItemNotLoadedException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
+            throw new ItemNotLoadedException(sprintf('Invalid json: %s', CoreTools::filterErrorMessage($e->getMessage())));
         }
     }
 
@@ -236,7 +237,7 @@ class AlmaApi
     private function getRequestExceptionMessage(RequestException $e): string
     {
         if (!$e->hasResponse()) {
-            return Tools::filterErrorMessage($e->getMessage());
+            return CoreTools::filterErrorMessage($e->getMessage());
         }
 
         $response = $e->getResponse();
@@ -248,23 +249,23 @@ class AlmaApi
             try {
                 $xml = new \SimpleXMLElement($content);
 
-                return Tools::filterErrorMessage($xml->errorList->error->errorMessage);
+                return CoreTools::filterErrorMessage($xml->errorList->error->errorMessage);
             } catch (\Exception $xmlException) {
-                return Tools::filterErrorMessage($content);
+                return CoreTools::filterErrorMessage($content);
             }
         }
 
         // try to handle json errors
         try {
-            $decoded = Tools::decodeJSON((string) $body, true);
+            $decoded = CoreTools::decodeJSON((string) $body, true);
         } catch (JsonException $e) {
-            return Tools::filterErrorMessage($e->getMessage());
+            return CoreTools::filterErrorMessage($e->getMessage());
         }
         // If we get proper json we try to include the whole content
         $message = explode("\n", $e->getMessage())[0];
         $message .= "\n".json_encode($decoded);
 
-        return Tools::filterErrorMessage($message);
+        return CoreTools::filterErrorMessage($message);
     }
 
     /**
@@ -282,7 +283,7 @@ class AlmaApi
         try {
             $url = $this->urls->getBookOfferUrl($identifier);
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         }
 
         try {
@@ -410,7 +411,7 @@ class AlmaApi
 
             return $dataArray;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -583,7 +584,8 @@ class AlmaApi
             $organization->setIdentifier($filters['organization']);
             $organization->setAlternateName($alternateName);
 
-            $this->tugOnlineApi->checkOrganizationPermissions($organization);
+            $person = $this->personProvider->getCurrentPerson();
+            Tools::checkOrganizationPermissions($person, $organization);
             $this->setAnalyticsUpdateDateHeader();
 
             $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
@@ -646,12 +648,12 @@ class AlmaApi
 
             return $bookOffer;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookOffer with id '%s' could not be stored! Message: %s", $identifier, $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -711,7 +713,7 @@ class AlmaApi
 
             return $bookLoan;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -735,7 +737,7 @@ class AlmaApi
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookLoan for BookOffer '%s' could not be stored! Message: %s", $bookOffer->getName(), $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -888,7 +890,7 @@ class AlmaApi
 
             $this->log("Book offer <{$identifier}> ({$bookOffer->getName()}) was returned", ['library' => $library]);
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
 
@@ -953,7 +955,7 @@ class AlmaApi
 
             return $bookLoan;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -969,7 +971,7 @@ class AlmaApi
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookLoan with id '%s' could not be stored! Message: %s", $identifier, $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -1020,7 +1022,7 @@ class AlmaApi
                 $collection->add($result);
             }
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
         } catch (GuzzleException $e) {
         }
@@ -1049,7 +1051,7 @@ class AlmaApi
 
             return $dataArray['item_loan'] ?? [];
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotLoadedException(sprintf("LibraryBookLoans of BookOffer with id '%s' could not be loaded! Message: %s", $identifier, $message));
@@ -1119,7 +1121,7 @@ class AlmaApi
     public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
     {
         $person = $this->personProvider->getCurrentPerson();
-        $institutes = $person->getInstitutesForGroup('F_BIB');
+        $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
         $bookOfferLibrary = $bookOffer->getLibrary();
 
         // check if current user has F_BIB permissions to the institute of the book offer
