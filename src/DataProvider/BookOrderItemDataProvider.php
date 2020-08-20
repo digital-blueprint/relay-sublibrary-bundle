@@ -11,21 +11,21 @@ use DBP\API\AlmaBundle\Entity\BookOrder;
 use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
-use DBP\API\CoreBundle\Service\TUGOnlineApi;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final class BookOrderItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    protected $tugOnlineApi;
+    protected $orgaProvider;
 
     protected $almaApi;
 
     protected $personProvider;
 
-    public function __construct(TUGOnlineApi $tugOnlineApi, PersonProviderInterface $personProvider, AlmaApi $almaApi)
+    public function __construct(OrganizationProviderInterface $orgaProvider, PersonProviderInterface $personProvider, AlmaApi $almaApi)
     {
-        $this->tugOnlineApi = $tugOnlineApi;
+        $this->orgaProvider = $orgaProvider;
         $this->personProvider = $personProvider;
         $this->almaApi = $almaApi;
     }
@@ -55,7 +55,7 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
 
         // load organizaiton
         $organizationId = $matches[1];
-        $organization = $this->tugOnlineApi->getOrganizationById($organizationId);
+        $organization = $this->orgaProvider->getOrganizationById($organizationId, 'de');
 
         // check permissions of current user to organization
         $person = $this->personProvider->getCurrentPerson();

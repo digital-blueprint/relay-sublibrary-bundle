@@ -12,7 +12,6 @@ use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
-use DBP\API\CoreBundle\Service\TUGOnlineApi;
 use DBP\API\CoreBundle\TestUtils\DummyPersonProvider;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -44,14 +43,12 @@ class AlmaApiTest extends WebTestCase
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
 
-        $tugapi = new TUGOnlineApi($client->getContainer(), $guzzleLogger);
         $this->api = new AlmaApi(
             $client->getContainer(),
             $personProvider,
             new Security($client->getContainer()),
             new AuditLogger($security, $nullLogger),
-            $guzzleLogger,
-            $tugapi
+            $guzzleLogger
         );
         $this->api->setApiKey('secret');
         $this->api->setAnalyticsApiKey('secret');

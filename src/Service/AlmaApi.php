@@ -28,7 +28,6 @@ use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
 use DBP\API\CoreBundle\Service\AuditLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
-use DBP\API\CoreBundle\Service\TUGOnlineApi;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -76,14 +75,8 @@ class AlmaApi
 
     public const ROLE_BIB = 'ROLE_F_BIB_F';
 
-    /**
-     * @var TUGOnlineApi
-     */
-    private $tugOnlineApi;
-
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
-                                Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger,
-                                TUGOnlineApi $tugOnlineApi)
+                                Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
@@ -98,7 +91,6 @@ class AlmaApi
         $this->analyticsApiKey = $config['analytics_api_key'] ?? $this->apiKey;
         $this->apiUrl = $config['api_url'] ?? '';
         $this->readonly = $config['readonly'];
-        $this->tugOnlineApi = $tugOnlineApi;
     }
 
     public function setApiKey(string $key)
