@@ -31,7 +31,7 @@ Enable this bundle in `./config/bundles.php` by adding this element to the array
 ...
     return [
         ...
-        BP\API\AlmaBundle\AlmaBundle::class => ['all' => true],
+        DBP\API\AlmaBundle\AlmaBundle::class => ['all' => true],
     ];
 }
 ```
