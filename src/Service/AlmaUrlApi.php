@@ -272,7 +272,7 @@ class AlmaUrlApi
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
         return $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Ausleihen-Institute-pbeke',
+            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF',
             'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"PO Line"."PO Line Inventory Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA[' . $institute . ']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
