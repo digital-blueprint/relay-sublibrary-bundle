@@ -1,22 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Person as Person;
 use DateTimeInterface;
+use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get"},
+ *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
+ *     collectionOperations={
+ *     "get"={"openapi_context"={
+ *       "parameters"={
+ *         {"name"="name", "in"="query", "description"="Search for all loans of a person", "type"="string", "example"="woody007"},
+ *         {"name"="organization", "in"="query", "description"="Search for all loans of on organization", "type"="string", "example"="681-F1490"},
+ *     }}}},
  *     itemOperations={"get", "put"},
  *     iri="http://schema.org/LendAction",
  *     routePrefix="/loans",
  *     shortName="LibraryBookLoan",
  *     description="A book loan in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan", "LibraryBookLoan:output", "LDAPPerson", "LibraryBookOffer"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan", "LibraryBookLoan:output", "LDAPPerson", "LibraryBookOffer", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization"}},
  *     denormalizationContext={"groups"={"LibraryBookLoan:input"}}
  * )
  */
@@ -58,6 +66,7 @@ class BookLoan
 
     /**
      * TODO: there is no returnTime in the http://schema.org/LendAction schema!
+     *
      * @var DateTimeInterface
      * @ApiProperty(iri="https://schema.org/DateTime")
      * @Groups({"LibraryBookLoanByOrganization"})
@@ -151,5 +160,10 @@ class BookLoan
         $this->loanStatus = $loanStatus;
 
         return $this;
+    }
+
+    public function getLibrary(): ?string
+    {
+        return $this->object ? $this->object->getLibrary() : null;
     }
 }

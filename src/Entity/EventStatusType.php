@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
  *     collectionOperations={},
  *     itemOperations={"get"},
  *     iri="http://schema.org/EventStatusType",
@@ -47,12 +49,12 @@ class EventStatusType
         return $this->identifier;
     }
 
-    public function getName(): String
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(String $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

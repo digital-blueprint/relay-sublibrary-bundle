@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Tests\DataPersister;
 
 use DBP\API\AlmaBundle\DataPersister\BookOfferDataPersister;
@@ -12,9 +14,11 @@ class BookOfferDataPersisterTest extends WebTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testMock() {
+    public function testMock()
+    {
         // TODO: fix me
         $this->markTestIncomplete('This test has not been implemented yet.');
+
         return;
 
         // TODO: AlmaApi needs Security class

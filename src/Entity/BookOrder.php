@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
@@ -9,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
  *     collectionOperations={},
  *     itemOperations={"get"},
  *     iri="http://schema.org/Order",

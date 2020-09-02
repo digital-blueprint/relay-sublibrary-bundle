@@ -5,18 +5,29 @@
     "require": {
         "php": "^7.2.24",
         "api-platform/core": "^2.4",
+        "dbp/api-core-bundle": "@dev",
+        "doctrine/common": "^3.0",
         "guzzlehttp/guzzle": "^6.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
         "myclabs/php-enum": "^1.7",
         "symfony/framework-bundle": "^4.1.12",
-        "dbp/api-core-bundle": "@dev"
+        "symfony/security-core": "^4.4",
+        "symfony/yaml": "^4.4"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.4",
+        "composer/semver": "^1.5",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "^1.2",
-        "vimeo/psalm": "^3.12",
+        "nelmio/cors-bundle": "^2.1.0",
         "phpstan/phpstan": "^0.12.33",
-        "phpstan/phpstan-phpunit": "^0.12.13"
+        "phpstan/phpstan-phpunit": "^0.12.13",
+        "symfony/browser-kit": "^4.4",
+        "symfony/config": "^4.4",
+        "symfony/http-client": "^4.4",
+        "symfony/phpunit-bridge": "^4.4",
+        "symfony/security-bundle": "^4.4",
+        "symfony/twig-bundle": "^4.4",
+        "vimeo/psalm": "^3.12"
     },
     "repositories": [
         {
@@ -53,8 +64,15 @@
             "@php vendor/bin/psalm"
         ],
         "lint": [
+            "@composer run cs",
             "@composer run phpstan",
             "@composer run psalm"
+        ],
+        "cs-fix": [
+            "@php vendor/bin/php-cs-fixer --ansi fix"
+        ],
+        "cs": [
+            "@php vendor/bin/php-cs-fixer --ansi fix --dry-run --diff --diff-format=udiff"
         ]
     }
 }

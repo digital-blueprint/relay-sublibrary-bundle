@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Tests;
 
 use DBP\API\AlmaBundle\Service\AlmaUtils;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-
 class AlmaUtilsTest extends WebTestCase
 {
-    public function test_getColumnMapping() {
+    public function test_getColumnMapping()
+    {
         $data = '<?xml version="1.0" encoding="UTF-8"?>
 <QueryResult>
 <ResultXml>
@@ -28,8 +30,8 @@ class AlmaUtilsTest extends WebTestCase
         $xml = simplexml_load_string($data);
         $mapping = AlmaUtils::getColumnMapping($xml);
 
-        $this->assertEquals($mapping["::0"], "Column0");
-        $this->assertEquals($mapping["Bibliographic Details::Author"], "Column1");
+        $this->assertEquals($mapping['::0'], 'Column0');
+        $this->assertEquals($mapping['Bibliographic Details::Author'], 'Column1');
 
         $rowData = '
            <Row>\n
@@ -39,7 +41,7 @@ class AlmaUtilsTest extends WebTestCase
 
         $row = simplexml_load_string($rowData);
         $mapped = AlmaUtils::mapRowColumns($row, $mapping);
-        $this->assertEquals($mapped["::0"], "");
-        $this->assertEquals($mapped["Bibliographic Details::Author"], "Zwerger, Klaus");
+        $this->assertEquals($mapped['::0'], '');
+        $this->assertEquals($mapped['Bibliographic Details::Author'], 'Zwerger, Klaus');
     }
 }

@@ -6,11 +6,14 @@ namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use DBP\API\AlmaBundle\Entity\BookOffer;
+use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Service\AlmaApi;
+use DBP\API\CoreBundle\Exception\ApiError;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
+use Symfony\Component\HttpFoundation\Response;
 
-final class BookOfferCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BookLoanCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
@@ -23,11 +26,11 @@ final class BookOfferCollectionDataProvider implements CollectionDataProviderInt
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return BookOffer::class === $resourceClass;
+        return BookLoan::class === $resourceClass;
     }
 
     /**
-     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
+     * @throws ItemNotLoadedException
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
     {
@@ -35,21 +38,22 @@ final class BookOfferCollectionDataProvider implements CollectionDataProviderInt
         $api->checkPermissions();
 
         $filters = $context['filters'] ?? [];
-        $bookOffers = $api->getBookOffers($filters);
-
+        try {
+            $bookOffers = $api->getBookLoans($filters);
+        } catch (\Exception $e) {
+            throw new ApiError(Response::HTTP_BAD_REQUEST, $e->getMessage());
+        }
         $perPage = self::ITEMS_PER_PAGE;
         $page = 1;
-        if (isset($context['filters']['page'])) {
-            $page = (int) $context['filters']['page'];
+        if (isset($filters['page'])) {
+            $page = (int) $filters['page'];
         }
 
-        if (isset($context['filters']['perPage'])) {
-            $perPage = (int) $context['filters']['perPage'];
+        if (isset($filters['perPage'])) {
+            $perPage = (int) $filters['perPage'];
         }
 
         // TODO: do pagination via API
-        $pagination = new ArrayFullPaginator($bookOffers, $page, $perPage);
-
-        return $pagination;
+        return new ArrayFullPaginator($bookOffers, $page, $perPage);
     }
 }

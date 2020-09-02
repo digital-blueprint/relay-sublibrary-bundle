@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DBP\API\AlmaBundle\Controller;
 
-use App\Entity\Person;
-use App\Exception\ItemNotLoadedException;
-use App\Exception\ItemNotStoredException;
-use App\Exception\ItemNotUsableException;
+use DBP\API\CoreBundle\Entity\Person;
+use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
+use DBP\API\CoreBundle\Exception\ItemNotStoredException;
+use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLibraryBookLoansByPerson extends AlmaController
 {
     /**
-     * @param Person $data
-     * @return ArrayCollection
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
@@ -22,8 +22,7 @@ class GetLibraryBookLoansByPerson extends AlmaController
         $jsonData = $this->api->getBookLoansJsonDataByPerson($data);
         $collection = new ArrayCollection();
 
-        foreach ($jsonData as $item)
-        {
+        foreach ($jsonData as $item) {
             $bookLoan = $this->api->bookLoanFromJsonItem($item);
             $bookOffer = $bookLoan->getObject();
 
