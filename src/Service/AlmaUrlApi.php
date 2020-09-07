@@ -46,14 +46,13 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @return string
      * @throws UriException
      */
     public function getBookUrl(string $identifier): string
     {
         $uriTemplate = new UriTemplate('bibs/{identifier}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'identifier' => $identifier,
         ]);
     }
@@ -67,7 +66,8 @@ class AlmaUrlApi
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items/{itemPid}/loans{?user_id}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'itemPid' => $itemPid,
@@ -84,7 +84,8 @@ class AlmaUrlApi
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items/{itemPid}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'itemPid' => $itemPid,
@@ -100,7 +101,8 @@ class AlmaUrlApi
         [$mmsId, $holdingId, $itemPid, $loanId] = $this->extractBookLoanID($identifier);
 
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items/{itemPid}/loans/{loanId}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'itemPid' => $itemPid,
@@ -119,7 +121,8 @@ class AlmaUrlApi
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items/{itemPid}?op=scan&library={library}&circ_desk=DEFAULT_CIRC_DESK');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'itemPid' => $itemPid,
@@ -136,7 +139,8 @@ class AlmaUrlApi
         [$mmsId, $holdingId, $itemPid] = $this->extractBookOfferID($identifier);
 
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items/{itemPid}/loans');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'itemPid' => $itemPid,
@@ -144,17 +148,14 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $userId
-     * @param int $limit
-     * @param int $offset
-     * @return string
      * @throws UriException
      */
     public function getLoansByUserIdUrl(string $userId, int $limit = 100, int $offset = 0): string
     {
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/users/R0VUIC9hbG1hd3MvdjEvdXNlcnMve3VzZXJfaWR9L2xvYW5z/
         $uriTemplate = new UriTemplate('users/{userId}/loans{?limit,offset}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'userId' => $userId,
             'limit' => $limit,
             'offset' => $offset,
@@ -162,14 +163,13 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $barcode
-     * @return string
      * @throws UriException
      */
     public function getBarcodeBookOfferUrl(string $barcode): string
     {
         $uriTemplate = new UriTemplate('items{?item_barcode}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'item_barcode' => $barcode,
         ]);
     }
@@ -185,7 +185,8 @@ class AlmaUrlApi
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/R0VUIC9hbG1hd3MvdjEvYmlicy97bW1zX2lkfS9ob2xkaW5ncy97aG9sZGluZ19pZH0vaXRlbXM=/
         // TODO: we are not allowed to use the field chronology_i any more, so sorting is currently broken
         $uriTemplate = new UriTemplate('bibs/{mmsId}/holdings/{holdingId}/items{?current_library,order_by,limit}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'mmsId' => $mmsId,
             'holdingId' => $holdingId,
             'current_library' => $bookOffer->getLibrary(),
@@ -196,7 +197,7 @@ class AlmaUrlApi
 
     /**
      * @param string $resumptionToken
-     * @return string
+     *
      * @throws UriException
      */
     public function getBookOfferAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
@@ -206,7 +207,8 @@ class AlmaUrlApi
 //        $limit = 25;
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Bestand-Institute-pbeke',
             'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
@@ -216,7 +218,7 @@ class AlmaUrlApi
 
     /**
      * @param string $resumptionToken
-     * @return string
+     *
      * @throws UriException
      */
     public function getBookLoanAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
@@ -243,7 +245,8 @@ class AlmaUrlApi
             </sawx:expr>';
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Ausleihen-Institute-pbeke',
             'filter' => $filter,
             'limit' => $limit,
@@ -253,7 +256,7 @@ class AlmaUrlApi
 
     /**
      * @param string $resumptionToken
-     * @return string
+     *
      * @throws UriException
      */
     public function getBookOrderAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
@@ -263,7 +266,8 @@ class AlmaUrlApi
 //        $limit = 25;
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF',
             'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"PO Line"."PO Line Inventory Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
@@ -272,13 +276,13 @@ class AlmaUrlApi
     }
 
     /**
-     * @return string
      * @throws UriException
      */
     public function getAnalyticsUpdatesAnalyticsUrl(): string
     {
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&col_names=true');
-        return (string)$uriTemplate->expand([
+
+        return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Analytics-Updates',
         ]);
     }
