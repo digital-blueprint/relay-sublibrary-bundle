@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/loans",
  *     shortName="LibraryBookLoan",
  *     description="A book loan in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan", "LibraryBookLoan:output", "LDAPPerson", "LibraryBookOffer", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}},
  *     denormalizationContext={"groups"={"LibraryBookLoan:input"}}
  * )
  */
@@ -33,34 +33,36 @@ class BookLoan
     /**
      * @ApiProperty(identifier=true)
      * @Groups({"LibraryBookLoan:output"})
+     *
+     * @var string
      */
     private $identifier;
 
     /**
      * @var BookOffer
      * @ApiProperty(iri="http://schema.org/Offer")
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookLoan:output"})
      */
     private $object;
 
     /**
      * @var Person
      * @ApiProperty(iri="http://schema.org/Person")
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookLoan:output"})
      */
     private $borrower;
 
     /**
      * @var DateTimeInterface
      * @ApiProperty(iri="https://schema.org/DateTime")
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookLoan:output"})
      */
     private $startTime;
 
     /**
      * @var DateTimeInterface
      * @ApiProperty(iri="https://schema.org/DateTime")
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoanByPerson", "LibraryBookLoan:input", "LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookLoan:output", "LibraryBookLoan:input"})
      */
     private $endTime;
 
@@ -69,12 +71,12 @@ class BookLoan
      *
      * @var DateTimeInterface
      * @ApiProperty(iri="https://schema.org/DateTime")
-     * @Groups({"LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookLoan:output"})
      */
     private $returnTime;
 
     /**
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoanByPerson", "LibraryBookLoan:input"})
+     * @Groups({"LibraryBookLoan:output", "LibraryBookLoan:input"})
      */
     private $loanStatus;
 

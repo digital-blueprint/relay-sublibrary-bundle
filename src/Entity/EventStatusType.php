@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     iri="http://schema.org/EventStatusType",
  *     shortName="EventStatusType",
  *     description="A event status type",
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"EventStatusType:output"}},
  * )
  */
 class EventStatusType
@@ -28,12 +29,16 @@ class EventStatusType
      * No item route associated with the type "App\Entity\EventStatusType".
      *
      * @ApiProperty(identifier=true)
+     *
+     * @var string
      */
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"EventStatusType:output"})
      * @ApiProperty(iri="http://schema.org/name")
+     *
+     * @var string
      */
     private $name;
 
@@ -49,7 +54,7 @@ class EventStatusType
         return $this->identifier;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

@@ -20,32 +20,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/books",
  *     shortName="LibraryBook",
  *     description="A book from the library",
- *     normalizationContext={"jsonld_embed_context"=true}
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBook:output"}}
  * )
  */
 class Book
 {
     /**
      * @ApiProperty(identifier=true)
-     * @Groups({"LibraryBook"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var string
      */
     private $identifier;
 
     /**
      * @ApiProperty(iri="http://schema.org/name")
-     * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization", "LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var string
      */
     private $title;
 
     /**
      * @ApiProperty(iri="http://schema.org/isbn")
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var string
      */
     private $isbn;
 
     /**
      * @ApiProperty(iri="http://schema.org/author")
-     * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization", "LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var string
      */
     private $author;
 
@@ -53,7 +61,9 @@ class Book
      * Note that we are using a string here.
      *
      * @ApiProperty(iri="http://schema.org/publisher")
-     * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var string;
      */
     private $publisher;
 
@@ -61,15 +71,15 @@ class Book
      * Note that Alma only has the year stored.
      *
      * @ApiProperty(iri="https://schema.org/DateTime")
-     * @Groups({"LibraryBook", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBook:output"})
+     *
+     * @var DateTimeInterface;
      */
     private $datePublished;
 
-    public function setIdentifier(string $identifier): self
+    public function setIdentifier(string $identifier): void
     {
         $this->identifier = $identifier;
-
-        return $this;
     }
 
     public function getIdentifier(): ?string
@@ -82,11 +92,9 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getAuthor(): ?string
@@ -94,11 +102,9 @@ class Book
         return $this->author;
     }
 
-    public function setAuthor(string $author): self
+    public function setAuthor(string $author): void
     {
         $this->author = $author;
-
-        return $this;
     }
 
     public function getISBN(): ?string
@@ -106,11 +112,9 @@ class Book
         return $this->isbn;
     }
 
-    public function setISBN(string $isbn): self
+    public function setISBN(string $isbn): void
     {
         $this->isbn = $isbn;
-
-        return $this;
     }
 
     public function getPublisher(): ?string
@@ -118,11 +122,9 @@ class Book
         return $this->publisher;
     }
 
-    public function setPublisher(string $publisher): self
+    public function setPublisher(string $publisher): void
     {
         $this->publisher = $publisher;
-
-        return $this;
     }
 
     public function getDatePublished(): ?DateTimeInterface
@@ -130,10 +132,8 @@ class Book
         return $this->datePublished;
     }
 
-    public function setDatePublished(DateTimeInterface $datePublished): self
+    public function setDatePublished(DateTimeInterface $datePublished): void
     {
         $this->datePublished = $datePublished;
-
-        return $this;
     }
 }

@@ -1351,7 +1351,7 @@ class AlmaApi
             $bookOffer->setBarcode($values['Physical Item Details::Barcode']);
             $bookOffer->setDescription($values['Physical Item Details::Description'] ?? '');
             // Item Call Number (we would need the alternative_call_number, but it seems ok)
-            $bookOffer->setLocationIdentifier($values['Physical Item Details::Item Call Number']);
+            $bookOffer->setLocationIdentifier($values['Physical Item Details::Item Call Number'] ?? '');
             // Location Code
             $bookOffer->setLocation($values['Location::Location Code']);
             // Library Code

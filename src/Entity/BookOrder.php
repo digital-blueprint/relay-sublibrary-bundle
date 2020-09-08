@@ -18,42 +18,54 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/orders",
  *     shortName="LibraryBookOrder",
  *     description="A book order from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookOrdersByOrganization"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookOrder:output", "LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}},
  * )
  */
 class BookOrder
 {
     /**
      * @ApiProperty(identifier=true)
+     *
+     * @var string
      */
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/orderNumber")
+     *
+     * @var string
      */
     private $orderNumber;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/Text")
+     *
+     * @var string
      */
     private $receivingNote;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/OrderItem")
+     *
+     * @var BookOrderItem
      */
     private $orderedItem;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrder:output"})
+     *
+     * @var string
      */
     private $orderStatus;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/DateTime")
+     *
+     * @var DateTimeInterface
      */
     private $orderDate;
 

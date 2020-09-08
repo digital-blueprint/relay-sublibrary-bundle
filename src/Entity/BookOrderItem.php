@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/order_items",
  *     shortName="LibraryBookOrderItem",
  *     description="A book order item from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookOrdersByOrganization"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}},
  * )
  */
 class BookOrderItem
@@ -28,21 +28,25 @@ class BookOrderItem
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/OrderItem")
+     *
+     * @var Book
      */
     private $orderedItem;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/ParcelDelivery")
+     *
+     * @var ParcelDelivery
      */
     private $orderDelivery;
 
     /**
      * A BookOrderItem usually doesn't have a price, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
      *
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/price")
      */
     private $price;
@@ -50,7 +54,7 @@ class BookOrderItem
     /**
      * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
      *
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/priceCurrency")
      */
     private $priceCurrency;
@@ -111,7 +115,7 @@ class BookOrderItem
         return $this;
     }
 
-    public function getPriceCurrency(): string
+    public function getPriceCurrency(): ?string
     {
         return $this->priceCurrency;
     }

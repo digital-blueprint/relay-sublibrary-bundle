@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     iri="http://schema.org/DeliveryEvent",
  *     shortName="DeliveryStatus",
  *     description="A delivery status",
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"DeliveryStatus:output", "EventStatusType:output"}},
  * )
  */
 class DeliveryEvent
@@ -29,18 +30,24 @@ class DeliveryEvent
      * No item route associated with the type "App\Entity\DeliveryStatus".
      *
      * @ApiProperty(identifier=true)
+     *
+     * @var string
      */
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"DeliveryStatus:output"})
      * @ApiProperty(iri="http://schema.org/DateTime")
+     *
+     * @var DateTimeInterface
      */
     private $availableFrom;
 
     /**
-     * @Groups({"LibraryBookOrdersByOrganization"})
+     * @Groups({"DeliveryStatus:output"})
      * @ApiProperty(iri="http://schema.org/EventStatusType ")
+     *
+     * @var EventStatusType
      */
     private $eventStatus;
 

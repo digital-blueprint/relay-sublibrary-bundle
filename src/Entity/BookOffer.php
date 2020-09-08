@@ -29,7 +29,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "method"="GET",
  *         "path"="/library_book_offers/{id}/location_identifiers",
  *         "controller"=GetLocationIdentifiersByBookOffer::class,
- *         "normalization_context"={"groups"={"LibraryBookOffer:output"}},
  *         "openapi_context"=
  *           {"summary"="Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string"}}},
@@ -39,7 +38,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "path"="/library_book_offers/{id}/loans",
  *         "controller"=PostBookLoanByBookOffer::class,
  *         "defaults":{"_api_persist"=false},
- *         "normalization_context"={"groups"={"LibraryBookLoan:output"}},
  *         "openapi_context"=
  *           {"summary"="Post a loan for a book offer.",
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
@@ -50,7 +48,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "path"="/library_book_offers/{id}/return",
  *         "controller"=PostReturnByBookOffer::class,
  *         "defaults":{"_api_persist"=false},
- *         "normalization_context"={"groups"={"LibraryBookOffer:output"}},
  *         "openapi_context"=
  *           {"summary"="Return a book offer.",
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
@@ -60,7 +57,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "method"="GET",
  *         "path"="/library_book_offers/{id}/loans",
  *         "controller"=GetBookLoansByBookOffer::class,
- *         "normalization_context"={"groups"={"LibraryBookLoan:output"}},
+ *         "normalization_context"={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}},
  *         "openapi_context"=
  *           {"summary"="Get the loans on a book offer.",
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"}}},
@@ -70,7 +67,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     routePrefix="/offers",
  *     shortName="LibraryBookOffer",
  *     description="A book to lend from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBook", "LibraryBookOffer:output"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBook:output", "LibraryBookOffer:output"}},
  *     denormalizationContext={"groups"={"LibraryBookOffer:input"}}
  * )
  */
@@ -79,11 +76,13 @@ class BookOffer
     /**
      * @ApiProperty(identifier=true)
      * @Groups({"LibraryBookOffer:output"})
+     *
+     * @var string
      */
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBook", "LibraryBookLoan", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output"})
      * @ApiProperty(iri="http://schema.org/Book")
      *
      * @var Book
@@ -91,13 +90,17 @@ class BookOffer
     private $book;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output"})
      * @ApiProperty(iri="http://schema.org/serialNumber")
+     *
+     * @var string
      */
     private $barcode;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
+     *
+     * @var string
      */
     private $locationIdentifier;
 
@@ -105,23 +108,29 @@ class BookOffer
      * e.g. "F4480" organization code (orgUnitCode)
      * TODO: in theory we could use a "http://schema.org/offeredBy", but we would need the orgUnitID for that, which Alma wouldn't provide.
      *
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
+     *
+     * @var string
      */
     private $library;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
+     *
+     * @var string
      */
     private $location;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
      * @ApiProperty(iri="http://schema.org/description")
+     *
+     * @var string
      */
     private $description;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input", "LibraryBookLoanByPerson", "LibraryBookLoanByOrganization", "LibraryBookOfferByOrganization"})
+     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
      * @ApiProperty(iri="http://schema.org/availabilityStarts")
      */
     private $availabilityStarts;
@@ -163,7 +172,7 @@ class BookOffer
     }
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBook", "LibraryBookLoan", "LibraryBookLoanByPerson", "LibraryBookOfferByOrganization", "LibraryBookLoanByOrganization"})
+     * @Groups({"LibraryBookOffer:output"})
      * @ApiProperty(iri="http://schema.org/name")
      */
     public function getName(): ?string
@@ -177,19 +186,17 @@ class BookOffer
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLocationIdentifier()
+    public function getLocationIdentifier(): ?string
     {
         return $this->locationIdentifier;
     }
 
     /**
-     * @param mixed $locationIdentifier
-     *
      * @return BookOffer
      */
-    public function setLocationIdentifier($locationIdentifier): self
+    public function setLocationIdentifier(string $locationIdentifier): self
     {
         $this->locationIdentifier = $locationIdentifier;
 
@@ -197,19 +204,17 @@ class BookOffer
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLibrary()
+    public function getLibrary(): ?string
     {
         return $this->library;
     }
 
     /**
-     * @param mixed $library
-     *
      * @return BookOffer
      */
-    public function setLibrary($library): self
+    public function setLibrary(string $library): self
     {
         $this->library = $library;
 
@@ -217,19 +222,17 @@ class BookOffer
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLocation()
+    public function getLocation(): ?string
     {
         return $this->location;
     }
 
     /**
-     * @param mixed $location
-     *
      * @return BookOffer
      */
-    public function setLocation($location): self
+    public function setLocation(string $location): self
     {
         $this->location = $location;
 
@@ -249,19 +252,17 @@ class BookOffer
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
-     *
      * @return BookOffer
      */
-    public function setDescription($description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
