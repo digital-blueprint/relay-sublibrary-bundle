@@ -29,7 +29,7 @@ class PersonNormalizer implements ContextAwareNormalizerInterface, NormalizerAwa
     public function normalize($object, $format = null, array $context = [])
     {
         if ($this->security->isGranted('ROLE_F_BIB_F')) {
-            $context['groups'][] = 'birthdate_access';
+            $context['groups'][] = 'Person:birthdate-access';
         }
 
         $context[self::ALREADY_CALLED] = true;
