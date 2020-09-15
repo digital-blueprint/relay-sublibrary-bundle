@@ -73,8 +73,6 @@ class AlmaApi
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    public const ROLE_BIB = 'ROLE_F_BIB_F';
-
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
                                 Security $security, AuditLogger $logger, GuzzleLogger $guzzleLogger)
     {
@@ -969,7 +967,7 @@ class AlmaApi
 
     public function checkPermissions()
     {
-        if (!$this->security->isGranted(self::ROLE_BIB)) {
+        if (!$this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
             throw new AccessDeniedHttpException('Only library officers can access the library api!');
         }
     }

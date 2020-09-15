@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
+ *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
  *     collectionOperations={},
  *     itemOperations={"get"},
  *     iri="http://schema.org/OrderItem",

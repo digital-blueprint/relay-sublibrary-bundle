@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Example ids: 990002338910204517, 990003577070204517.
  *
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_F_BIB_F')"},
+ *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
  *     collectionOperations={"get"},
  *     itemOperations={"get"},
  *     iri="http://schema.org/Book",
