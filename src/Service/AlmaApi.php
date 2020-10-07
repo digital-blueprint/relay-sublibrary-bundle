@@ -148,10 +148,10 @@ class AlmaApi
 
         $stack->push($this->guzzleLogger->getClientHandler());
 
-        $guzzeCachePool = $this->getCachePool();
+        $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
             new GreedyCacheStrategy(
-                new Psr6CacheStorage($guzzeCachePool),
+                new Psr6CacheStorage($guzzleCachePool),
                 self::ANALYTICS_CACHE_TTL,
                 new KeyValueHttpHeader(['Authorization', 'X-Request-Counter', 'X-Analytics-Updates-Hash'])
             )
