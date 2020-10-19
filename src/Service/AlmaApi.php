@@ -23,6 +23,7 @@ use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;
+use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
 use DBP\API\CoreBundle\Service\AuditLogger;
@@ -125,7 +126,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->apiKey],
         ];
 
-        $stack->push($this->guzzleLogger->getClientHandler());
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
 
         $client = new Client($client_options);
 
@@ -146,7 +147,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push($this->guzzleLogger->getClientHandler());
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
@@ -187,7 +188,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push($this->guzzleLogger->getClientHandler());
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
