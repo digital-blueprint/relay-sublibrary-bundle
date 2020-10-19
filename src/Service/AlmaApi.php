@@ -27,7 +27,6 @@ use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
 use DBP\API\CoreBundle\Service\DBPLogger;
-use DBP\API\CoreBundle\Service\GuzzleLogger;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
@@ -65,7 +64,6 @@ class AlmaApi
     private $urls;
     private $logger;
     private $container;
-    private $guzzleLogger;
     private $analyticsUpdatesHash = '';
 
     // 30h caching for Analytics, they will expire when there is a new Analytics Update
@@ -75,7 +73,7 @@ class AlmaApi
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
-                                Security $security, DBPLogger $logger, GuzzleLogger $guzzleLogger)
+                                Security $security, DBPLogger $logger)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
@@ -83,7 +81,6 @@ class AlmaApi
         $this->urls = new AlmaUrlApi();
         $this->logger = $logger;
         $this->container = $container;
-        $this->guzzleLogger = $guzzleLogger;
 
         $config = $container->getParameter('dbp_api.alma.config');
         $this->apiKey = $config['api_key'] ?? '';
@@ -126,7 +123,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->apiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
 
         $client = new Client($client_options);
 
@@ -147,7 +144,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
@@ -188,7 +185,7 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->guzzleLogger));
+        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
