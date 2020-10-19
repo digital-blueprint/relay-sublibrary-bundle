@@ -10,7 +10,7 @@ use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\Tools;
-use DBP\API\CoreBundle\Service\AuditLogger;
+use DBP\API\CoreBundle\Service\DBPLogger;
 use DBP\API\CoreBundle\Service\GuzzleLogger;
 use DBP\API\CoreBundle\TestUtils\DummyPersonProvider;
 use GuzzleHttp\Exception\RequestException;
@@ -47,7 +47,7 @@ class AlmaApiTest extends WebTestCase
             $client->getContainer(),
             $personProvider,
             new Security($client->getContainer()),
-            new AuditLogger($security, $nullLogger),
+            new DBPLogger($security, $nullLogger),
             $guzzleLogger
         );
         $this->api->setApiKey('secret');
