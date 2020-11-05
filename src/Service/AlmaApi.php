@@ -547,7 +547,7 @@ class AlmaApi
         $collection = new ArrayCollection();
 
         if ($filters['name']) {
-            $person = $this->personProvider->getPerson($filters['name'], true);
+            $person = $this->personProvider->getPerson($filters['name']);
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
             if (isset($filters['organization'])) {
                 // TODO: this leads to up to date results,
@@ -674,7 +674,7 @@ class AlmaApi
         ];
 
         $personId = $bodyData['borrower'];
-        $person = $this->personProvider->getPerson($personId, true);
+        $person = $this->personProvider->getPerson($personId);
         $userId = $person->getAlmaId();
 
         if ($userId === null || $userId === '') {
