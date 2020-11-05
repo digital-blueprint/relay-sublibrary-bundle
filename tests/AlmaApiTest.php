@@ -10,7 +10,6 @@ use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\Tools;
-use DBP\API\CoreBundle\Service\DBPLogger;
 use DBP\API\CoreBundle\TestUtils\DummyPersonProvider;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -36,7 +35,6 @@ class AlmaApiTest extends WebTestCase
     {
         $client = static::createClient();
         $nullLogger = new Logger('dummy', [new NullHandler()]);
-        $security = new Security($client->getContainer());
 
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
@@ -45,7 +43,7 @@ class AlmaApiTest extends WebTestCase
             $client->getContainer(),
             $personProvider,
             new Security($client->getContainer()),
-            new DBPLogger($nullLogger, $security)
+            $nullLogger
         );
         $this->api->setApiKey('secret');
         $this->api->setAnalyticsApiKey('secret');

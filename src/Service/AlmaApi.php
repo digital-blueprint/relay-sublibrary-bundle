@@ -26,7 +26,6 @@ use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
-use DBP\API\CoreBundle\Service\DBPLogger;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
@@ -39,6 +38,7 @@ use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -73,7 +73,7 @@ class AlmaApi
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
-                                Security $security, DBPLogger $logger)
+                                Security $security, LoggerInterface $logger)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
