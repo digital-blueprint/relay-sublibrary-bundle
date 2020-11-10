@@ -28,7 +28,7 @@
         "symfony/phpunit-bridge": "^4.4",
         "symfony/security-bundle": "^4.4",
         "symfony/twig-bundle": "^4.4",
-        "vimeo/psalm": "^3.12"
+        "vimeo/psalm": "^4.0"
     },
     "repositories": [
         {
