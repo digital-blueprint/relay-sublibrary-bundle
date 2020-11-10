@@ -1431,9 +1431,9 @@ class AlmaApi
             }
 
             // FIXME
-            if (key_exists($poNumber, $alreadySeen)) {
-                continue;
-            }
+//            if (key_exists($poNumber, $alreadySeen)) {
+//                continue;
+//            }
             $alreadySeen[$poNumber] = true;
 
             $bookOrder = new BookOrder();
