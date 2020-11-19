@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90ecd63cf62382c6f44ee37740355455",
+    "content-hash": "1457add398323f9c0afbed765125f43b",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -337,11 +337,11 @@
         },
         {
             "name": "dbp/api-core-bundle",
-            "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../api-core-bundle",
-                "reference": "015414fd85079e31b928d977e7f5fc9ad5f66a59"
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.tugraz.at:dbp/middleware/dbp-api/api-core-bundle.git",
+                "reference": "4ef11da87ef701be2d0a9d1595ac4207156b8878"
             },
             "require": {
                 "adldap2/adldap2": "^10.0",
@@ -419,9 +419,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2020-11-19T14:50:43+00:00"
         },
         {
             "name": "doctrine/annotations",
