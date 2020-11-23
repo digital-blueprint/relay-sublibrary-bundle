@@ -53,7 +53,7 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
             throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
         }
 
-        // load organizaiton
+        // load organization
         $organizationId = $matches[1];
         $organization = $this->orgaProvider->getOrganizationById($organizationId, 'de');
 
