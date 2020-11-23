@@ -730,9 +730,12 @@ class AlmaApi
     }
 
     /**
+     * @param Organization $organization
+     * @param ArrayCollection $collection
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function addAllBookLoansByOrganizationToCollection(Organization $organization, ArrayCollection &$collection, $resumptionData = [])
     {
@@ -852,8 +855,10 @@ class AlmaApi
      * Posts a book offer return (sign-in) in Alma
      * See: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/UE9TVCAvYWxtYXdzL3YxL2JpYnMve21tc19pZH0vaG9sZGluZ3Mve2hvbGRpbmdfaWR9L2l0ZW1zL3tpdGVtX3BpZH0=/.
      *
+     * @param BookOffer $bookOffer
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function returnBookOffer(BookOffer &$bookOffer)
     {
@@ -900,10 +905,12 @@ class AlmaApi
     /**
      * Updates a loan in Alma.
      *
+     * @param BookLoan $bookLoan
      * @return BookLoan
      *
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function updateBookLoan(BookLoan $bookLoan)
     {
@@ -975,7 +982,10 @@ class AlmaApi
      *
      * TODO: We are not allowed to use the field chronology_i any more, so this function is currently broken since the results are not sorted in the way we need it
      *
+     * @param BookOffer $bookOffer
+     * @return ArrayCollection
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function locationIdentifiersByBookOffer(BookOffer $bookOffer): ArrayCollection
     {
@@ -1019,7 +1029,10 @@ class AlmaApi
     }
 
     /**
+     * @param BookOffer $bookOffer
+     * @return array|null
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function getBookLoansJsonDataByBookOffer(BookOffer $bookOffer): ?array
     {
@@ -1052,8 +1065,11 @@ class AlmaApi
     /**
      * Gets all book loans for a person.
      *
+     * @param Person $person
+     * @return array|null
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function getBookLoansJsonDataByPerson(Person $person): ?array
     {
@@ -1102,9 +1118,11 @@ class AlmaApi
     /**
      * Checks if the current user has permissions to a book offer with a certain library.
      *
+     * @param BookOffer $bookOffer
      * @param bool $throwException
      *
-     * @throws AccessDeniedHttpException|ItemNotLoadedException
+     * @return bool
+     * @throws ItemNotLoadedException
      */
     public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
     {
@@ -1130,9 +1148,12 @@ class AlmaApi
     }
 
     /**
+     * @param Organization $organization
      * @param array $resumptionData
      *
+     * @return SimpleXMLElement|null
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function getBookOffersAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
     {
@@ -1176,9 +1197,12 @@ class AlmaApi
     }
 
     /**
+     * @param Organization $organization
      * @param array $resumptionData
      *
+     * @return SimpleXMLElement|null
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function getBookLoanAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
     {
@@ -1222,9 +1246,12 @@ class AlmaApi
     }
 
     /**
+     * @param Organization $organization
      * @param array $resumptionData
      *
+     * @return SimpleXMLElement|null
      * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
      */
     public function getBookOrdersAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
     {
