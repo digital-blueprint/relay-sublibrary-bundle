@@ -182,6 +182,7 @@ class AlmaUrlApi
     }
 
     /**
+     * @param string $barcode
      * @return string
      * @throws UriException
      */
@@ -195,6 +196,7 @@ class AlmaUrlApi
     }
 
     /**
+     * @param BookOffer $bookOffer
      * @return string
      * @throws InvalidIdentifierException
      * @throws UriException
@@ -217,6 +219,7 @@ class AlmaUrlApi
     }
 
     /**
+     * @param Organization $organization
      * @param string $resumptionToken
      *
      * @return string
@@ -239,6 +242,7 @@ class AlmaUrlApi
     }
 
     /**
+     * @param Organization $organization
      * @param string $resumptionToken
      *
      * @return string
@@ -278,6 +282,7 @@ class AlmaUrlApi
     }
 
     /**
+     * @param Organization $organization
      * @param string $resumptionToken
      *
      * @return string
