@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     iri="https://schema.org/MonetaryAmount",
  *     shortName="LibraryBudgetMonetaryAmount",
  *     description="A budget value of an organization in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBudgetMonetaryAmount:output", "LibraryBudgetMonetaryAmountItem:output", "LibraryBook:output", "ParcelDelivery:output"}},
+ *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBudgetMonetaryAmount:output"}},
  * )
  */
 class BudgetMonetaryAmount
