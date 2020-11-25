@@ -23,6 +23,7 @@ class DbpAlmaExtension extends ConfigurableExtension
             '/parcel_deliveries/{id}',
             '/order_items/library_book_order_items/{id}',
             '/event_status_types/{id}',
+            '/library_budget_monetary_amounts/{id}',
         ]);
 
         $def = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);

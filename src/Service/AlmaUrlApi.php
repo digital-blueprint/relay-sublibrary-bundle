@@ -308,6 +308,21 @@ class AlmaUrlApi
      * @return string
      * @throws UriException
      */
+    public function getBudgetMonetaryAmountAnalyticsUrl(): string
+    {
+        $limit = 1000;
+        $uriTemplate = new UriTemplate('analytics/reports?path={path}&col_names=true&limit={limit}');
+
+        return (string) $uriTemplate->expand([
+            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Funds-List-SF_2',
+            'limit' => $limit,
+        ]);
+    }
+
+    /**
+     * @return string
+     * @throws UriException
+     */
     public function getAnalyticsUpdatesAnalyticsUrl(): string
     {
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&col_names=true');

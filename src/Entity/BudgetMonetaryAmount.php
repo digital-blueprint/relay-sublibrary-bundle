@@ -11,7 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
- *     collectionOperations={"get"},
+ *     collectionOperations={
+ *      "get"={"openapi_context"={"parameters"={
+ *                               {"name"="organization", "in"="query", "Search for all budget monetary amounts of an organization", "type"="string", "example"="681-F1490"}}}}
+ *     },
  *     itemOperations={"get"},
  *     iri="https://schema.org/MonetaryAmount",
  *     shortName="LibraryBudgetMonetaryAmount",
@@ -40,7 +43,7 @@ class BudgetMonetaryAmount
      * @Groups({"LibraryBudgetMonetaryAmount:output"})
      * @ApiProperty(iri="http://schema.org/value")
      *
-     * @var string
+     * @var float
      */
     private $value;
 
@@ -76,12 +79,12 @@ class BudgetMonetaryAmount
         return $this;
     }
 
-    public function getValue(): ?string
+    public function getValue(): ?float
     {
         return $this->value;
     }
 
-    public function setValue(string $value): self
+    public function setValue(float $value): self
     {
         $this->value = $value;
 

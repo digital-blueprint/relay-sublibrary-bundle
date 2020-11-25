@@ -16,6 +16,7 @@ use DBP\API\AlmaBundle\Entity\BookOrder;
 use DBP\API\AlmaBundle\Entity\BookOrderItem;
 use DBP\API\AlmaBundle\Entity\DeliveryEvent;
 use DBP\API\AlmaBundle\Entity\EventStatusType;
+use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
 use DBP\API\AlmaBundle\Entity\ParcelDelivery;
 use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Entity\Organization;
@@ -87,6 +88,20 @@ class AlmaApi
         $this->analyticsApiKey = $config['analytics_api_key'] ?? $this->apiKey;
         $this->apiUrl = $config['api_url'] ?? '';
         $this->readonly = $config['readonly'];
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function budgetMonetaryAmountNames(): array
+    {
+        return [
+            "Fund Transactions::Transaction Allocation Amount" => "taa",
+            "Fund Transactions::Transaction Allocation Amount - Transaction Cash Balance" => "taa-tcb",
+            "Fund Transactions::Transaction Available Balance" => "tab",
+            "Fund Transactions::Transaction Cash Balance" => "tcb",
+            "Fund Transactions::Transaction Cash Balance - Transaction Available Balance" => "tcb-tab",
+        ];
     }
 
     public function setApiKey(string $key)
@@ -1292,6 +1307,133 @@ class AlmaApi
         }
 
         return null;
+    }
+
+    /**
+     * @return SimpleXMLElement|null
+     * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
+     */
+    public function getBudgetMonetaryAmountAnalyticsXML(): ?SimpleXMLElement
+    {
+        $client = $this->getAnalyticsClient();
+        $options = [
+            'headers' => [
+                'Accept' => 'application/json',
+                'X-Analytics-Updates-Hash' => $this->getAnalyticsUpdatesHash(),
+            ],
+        ];
+
+        try {
+            // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
+            $url = $this->urls->getBudgetMonetaryAmountAnalyticsUrl();
+            $response = $client->request('GET', $url, $options);
+            $dataArray = $this->decodeResponse($response);
+
+            if (!isset($dataArray['anies'][0])) {
+                throw new ItemNotLoadedException("BudgetMonetaryAmounts were not valid!");
+            }
+
+            // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
+            // otherwise the XML parsing will fail
+            $analyticsData = str_replace('encoding="UTF-16"', '', $dataArray['anies'][0]);
+
+            // SimpleXMLElement shows no warnings and may just fail, so we are using simplexml_load_string
+            return simplexml_load_string($analyticsData);
+        } catch (RequestException $e) {
+            $message = $this->getRequestExceptionMessage($e);
+            throw new ItemNotLoadedException(sprintf("BudgetMonetaryAmounts could not be loaded! Message: %s", $message));
+        } catch (GuzzleException $e) {
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the BudgetMonetaryAmounts for an Organization
+     *
+     * @param Organization $organization
+     * @return BudgetMonetaryAmount[]
+     * @throws ItemNotLoadedException
+     * @throws \League\Uri\Contracts\UriException
+     */
+    public function getBudgetMonetaryAmountsByOrganization(Organization $organization): array
+    {
+        $xml = $this->getBudgetMonetaryAmountAnalyticsXML();
+        $mapping = AlmaUtils::getColumnMapping($xml);
+        $fundLedgerCode = $organization->getAlternateName() . "MON";
+        $rows = $xml->xpath('ResultXml/rowset/Row');
+
+        if (count($rows) === 0) {
+            return [];
+        }
+
+        $organizationBudgetList = [];
+        foreach ($rows as $row) {
+            try {
+                $values = AlmaUtils::mapRowColumns($row, $mapping);
+
+                if ($values["Fund Ledger::Fund Ledger Code"] == $fundLedgerCode) {
+                    $names = self::budgetMonetaryAmountNames();
+
+                    foreach(array_keys($names) as $key) {
+                        self::addBudgetMonetaryAmountToList($organizationBudgetList, $values, $key, $organization);
+                    }
+
+                    break;
+                }
+            } catch (\Exception $e) {
+            }
+        }
+
+        return $organizationBudgetList;
+    }
+
+    /**
+     * @param array $values
+     * @param string $key
+     * @param Organization $organization
+     * @return BudgetMonetaryAmount|null
+     */
+    private static function budgetMonetaryAmountFromAnalyticsRow(
+        array $values,
+        string $key,
+        Organization $organization
+    ): ?BudgetMonetaryAmount {
+        $names = self::budgetMonetaryAmountNames();
+
+        if (!array_key_exists($key, $names)) {
+            return null;
+        }
+
+        $name = $names[$key];
+        $organizationBudget = new BudgetMonetaryAmount();
+        $organizationBudget->setIdentifier($organization->getIdentifier() . "-" . $name);
+        $organizationBudget->setName($name);
+        // careful with decimal numbers and float :/
+        $organizationBudget->setValue(((float) $values[$key]));
+        $organizationBudget->setCurrency("EUR");
+
+        return $organizationBudget;
+    }
+
+    /**
+     * @param array $organizationBudgetList
+     * @param array $values
+     * @param string $key
+     * @param Organization $organization
+     */
+    private static function addBudgetMonetaryAmountToList(
+        array &$organizationBudgetList,
+        array $values,
+        string $key,
+        Organization $organization
+    ) {
+        $budgetMonetaryAmount = self::budgetMonetaryAmountFromAnalyticsRow($values, $key, $organization);
+
+        if ($budgetMonetaryAmount != null) {
+            $organizationBudgetList[] = $budgetMonetaryAmount;
+        }
     }
 
     /**
