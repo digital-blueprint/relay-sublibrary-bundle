@@ -531,9 +531,8 @@ class AlmaApi
     public function getBookOffer(string $id): BookOffer
     {
         $data = $this->getBookOfferJsonData($id);
-        $bookOffer = $this->bookOfferFromJsonItem($data);
 
-        return $bookOffer;
+        return $this->bookOfferFromJsonItem($data);
     }
 
     /**
