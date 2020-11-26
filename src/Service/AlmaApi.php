@@ -486,7 +486,10 @@ class AlmaApi
         $bookOffer->setDescription($itemData['description'] ?? '');
 
         try {
-            $bookOffer->setAvailabilityStarts(new DateTime($itemData['inventory_date']));
+            // We needed a 2nd check, see https://gitlab.tugraz.at/dbp/middleware/api/-/issues/66
+            if ($itemData['inventory_date'] !== null) {
+                $bookOffer->setAvailabilityStarts(new DateTime($itemData['inventory_date']));
+            }
         } catch (\Exception $e) {
         }
 
