@@ -436,6 +436,8 @@ class AlmaApi
     /**
      * see: https://developers.exlibrisgroup.com/console/?url=/wp-content/uploads/alma/openapi/bibs.json#/Catalog/get/almaws/v1/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}.
      *
+     * @param array $item
+     * @return BookLoan
      * @throws ItemNotLoadedException
      */
     public function bookLoanFromJsonItem(array $item): BookLoan
@@ -444,9 +446,11 @@ class AlmaApi
         $bookLoan->setIdentifier("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}-{$item['loan_id']}");
 
         try {
-            $bookLoan->setStartTime(new \DateTime($item['loan_date']));
-            $bookLoan->setEndTime(new \DateTime($item['due_date']));
+            $bookLoan->setStartTime(new DateTime($item['loan_date']));
+            $bookLoan->setEndTime(new DateTime($item['due_date']));
         } catch (\Exception $e) {
+        } catch (\TypeError $e) {
+            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
         }
 
         $bookLoan->setLoanStatus($item['loan_status']);
@@ -486,11 +490,11 @@ class AlmaApi
         $bookOffer->setDescription($itemData['description'] ?? '');
 
         try {
-            // We needed a 2nd check, see https://gitlab.tugraz.at/dbp/middleware/api/-/issues/66
-            if ($itemData['inventory_date'] !== null) {
-                $bookOffer->setAvailabilityStarts(new DateTime($itemData['inventory_date']));
-            }
+            $bookOffer->setAvailabilityStarts(new DateTime($itemData['inventory_date']));
         } catch (\Exception $e) {
+        } catch (\TypeError $e) {
+            // We needed a 2nd check, see https://gitlab.tugraz.at/dbp/middleware/api/-/issues/66
+            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
         }
 
         $book = $this->bookFromJsonItem($bibData);
@@ -514,6 +518,8 @@ class AlmaApi
             $publicationYear = (int) $item['date_of_publication'];
             $book->setDatePublished(new DateTime("${publicationYear}-01-01"));
         } catch (\Exception $e) {
+        } catch (\TypeError $e) {
+            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
         }
 
         return $book;
@@ -796,6 +802,8 @@ class AlmaApi
                 try {
                     $bookLoan->setStartTime(new DateTime($loanDate.' '.$loanTime));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -806,6 +814,8 @@ class AlmaApi
                 try {
                     $bookLoan->setEndTime(new DateTime($dueDate.' '.$dueDateTime));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -817,6 +827,8 @@ class AlmaApi
                 try {
                     $bookLoan->setReturnTime(new DateTime($returnDate.' '.$returnTime));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -1530,6 +1542,8 @@ class AlmaApi
                 try {
                     $bookOffer->setAvailabilityStarts(new DateTime($inventoryDate));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -1545,6 +1559,8 @@ class AlmaApi
                     $publicationYear = (int) $publicationDate;
                     $book->setDatePublished(new DateTime("${publicationYear}-01-01"));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -1624,6 +1640,8 @@ class AlmaApi
                     // PO Creation Date
                     $bookOrder->setOrderDate(new DateTime($poCreationDate));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -1641,6 +1659,8 @@ class AlmaApi
                     // Claiming Date
                     $deliveryEvent->setAvailableFrom(new DateTime($claimingDate));
                 } catch (\Exception $e) {
+                } catch (\TypeError $e) {
+                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
                 }
             }
 
@@ -1752,9 +1772,13 @@ class AlmaApi
         }
 
         $dateString = $values['Institution::Data Updated As Of'].' '.$values['Institution::Institution Timezone'];
+
         try {
             $datetime = new DateTime($dateString);
         } catch (\Exception $e) {
+            return null;
+        } catch (\TypeError $e) {
+            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
             return null;
         }
 
