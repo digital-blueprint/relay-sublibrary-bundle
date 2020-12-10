@@ -7,11 +7,20 @@ namespace DBP\API\AlmaBundle\DependencyInjection;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class DbpAlmaExtension extends ConfigurableExtension
+class DbpAlmaExtension extends ConfigurableExtension implements PrependExtensionInterface
 {
+    public function prepend(ContainerBuilder $container)
+    {
+        $this->extendArrayParameter(
+            $container, 'dbp_api.expose_headers', [
+                'X-Analytics-Update-Date', ]
+        );
+    }
+
     public function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
         $this->extendArrayParameter(
