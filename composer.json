@@ -16,7 +16,6 @@
         "symfony/yaml": "^4.4"
     },
     "require-dev": {
-        "composer/semver": "^1.5",
         "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "^1.2",
         "nelmio/cors-bundle": "^2.1.0",
@@ -43,13 +42,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-          "DBP\\API\\AlmaBundle\\Tests\\": "tests/"
+            "DBP\\API\\AlmaBundle\\Tests\\": "tests/"
         }
     },
     "config": {
         "sort-packages": true,
         "platform": {
-          "php": "7.3"
+            "php": "7.3"
         }
     },
     "scripts": {
