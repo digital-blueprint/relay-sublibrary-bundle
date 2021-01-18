@@ -1652,7 +1652,8 @@ class AlmaApi
             $deliveryEvent->setIdentifier($identifier);
             $deliveryEvent->setEventStatus($eventStatus);
 
-            $claimingDate = $values['PO Line::Claiming Date'];
+            // 'PO Line::Claiming Date' is currently not set
+            $claimingDate = $values['PO Line::Claiming Date'] ?? '';
             if ($claimingDate !== '') {
                 try {
                     // Claiming Date
@@ -1677,13 +1678,8 @@ class AlmaApi
             $bookOrderItem->setIdentifier($identifier);
             $bookOrderItem->setOrderDelivery($parcelDelivery);
             $bookOrderItem->setOrderedItem($book);
-
-            // "Invoice Line Total Price" should be used if status is closed, otherwise "PO Line Total Price" should be used
-            $price = ($eventStatus->getName() === 'closed') ?
-                ($values['Fund Transactions::Invoice Line Total Price'] ?? 0) :
-                ($values['Fund Transactions::PO Line Total Price'] ?? 0);
-            $bookOrderItem->setPrice((float) $price);
-            $bookOrderItem->setPriceCurrency($values['Fund Ledger::Currency']);
+            $bookOrderItem->setPrice((float) $values['PO Line:: CASE  WHEN Invoice Status = \'No invoice\' AND Status = \'CLOSED\' THEN 0 ELSE  IFNULL(Invoice Line Total Price, PO Line Total Price) END']);
+            $bookOrderItem->setPriceCurrency($values['Fund Transactions:: CASE  WHEN Invoice Line Total Price IS NULL  THEN Currency ELSE Invoice Line-Currency END']);
 
             $bookOrder->setOrderedItem($bookOrderItem);
 
