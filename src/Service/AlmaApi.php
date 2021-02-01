@@ -696,7 +696,7 @@ class AlmaApi
 
         $personId = $bodyData['borrower'];
         $person = $this->personProvider->getPerson($personId);
-        $userId = $person->getAlmaId();
+        $userId = $person->getExtraData('alma-id');
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $person->getName()));
@@ -864,7 +864,7 @@ class AlmaApi
             $person->setIdentifier('unknown');
             $person->setGivenName($values['Borrower Details::First Name']);
             $person->setFamilyName($values['Borrower Details::Last Name']);
-            $person->setAlmaId($values['Borrower Details::User Id']);
+            $person->setExtraData('alma-id', $values['Borrower Details::User Id']);
 
             $bookLoan->setBorrower($person);
 
@@ -1110,7 +1110,7 @@ class AlmaApi
         ];
 
         $identifier = $person->getIdentifier();
-        $userId = $person->getAlmaId();
+        $userId = $person->getExtraData('alma-id');
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $person->getName()));
