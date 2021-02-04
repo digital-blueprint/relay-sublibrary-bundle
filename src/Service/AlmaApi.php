@@ -27,6 +27,7 @@ use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
+use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
@@ -57,6 +58,11 @@ class AlmaApi
      */
     private $security;
 
+    /**
+     * @var OrganizationProviderInterface
+     */
+    private $orgProvider;
+
     private $clientHandler;
     private $apiKey;
     private $analyticsApiKey;
@@ -74,6 +80,7 @@ class AlmaApi
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
+                                OrganizationProviderInterface $orgProvider,
                                 Security $security, LoggerInterface $logger)
     {
         $this->security = $security;
@@ -82,6 +89,7 @@ class AlmaApi
         $this->urls = new AlmaUrlApi();
         $this->logger = $logger;
         $this->container = $container;
+        $this->orgProvider = $orgProvider;
 
         $config = $container->getParameter('dbp_api.alma.config');
         $this->apiKey = $config['api_key'] ?? '';
@@ -1153,7 +1161,7 @@ class AlmaApi
     public function checkBookOfferPermissions(BookOffer &$bookOffer)
     {
         $person = $this->personProvider->getCurrentPerson();
-        $hasAccess = Tools::hasBookOfferPermissions($person, $bookOffer);
+        $hasAccess = Tools::hasBookOfferPermissions($this->orgProvider, $person, $bookOffer);
         if (!$hasAccess) {
             throw new AccessDeniedHttpException(
                 sprintf("Person '%s' is not allowed to work with library '%s'!",
@@ -1168,7 +1176,7 @@ class AlmaApi
      */
     public function filterBookLoans(array $bookLoans): array {
         $person = $this->personProvider->getCurrentPerson();
-        return Tools::filterBookLoans($person, $bookLoans);
+        return Tools::filterBookLoans($this->orgProvider, $person, $bookLoans);
     }
 
     /**
@@ -1818,7 +1826,7 @@ class AlmaApi
      */
     public function checkOrganizationPermissions(Organization $organization) {
         $person = $this->personProvider->getCurrentPerson();
-        if (!Tools::hasOrganizationPermissions($person, $organization)) {
+        if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
             $institute = $organization->getAlternateName();
             throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
