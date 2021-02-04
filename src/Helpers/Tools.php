@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Helpers;
 
+use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -44,5 +45,11 @@ class Tools
             // throw an exception if we want to
             throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
+    }
+
+    public static function hasBookOfferPermissions(Person $person, BookOffer $bookOffer): bool {
+        $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
+        $bookOfferLibrary = $bookOffer->getLibrary();
+        return in_array($bookOfferLibrary, $institutes, true);
     }
 }

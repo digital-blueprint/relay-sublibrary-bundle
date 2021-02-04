@@ -1156,24 +1156,15 @@ class AlmaApi
     public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
     {
         $person = $this->personProvider->getCurrentPerson();
-        $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
-        $bookOfferLibrary = $bookOffer->getLibrary();
 
-        // check if current user has F_BIB permissions to the institute of the book offer
-        if (!in_array($bookOfferLibrary, $institutes, true)) {
-            // throw an exception if we want to
-            if ($throwException) {
-                throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOfferLibrary));
-            }
+        $hasAccess = Tools::hasBookOfferPermissions($person, $bookOffer);
+        if (!$hasAccess && $throwException) {
+            throw new AccessDeniedHttpException(
+                sprintf("Person '%s' is not allowed to work with library '%s'!",
+                    $person->getIdentifier(), $bookOffer->getLibrary()));
         } else {
-            // return true if we are not throwing an exception
-            if (!$throwException) {
-                return true;
-            }
+            return $hasAccess;
         }
-
-        // return false if we are not throwing an exception, otherwise true
-        return $throwException;
     }
 
     /**
