@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Helpers;
 
+use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Entity\Person;
@@ -51,5 +52,21 @@ class Tools
         $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
         $bookOfferLibrary = $bookOffer->getLibrary();
         return in_array($bookOfferLibrary, $institutes, true);
+    }
+
+    /**
+     * @param BookLoan[] $bookLoans
+     * @return BookLoan[]
+     */
+    public static function filterBookLoans(Person $person, array $bookLoans): array {
+        $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
+        $filtered = [];
+        foreach ($bookLoans as $bookLoan) {
+            $bookOfferLibrary = $bookLoan->getObject()->getLibrary();
+            if (in_array($bookOfferLibrary, $institutes, true)) {
+                $filtered[] = $bookLoan;
+            }
+        }
+        return $filtered;
     }
 }

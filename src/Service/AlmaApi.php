@@ -1169,14 +1169,7 @@ class AlmaApi
      */
     public function filterBookLoans(array $bookLoans): array {
         $person = $this->personProvider->getCurrentPerson();
-        $filtered = [];
-        foreach ($bookLoans as $bookLoan) {
-            $bookOffer = $bookLoan->getObject();
-            if (Tools::hasBookOfferPermissions($person, $bookOffer)) {
-                $filtered[] = $bookLoan;
-            }
-        }
-        return $filtered;
+        return Tools::filterBookLoans($person, $bookLoans);
     }
 
     /**
