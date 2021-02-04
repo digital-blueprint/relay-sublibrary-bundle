@@ -20,18 +20,14 @@ class GetLibraryBookLoansByPerson extends AlmaController
     public function __invoke(Person $data): ArrayCollection
     {
         $jsonData = $this->api->getBookLoansJsonDataByPerson($data);
-        $collection = new ArrayCollection();
 
+        $bookLoans = [];
         foreach ($jsonData as $item) {
-            $bookLoan = $this->api->bookLoanFromJsonItem($item);
-            $bookOffer = $bookLoan->getObject();
-
-            // only return loans where the user has permissions to
-            if ($this->api->checkBookOfferPermissions($bookOffer, false)) {
-                $collection->add($bookLoan);
-            }
+            $bookLoans[] = $this->api->bookLoanFromJsonItem($item);
         }
+        // only return the ones the user has permissions to
+        $bookLoans = $this->api->filterBookLoans($bookLoans);
 
-        return $collection;
+        return new ArrayCollection($bookLoans);
     }
 }

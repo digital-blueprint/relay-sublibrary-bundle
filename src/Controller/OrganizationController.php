@@ -22,15 +22,4 @@ abstract class OrganizationController
         $this->almaApi = $almaApi;
         $almaApi->checkPermissions();
     }
-
-    /**
-     * Checks if the current user has permissions to an organization.
-     *
-     * @throws AccessDeniedHttpException
-     */
-    public function checkOrganizationPermissions(Organization $organization)
-    {
-        $person = $this->personProvider->getCurrentPerson();
-        Tools::checkOrganizationPermissions($person, $organization);
-    }
 }

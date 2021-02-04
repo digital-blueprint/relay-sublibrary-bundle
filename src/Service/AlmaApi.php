@@ -27,6 +27,7 @@ use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
+use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
@@ -57,6 +58,11 @@ class AlmaApi
      */
     private $security;
 
+    /**
+     * @var OrganizationProviderInterface
+     */
+    private $orgProvider;
+
     private $clientHandler;
     private $apiKey;
     private $analyticsApiKey;
@@ -74,6 +80,7 @@ class AlmaApi
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
+                                OrganizationProviderInterface $orgProvider,
                                 Security $security, LoggerInterface $logger)
     {
         $this->security = $security;
@@ -82,6 +89,7 @@ class AlmaApi
         $this->urls = new AlmaUrlApi();
         $this->logger = $logger;
         $this->container = $container;
+        $this->orgProvider = $orgProvider;
 
         $config = $container->getParameter('dbp_api.alma.config');
         $this->apiKey = $config['api_key'] ?? '';
@@ -595,8 +603,7 @@ class AlmaApi
             $organization->setIdentifier($filters['organization']);
             $organization->setAlternateName($alternateName);
 
-            $person = $this->personProvider->getCurrentPerson();
-            Tools::checkOrganizationPermissions($person, $organization);
+            $this->checkOrganizationPermissions($organization);
             $this->setAnalyticsUpdateDateHeader();
 
             $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
@@ -1148,32 +1155,28 @@ class AlmaApi
      * Checks if the current user has permissions to a book offer with a certain library.
      *
      * @param BookOffer $bookOffer
-     * @param bool $throwException
      *
-     * @return bool
-     * @throws ItemNotLoadedException
+     * @throws AccessDeniedHttpException
      */
-    public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
+    public function checkBookOfferPermissions(BookOffer &$bookOffer)
     {
         $person = $this->personProvider->getCurrentPerson();
-        $institutes = Tools::getInstitutesForGroup($person, 'F_BIB');
-        $bookOfferLibrary = $bookOffer->getLibrary();
-
-        // check if current user has F_BIB permissions to the institute of the book offer
-        if (!in_array($bookOfferLibrary, $institutes, true)) {
-            // throw an exception if we want to
-            if ($throwException) {
-                throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOfferLibrary));
-            }
-        } else {
-            // return true if we are not throwing an exception
-            if (!$throwException) {
-                return true;
-            }
+        $hasAccess = Tools::hasBookOfferPermissions($this->orgProvider, $person, $bookOffer);
+        if (!$hasAccess) {
+            throw new AccessDeniedHttpException(
+                sprintf("Person '%s' is not allowed to work with library '%s'!",
+                    $person->getIdentifier(), $bookOffer->getLibrary()));
         }
+    }
 
-        // return false if we are not throwing an exception, otherwise true
-        return $throwException;
+    /**
+     * Return book loans where the user has permissions
+     * @param BookLoan[] $bookLoans
+     * @return BookLoan[]
+     */
+    public function filterBookLoans(array $bookLoans): array {
+        $person = $this->personProvider->getCurrentPerson();
+        return Tools::filterBookLoans($this->orgProvider, $person, $bookLoans);
     }
 
     /**
@@ -1815,6 +1818,17 @@ class AlmaApi
     {
         if ($this->isReadOnlyMode()) {
             throw new AccessDeniedHttpException(sprintf('The Alma API currently is in read-only mode!'));
+        }
+    }
+
+    /**
+     * @throws AccessDeniedHttpException
+     */
+    public function checkOrganizationPermissions(Organization $organization) {
+        $person = $this->personProvider->getCurrentPerson();
+        if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
+            $institute = $organization->getAlternateName();
+            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
     }
 }
