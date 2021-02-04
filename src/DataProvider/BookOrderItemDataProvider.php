@@ -58,8 +58,7 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
         $organization = $this->orgaProvider->getOrganizationById($organizationId, 'de');
 
         // check permissions of current user to organization
-        $person = $this->personProvider->getCurrentPerson();
-        Tools::checkOrganizationPermissions($person, $organization);
+        $this->almaApi->checkOrganizationPermissions($organization);
 
         // fetch all book orders of the organization
         $collection = new ArrayCollection();

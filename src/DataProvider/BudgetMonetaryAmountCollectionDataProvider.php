@@ -64,8 +64,7 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
         $organization = $this->organizationProvider->getOrganizationById($organizationId, 'de');
 
         // check permissions of current user to organization
-        $person = $this->personProvider->getCurrentPerson();
-        Tools::checkOrganizationPermissions($person, $organization);
+        $this->api->checkOrganizationPermissions($organization);
 
         // fetch budget monetary amounts of organization
         $budgetMonetaryAmounts = $api->getBudgetMonetaryAmountsByOrganization($organization);

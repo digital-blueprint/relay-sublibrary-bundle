@@ -31,21 +31,11 @@ class Tools
         return $results;
     }
 
-    /**
-     * Checks if the user has permissions to an organization.
-     *
-     * @throws AccessDeniedHttpException
-     */
-    public static function checkOrganizationPermissions(Person $person, Organization $organization)
+    public static function hasOrganizationPermissions(Person $person, Organization $organization)
     {
         $institutes = self::getInstitutesForGroup($person, 'F_BIB');
         $institute = $organization->getAlternateName();
-
-        // check if current user has F_BIB permissions to the institute of the book offer
-        if (!in_array($institute, $institutes, true)) {
-            // throw an exception if we want to
-            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
-        }
+        return in_array($institute, $institutes, true);
     }
 
     public static function hasBookOfferPermissions(Person $person, BookOffer $bookOffer): bool {

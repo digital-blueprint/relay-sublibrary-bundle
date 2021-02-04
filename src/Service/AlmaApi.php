@@ -595,8 +595,7 @@ class AlmaApi
             $organization->setIdentifier($filters['organization']);
             $organization->setAlternateName($alternateName);
 
-            $person = $this->personProvider->getCurrentPerson();
-            Tools::checkOrganizationPermissions($person, $organization);
+            $this->checkOrganizationPermissions($organization);
             $this->setAnalyticsUpdateDateHeader();
 
             $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
@@ -1811,6 +1810,17 @@ class AlmaApi
     {
         if ($this->isReadOnlyMode()) {
             throw new AccessDeniedHttpException(sprintf('The Alma API currently is in read-only mode!'));
+        }
+    }
+
+    /**
+     * @throws AccessDeniedHttpException
+     */
+    public function checkOrganizationPermissions(Organization $organization) {
+        $person = $this->personProvider->getCurrentPerson();
+        if (!Tools::hasOrganizationPermissions($person, $organization)) {
+            $institute = $organization->getAlternateName();
+            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
     }
 }
