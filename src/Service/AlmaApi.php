@@ -1148,23 +1148,35 @@ class AlmaApi
      * Checks if the current user has permissions to a book offer with a certain library.
      *
      * @param BookOffer $bookOffer
-     * @param bool $throwException
      *
-     * @return bool
-     * @throws ItemNotLoadedException
+     * @throws AccessDeniedHttpException
      */
-    public function checkBookOfferPermissions(BookOffer &$bookOffer, $throwException = true): bool
+    public function checkBookOfferPermissions(BookOffer &$bookOffer)
     {
         $person = $this->personProvider->getCurrentPerson();
-
         $hasAccess = Tools::hasBookOfferPermissions($person, $bookOffer);
-        if (!$hasAccess && $throwException) {
+        if (!$hasAccess) {
             throw new AccessDeniedHttpException(
                 sprintf("Person '%s' is not allowed to work with library '%s'!",
                     $person->getIdentifier(), $bookOffer->getLibrary()));
-        } else {
-            return $hasAccess;
         }
+    }
+
+    /**
+     * Return book loans where the user has permissions
+     * @param BookLoan[] $bookLoans
+     * @return BookLoan[]
+     */
+    public function filterBookLoans(array $bookLoans): array {
+        $person = $this->personProvider->getCurrentPerson();
+        $filtered = [];
+        foreach ($bookLoans as $bookLoan) {
+            $bookOffer = $bookLoan->getObject();
+            if (Tools::hasBookOfferPermissions($person, $bookOffer)) {
+                $filtered[] = $bookLoan;
+            }
+        }
+        return $filtered;
     }
 
     /**
