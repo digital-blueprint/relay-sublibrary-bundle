@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "controller"=GetLocationIdentifiersByBookOffer::class,
  *         "openapi_context"=
  *           {"summary"="Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string"}}},
+ *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string"}}},
  *      },
  *      "post_loan"={
  *         "method"="POST",
@@ -40,8 +40,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "defaults":{"_api_persist"=false},
  *         "openapi_context"=
  *           {"summary"="Post a loan for a book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          {"name"="body", "in"="body", "description"="Data", "required"="true", "type"="string", "example"={"borrower"="/people/woody007", "library"="F1490"}}}},
+ *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
+ *                          {"name"="body", "in"="body", "description"="Data", "required"=true, "type"="string", "example"={"borrower"="/people/woody007", "library"="F1490"}}}},
  *      },
  *      "post_return"={
  *         "method"="POST",
@@ -50,8 +50,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "defaults":{"_api_persist"=false},
  *         "openapi_context"=
  *           {"summary"="Return a book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          {"name"="body", "in"="body", "description"="Data", "required"="true", "type"="string", "example"={}}}},
+ *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
+ *                          {"name"="body", "in"="body", "description"="Data", "required"=true, "type"="string", "example"={}}}},
  *      },
  *      "get_loans"={
  *         "method"="GET",
@@ -60,7 +60,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "normalization_context"={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}},
  *         "openapi_context"=
  *           {"summary"="Get the loans on a book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"="true", "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"}}},
+ *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"}}},
  *      }
  *     },
  *     iri="http://schema.org/Offer",
