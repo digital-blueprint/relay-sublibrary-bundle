@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Tests;
-
 
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Entity\Person;

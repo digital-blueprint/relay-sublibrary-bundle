@@ -19,19 +19,19 @@ class AlmaApiUrlTest extends WebTestCase
         $this->urls = new AlmaUrlApi();
     }
 
-    public function test_getBookUrl()
+    public function testGetBookUrl()
     {
         $this->assertEquals('bibs/foob%3Far', $this->urls->getBookUrl('foob?ar'));
     }
 
-    public function test_getBookLoanPostUrl()
+    public function testGetBookLoanPostUrl()
     {
         $this->assertEquals(
             'bibs/foo/holdings/b%3Fr/items/baz/loans?user_id=bar',
             $this->urls->getBookLoanPostUrl('foo-b?r-baz', 'bar'));
     }
 
-    public function test_getBookOfferUrl()
+    public function testGetBookOfferUrl()
     {
         $this->assertEquals(
             'bibs/%C3%B6%C3%A4%2F/holdings/%C3%B6%23/items/a%3B',
@@ -41,7 +41,7 @@ class AlmaApiUrlTest extends WebTestCase
         $this->urls->getBookOfferUrl('foo');
     }
 
-    public function test_getBookLoanUrl()
+    public function testGetBookLoanUrl()
     {
         $this->assertEquals(
             'bibs/%C3%B6%C3%A4%2F/holdings/%C3%B6%23/items/a%3B/loans/%20',
@@ -51,7 +51,7 @@ class AlmaApiUrlTest extends WebTestCase
         $this->urls->getBookLoanUrl('foo');
     }
 
-    public function test_getReturnBookOfferUrl()
+    public function testGetReturnBookOfferUrl()
     {
         $this->assertEquals(
             'bibs/foo/holdings/ba%3Fr/items/baz?op=scan&library=&circ_desk=DEFAULT_CIRC_DESK',
@@ -61,14 +61,14 @@ class AlmaApiUrlTest extends WebTestCase
             $this->urls->getReturnBookOfferUrl('foo-ba?r-baz', 'lib'));
     }
 
-    public function test_getBookOfferLoansUrl()
+    public function testGetBookOfferLoansUrl()
     {
         $this->assertEquals(
             'bibs/fo/holdings/ba%3Fr/items/baz/loans',
             $this->urls->getBookOfferLoansUrl('fo-ba?r-baz'));
     }
 
-    public function test_getLoansByUserIdUrl()
+    public function testGetLoansByUserIdUrl()
     {
         $this->assertEquals(
             'users/bla%3F/loans?limit=100&offset=0',
@@ -78,14 +78,14 @@ class AlmaApiUrlTest extends WebTestCase
             $this->urls->getLoansByUserIdUrl('bla?', 20));
     }
 
-    public function test_getBarcodeBookOfferUrl()
+    public function testGetBarcodeBookOfferUrl()
     {
         $this->assertEquals(
             'items?item_barcode=bla%3F',
             $this->urls->getBarcodeBookOfferUrl('bla?'));
     }
 
-    public function test_getBookOfferLocationsIdentifierUrl()
+    public function testGetBookOfferLocationsIdentifierUrl()
     {
         $offer = new BookOffer();
         $offer->setIdentifier('foo-ba?r-baz');

@@ -58,7 +58,7 @@ class AlmaApiTest extends WebTestCase
         $this->api->setClientHandler($stack);
     }
 
-    public function test_getBookOffer_error()
+    public function testGetBookOfferError()
     {
         $data = '{"web_service_result":{"errorsExist":true,"errorList":{"error":{"errorCode":"NOT_FOUND","errorMessage":"","trackingId":"unknown"}}}}';
 
@@ -75,7 +75,7 @@ class AlmaApiTest extends WebTestCase
         }
     }
 
-    public function test_getBookOffer_error_no_response()
+    public function testGetBookOfferErrorNoResponse()
     {
         $this->mockResponses([
             new RequestException('myerror', new Request('GET', 'some-dummy-url')),
@@ -90,7 +90,7 @@ class AlmaApiTest extends WebTestCase
         }
     }
 
-    public function test_getBookOffer()
+    public function testGetBookOffer()
     {
         $this->mockResponses([
             new Response(200, ['Content-Type' => 'application/json;charset=UTF-8'], self::bookOfferResponse),
@@ -113,7 +113,7 @@ class AlmaApiTest extends WebTestCase
         $this->assertEquals($book->getAuthor(), '');
     }
 
-    public function test_getBookOffer_invalID()
+    public function testGetBookOfferInvalID()
     {
         try {
             $this->api->getBookOffer('foo');
@@ -124,7 +124,7 @@ class AlmaApiTest extends WebTestCase
         }
     }
 
-    public function test_getBookOffers()
+    public function testGetBookOffers()
     {
         $this->mockResponses([
             new Response(200, ['Content-Type' => 'application/json;charset=UTF-8'], self::bookOfferResponse),
@@ -138,7 +138,7 @@ class AlmaApiTest extends WebTestCase
         $this->assertEquals($offer->getBarcode(), $barcode);
     }
 
-    public function test_tokenError()
+    public function testTokenError()
     {
         $identifier = 'foo';
         $token = 'aBa4As-FassK0d21-1f3';

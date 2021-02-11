@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlmaUtilsTest extends WebTestCase
 {
-    public function test_getColumnMapping()
+    public function testGetColumnMapping()
     {
         $data = '<?xml version="1.0" encoding="UTF-8"?>
 <QueryResult>

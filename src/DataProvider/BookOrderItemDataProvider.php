@@ -8,7 +8,6 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BookOrder;
-use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
@@ -17,11 +16,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class BookOrderItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    protected $orgaProvider;
+    private $orgaProvider;
 
-    protected $almaApi;
+    private $almaApi;
 
-    protected $personProvider;
+    private $personProvider;
 
     public function __construct(OrganizationProviderInterface $orgaProvider, PersonProviderInterface $personProvider, AlmaApi $almaApi)
     {

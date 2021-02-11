@@ -16,6 +16,8 @@ return PhpCsFixer\Config::create()
         'strict_comparison' => true,
         'strict_param' => true,
         'declare_strict_types' => true,
+        'no_superfluous_phpdoc_tags' => false,
+        'phpdoc_align' => false,
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 abstract class OrganizationController
 {

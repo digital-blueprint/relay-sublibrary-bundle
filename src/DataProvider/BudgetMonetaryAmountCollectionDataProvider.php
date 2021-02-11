@@ -8,7 +8,6 @@ use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
-use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
@@ -20,9 +19,9 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
 {
     public const ITEMS_PER_PAGE = 100;
 
-    protected $organizationProvider;
+    private $organizationProvider;
 
-    protected $personProvider;
+    private $personProvider;
 
     private $api;
 
@@ -30,8 +29,7 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
         OrganizationProviderInterface $organizationProvider,
         PersonProviderInterface $personProvider,
         AlmaApi $api
-    )
-    {
+    ) {
         $this->organizationProvider = $organizationProvider;
         $this->personProvider = $personProvider;
         $this->api = $api;

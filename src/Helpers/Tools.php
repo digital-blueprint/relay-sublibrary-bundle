@@ -19,7 +19,7 @@ class Tools
         return $organization->getAlternateName();
     }
 
-        /**
+    /**
      * @return string[]
      */
     public static function getLibraryIDs(OrganizationProviderInterface $orgProvider, Person $person): array

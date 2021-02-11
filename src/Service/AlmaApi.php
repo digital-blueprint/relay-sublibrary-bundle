@@ -14,9 +14,9 @@ use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\AlmaBundle\Entity\BookOrder;
 use DBP\API\AlmaBundle\Entity\BookOrderItem;
+use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
 use DBP\API\AlmaBundle\Entity\DeliveryEvent;
 use DBP\API\AlmaBundle\Entity\EventStatusType;
-use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
 use DBP\API\AlmaBundle\Entity\ParcelDelivery;
 use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Entity\Organization;
@@ -104,11 +104,11 @@ class AlmaApi
     private static function budgetMonetaryAmountNames(): array
     {
         return [
-            "Fund Transactions::Transaction Allocation Amount" => "taa",
-            "Fund Transactions::Transaction Allocation Amount - Transaction Cash Balance" => "taa-tcb",
-            "Fund Transactions::Transaction Available Balance" => "tab",
-            "Fund Transactions::Transaction Cash Balance" => "tcb",
-            "Fund Transactions::Transaction Cash Balance - Transaction Available Balance" => "tcb-tab",
+            'Fund Transactions::Transaction Allocation Amount' => 'taa',
+            'Fund Transactions::Transaction Allocation Amount - Transaction Cash Balance' => 'taa-tcb',
+            'Fund Transactions::Transaction Available Balance' => 'tab',
+            'Fund Transactions::Transaction Cash Balance' => 'tcb',
+            'Fund Transactions::Transaction Cash Balance - Transaction Available Balance' => 'tcb-tab',
         ];
     }
 
@@ -445,7 +445,9 @@ class AlmaApi
      * see: https://developers.exlibrisgroup.com/console/?url=/wp-content/uploads/alma/openapi/bibs.json#/Catalog/get/almaws/v1/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}.
      *
      * @param array $item
+     *
      * @return BookLoan
+     *
      * @throws ItemNotLoadedException
      */
     public function bookLoanFromJsonItem(array $item): BookLoan
@@ -892,6 +894,7 @@ class AlmaApi
      * See: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/UE9TVCAvYWxtYXdzL3YxL2JpYnMve21tc19pZH0vaG9sZGluZ3Mve2hvbGRpbmdfaWR9L2l0ZW1zL3tpdGVtX3BpZH0=/.
      *
      * @param BookOffer $bookOffer
+     *
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
      * @throws \League\Uri\Contracts\UriException
@@ -942,6 +945,7 @@ class AlmaApi
      * Updates a loan in Alma.
      *
      * @param BookLoan $bookLoan
+     *
      * @return BookLoan
      *
      * @throws ItemNotLoadedException
@@ -1019,7 +1023,9 @@ class AlmaApi
      * TODO: We are not allowed to use the field chronology_i any more, so this function is currently broken since the results are not sorted in the way we need it
      *
      * @param BookOffer $bookOffer
+     *
      * @return ArrayCollection
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1066,7 +1072,9 @@ class AlmaApi
 
     /**
      * @param BookOffer $bookOffer
+     *
      * @return array|null
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1102,7 +1110,9 @@ class AlmaApi
      * Gets all book loans for a person.
      *
      * @param Person $person
+     *
      * @return array|null
+     *
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
      * @throws \League\Uri\Contracts\UriException
@@ -1163,19 +1173,21 @@ class AlmaApi
         $person = $this->personProvider->getCurrentPerson();
         $hasAccess = Tools::hasBookOfferPermissions($this->orgProvider, $person, $bookOffer);
         if (!$hasAccess) {
-            throw new AccessDeniedHttpException(
-                sprintf("Person '%s' is not allowed to work with library '%s'!",
-                    $person->getIdentifier(), $bookOffer->getLibrary()));
+            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
 
     /**
-     * Return book loans where the user has permissions
+     * Return book loans where the user has permissions.
+     *
      * @param BookLoan[] $bookLoans
+     *
      * @return BookLoan[]
      */
-    public function filterBookLoans(array $bookLoans): array {
+    public function filterBookLoans(array $bookLoans): array
+    {
         $person = $this->personProvider->getCurrentPerson();
+
         return Tools::filterBookLoans($this->orgProvider, $person, $bookLoans);
     }
 
@@ -1184,6 +1196,7 @@ class AlmaApi
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1233,6 +1246,7 @@ class AlmaApi
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1282,6 +1296,7 @@ class AlmaApi
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1328,6 +1343,7 @@ class AlmaApi
 
     /**
      * @return SimpleXMLElement|null
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1348,7 +1364,7 @@ class AlmaApi
             $dataArray = $this->decodeResponse($response);
 
             if (!isset($dataArray['anies'][0])) {
-                throw new ItemNotLoadedException("BudgetMonetaryAmounts were not valid!");
+                throw new ItemNotLoadedException('BudgetMonetaryAmounts were not valid!');
             }
 
             // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
@@ -1359,7 +1375,7 @@ class AlmaApi
             return simplexml_load_string($analyticsData);
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
-            throw new ItemNotLoadedException(sprintf("BudgetMonetaryAmounts could not be loaded! Message: %s", $message));
+            throw new ItemNotLoadedException(sprintf('BudgetMonetaryAmounts could not be loaded! Message: %s', $message));
         } catch (GuzzleException $e) {
         }
 
@@ -1367,10 +1383,12 @@ class AlmaApi
     }
 
     /**
-     * Returns the BudgetMonetaryAmounts for an Organization
+     * Returns the BudgetMonetaryAmounts for an Organization.
      *
      * @param Organization $organization
+     *
      * @return BudgetMonetaryAmount[]
+     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
@@ -1378,7 +1396,7 @@ class AlmaApi
     {
         $xml = $this->getBudgetMonetaryAmountAnalyticsXML();
         $mapping = AlmaUtils::getColumnMapping($xml);
-        $fundLedgerCode = $organization->getAlternateName() . "MON";
+        $fundLedgerCode = $organization->getAlternateName().'MON';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         if (count($rows) === 0) {
@@ -1390,10 +1408,10 @@ class AlmaApi
             try {
                 $values = AlmaUtils::mapRowColumns($row, $mapping);
 
-                if ($values["Fund Ledger::Fund Ledger Code"] == $fundLedgerCode) {
+                if ($values['Fund Ledger::Fund Ledger Code'] === $fundLedgerCode) {
                     $names = self::budgetMonetaryAmountNames();
 
-                    foreach(array_keys($names) as $key) {
+                    foreach (array_keys($names) as $key) {
                         self::addBudgetMonetaryAmountToList($organizationBudgetList, $values, $key, $organization);
                     }
 
@@ -1410,6 +1428,7 @@ class AlmaApi
      * @param array $values
      * @param string $key
      * @param Organization $organization
+     *
      * @return BudgetMonetaryAmount|null
      */
     private static function budgetMonetaryAmountFromAnalyticsRow(
@@ -1425,11 +1444,11 @@ class AlmaApi
 
         $name = $names[$key];
         $organizationBudget = new BudgetMonetaryAmount();
-        $organizationBudget->setIdentifier($organization->getIdentifier() . "-" . $name);
+        $organizationBudget->setIdentifier($organization->getIdentifier().'-'.$name);
         $organizationBudget->setName($name);
         // careful with decimal numbers and float :/
         $organizationBudget->setValue(((float) $values[$key]));
-        $organizationBudget->setCurrency("EUR");
+        $organizationBudget->setCurrency('EUR');
 
         return $organizationBudget;
     }
@@ -1448,7 +1467,7 @@ class AlmaApi
     ) {
         $budgetMonetaryAmount = self::budgetMonetaryAmountFromAnalyticsRow($values, $key, $organization);
 
-        if ($budgetMonetaryAmount != null) {
+        if ($budgetMonetaryAmount !== null) {
             $organizationBudgetList[] = $budgetMonetaryAmount;
         }
     }
@@ -1806,7 +1825,7 @@ class AlmaApi
     private function log(string $message, array $context = [])
     {
         $context['service'] = 'Alma';
-        $this->logger->notice('[{service}] '. $message, $context);
+        $this->logger->notice('[{service}] '.$message, $context);
     }
 
     private function isReadOnlyMode(): bool
@@ -1824,7 +1843,8 @@ class AlmaApi
     /**
      * @throws AccessDeniedHttpException
      */
-    public function checkOrganizationPermissions(Organization $organization) {
+    public function checkOrganizationPermissions(Organization $organization)
+    {
         $person = $this->personProvider->getCurrentPerson();
         if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
             $institute = $organization->getAlternateName();
