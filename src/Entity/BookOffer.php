@@ -40,8 +40,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "defaults":{"_api_persist"=false},
  *         "openapi_context"=
  *           {"summary"="Post a loan for a book offer.",
+*             "requestBody"={"content"={"application/json"={"schema"={"type"="object"},
+*                 "example"={"borrower"="/people/woody007", "library"="F1490"}
+*             }}},
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          {"name"="body", "in"="body", "description"="Data", "required"=true, "type"="string", "example"={"borrower"="/people/woody007", "library"="F1490"}}}},
+ *                          }},
  *      },
  *      "post_return"={
  *         "method"="POST",
@@ -50,8 +53,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "defaults":{"_api_persist"=false},
  *         "openapi_context"=
  *           {"summary"="Return a book offer.",
+ *            "requestBody"={"content"={"application/json"={"schema"={"type"="object"},
+ *                 "example"={}
+ *            }}},
  *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          {"name"="body", "in"="body", "description"="Data", "required"=true, "type"="string", "example"={}}}},
+ *                          }},
  *      },
  *      "get_loans"={
  *         "method"="GET",
