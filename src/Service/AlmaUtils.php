@@ -19,14 +19,14 @@ class AlmaUtils
         }
         $xml->registerXPathNamespace('xsd', $namespaces['xsd']);
         $elements = $xml->xpath('//xsd:schema//xsd:element');
-        if (count($elements) === 0) {
+        if ($elements === false || count($elements) === 0) {
             throw new \RuntimeException('Empty schema found in Alma response');
         }
         $mapping = [];
         foreach ($elements as $e) {
             $elementName = (string) $e->attributes()->name;
-            $tableHeading = (string) $e->attributes('saw-sql', true)->tableHeading;
-            $columnHeading = (string) $e->attributes('saw-sql', true)->columnHeading;
+            $tableHeading = (string) $e->attributes('saw-sql', true)['tableHeading'];
+            $columnHeading = (string) $e->attributes('saw-sql', true)['columnHeading'];
             $key = $tableHeading.'::'.$columnHeading;
 
             if (key_exists($key, $mapping)) {

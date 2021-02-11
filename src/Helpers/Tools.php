@@ -12,7 +12,7 @@ use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 
 class Tools
 {
-    public static function getOrganizationLibraryID(Organization $organization): string
+    public static function getOrganizationLibraryID(Organization $organization): ?string
     {
         // XXX: we shouldn't depend on the format of the alternateName for the ID
         // but at least we have it in one place here..
@@ -27,7 +27,10 @@ class Tools
         $orgs = $orgProvider->getOrganizationsByPerson($person, 'library-manager', 'en');
         $institutes = [];
         foreach ($orgs as $org) {
-            $institutes[] = self::getOrganizationLibraryID($org);
+            $id = self::getOrganizationLibraryID($org);
+            if ($id !== null) {
+                $institutes[] = $id;
+            }
         }
 
         return $institutes;
