@@ -13,14 +13,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Example ids: 990002338910204517, 990003577070204517.
  *
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
- *     collectionOperations={"get"},
- *     itemOperations={"get"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
+ *     collectionOperations={
+ *         "get"
+ *     },
+ *     itemOperations={
+ *         "get"
+ *     },
  *     iri="http://schema.org/Book",
  *     routePrefix="/books",
  *     shortName="LibraryBook",
  *     description="A book from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBook:output"}}
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"LibraryBook:output"}
+ *     }
  * )
  */
 class Book

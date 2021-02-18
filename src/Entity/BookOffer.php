@@ -17,64 +17,103 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Example id: 990003577070204517-2211897620004517-2311897610004517.
  *
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
  *     collectionOperations={
- *      "get"={"openapi_context"={"parameters"={
- *                               {"name"="barcode", "in"="query", "description"="Search for a book offer by barcode", "type"="string"}}}}
+ *         "get" = {
+ *             "openapi_context" = {
+ *                 "parameters" = {
+ *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"}
+ *                 }
+ *             }
+ *         }
  *     },
  *     itemOperations={
- *      "get",
- *      "put",
- *      "get_location_identifiers"={
- *         "method"="GET",
- *         "path"="/library_book_offers/{id}/location_identifiers",
- *         "controller"=GetLocationIdentifiersByBookOffer::class,
- *         "openapi_context"=
- *           {"summary"="Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string"}}},
- *      },
- *      "post_loan"={
- *         "method"="POST",
- *         "path"="/library_book_offers/{id}/loans",
- *         "controller"=PostBookLoanByBookOffer::class,
- *         "defaults":{"_api_persist"=false},
- *         "openapi_context"=
- *           {"summary"="Post a loan for a book offer.",
- *             "requestBody"={"content"={"application/json"={"schema"={"type"="object"},
- *                 "example"={"borrower"="/people/woody007", "library"="F1490"}
- *             }}},
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          }},
- *      },
- *      "post_return"={
- *         "method"="POST",
- *         "path"="/library_book_offers/{id}/return",
- *         "controller"=PostReturnByBookOffer::class,
- *         "defaults":{"_api_persist"=false},
- *         "openapi_context"=
- *           {"summary"="Return a book offer.",
- *            "requestBody"={"content"={"application/json"={"schema"={"type"="object"},
- *                 "example"={}
- *            }}},
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"},
- *                          }},
- *      },
- *      "get_loans"={
- *         "method"="GET",
- *         "path"="/library_book_offers/{id}/loans",
- *         "controller"=GetBookLoansByBookOffer::class,
- *         "normalization_context"={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}},
- *         "openapi_context"=
- *           {"summary"="Get the loans on a book offer.",
- *            "parameters"={{"name"="id", "in"="path", "description"="Id of book offer", "required"=true, "type"="string", "example"="991293320000541-2280429390003340-2380429400003340"}}},
- *      }
+ *         "get",
+ *         "put",
+ *         "get_location_identifiers" = {
+ *             "method" = "GET",
+ *             "path" = "/library_book_offers/{id}/location_identifiers",
+ *             "controller" = GetLocationIdentifiersByBookOffer::class,
+ *             "openapi_context" = {
+ *                 "summary" = "Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string"}
+ *                 }
+ *             },
+ *         },
+ *         "post_loan" = {
+ *             "method" = "POST",
+ *             "path" = "/library_book_offers/{id}/loans",
+ *             "controller" = PostBookLoanByBookOffer::class,
+ *             "defaults" = {
+ *                 "_api_persist" = false
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Post a loan for a book offer.",
+ *                 "requestBody" = {
+ *                     "content" = {
+ *                         "application/json" = {
+ *                             "schema" = {"type" = "object"},
+ *                             "example" = {"borrower" = "/people/woody007", "library" = "F1490"}
+ *                         }
+ *                     }
+ *                 },
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
+ *                 }
+ *             },
+ *         },
+ *         "post_return" = {
+ *             "method" = "POST",
+ *             "path" = "/library_book_offers/{id}/return",
+ *             "controller" = PostReturnByBookOffer::class,
+ *             "defaults" = {
+ *                 "_api_persist" = false
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Return a book offer.",
+ *                 "requestBody" = {
+ *                     "content" = {
+ *                         "application/json" = {
+ *                             "schema" = {"type" = "object"},
+ *                             "example" = {}
+ *                         }
+ *                     }
+ *                 },
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
+ *                 }
+ *             },
+ *         },
+ *         "get_loans" = {
+ *             "method" = "GET",
+ *             "path" = "/library_book_offers/{id}/loans",
+ *             "controller" = GetBookLoansByBookOffer::class,
+ *             "normalization_context" = {
+ *                 "jsonld_embed_context" = true,
+ *                 "groups" = {"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Get the loans on a book offer.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
+ *                 }
+ *             },
+ *         }
  *     },
  *     iri="http://schema.org/Offer",
  *     routePrefix="/offers",
  *     shortName="LibraryBookOffer",
  *     description="A book to lend from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBook:output", "LibraryBookOffer:output"}},
- *     denormalizationContext={"groups"={"LibraryBookOffer:input"}}
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"LibraryBook:output", "LibraryBookOffer:output"}
+ *     },
+ *     denormalizationContext={
+ *         "groups" = {"LibraryBookOffer:input"}
+ *     }
  * )
  */
 class BookOffer

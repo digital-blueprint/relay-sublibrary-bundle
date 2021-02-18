@@ -10,13 +10,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
  *     collectionOperations={},
- *     itemOperations={"get"},
+ *     itemOperations={
+ *         "get"
+ *     },
  *     iri="http://schema.org/EventStatusType",
  *     shortName="EventStatusType",
  *     description="A event status type",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"EventStatusType:output"}},
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"EventStatusType:output"}
+ *     },
  * )
  */
 class EventStatusType

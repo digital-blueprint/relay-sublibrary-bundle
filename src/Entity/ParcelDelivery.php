@@ -10,13 +10,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
  *     collectionOperations={},
- *     itemOperations={"get"},
+ *     itemOperations={
+ *         "get"
+ *     },
  *     iri="http://schema.org/ParcelDelivery",
  *     shortName="ParcelDelivery",
  *     description="A parcel delivery",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"ParcelDelivery:output", "DeliveryEvent:output", "EventStatusType:output"}},
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"ParcelDelivery:output", "DeliveryEvent:output", "EventStatusType:output"}
+ *     },
  * )
  */
 class ParcelDelivery

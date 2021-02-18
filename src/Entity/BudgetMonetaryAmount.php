@@ -10,16 +10,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
- *     collectionOperations={
- *      "get"={"openapi_context"={"parameters"={
- *                               {"name"="organization", "in"="query", "Search for all budget monetary amounts of an organization", "type"="string", "example"="681-F1490"}}}}
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
  *     },
- *     itemOperations={"get"},
+ *     collectionOperations={
+ *         "get" = {
+ *             "openapi_context" = {
+ *                 "parameters" = {
+ *                     {"name" = "organization", "in" = "query", "Search for all budget monetary amounts of an organization", "type" = "string", "example" = "681-F1490"}
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get"
+ *     },
  *     iri="https://schema.org/MonetaryAmount",
  *     shortName="LibraryBudgetMonetaryAmount",
  *     description="A budget value of an organization in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBudgetMonetaryAmount:output"}},
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"LibraryBudgetMonetaryAmount:output"}
+ *     },
  * )
  */
 class BudgetMonetaryAmount

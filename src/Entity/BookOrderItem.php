@@ -10,14 +10,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
  *     collectionOperations={},
- *     itemOperations={"get"},
+ *     itemOperations={
+ *         "get"
+ *     },
  *     iri="http://schema.org/OrderItem",
  *     routePrefix="/order_items",
  *     shortName="LibraryBookOrderItem",
  *     description="A book order item from the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}},
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}
+ *     },
  * )
  */
 class BookOrderItem

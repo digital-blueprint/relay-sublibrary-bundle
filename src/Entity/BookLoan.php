@@ -12,20 +12,34 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"security"="is_granted('ROLE_LIBRARY_MANAGER')"},
+ *     attributes={
+ *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *     },
  *     collectionOperations={
- *     "get"={"openapi_context"={
- *       "parameters"={
- *         {"name"="name", "in"="query", "description"="Search for all loans of a person", "type"="string", "example"="woody007"},
- *         {"name"="organization", "in"="query", "description"="Search for all loans of an organization", "type"="string", "example"="681-F1490"},
- *     }}}},
- *     itemOperations={"get", "put"},
+ *         "get" = {
+ *             "openapi_context" = {
+ *                 "parameters" = {
+ *                     {"name" = "name", "in" = "query", "description" = "Search for all loans of a person", "type" = "string", "example" = "woody007"},
+ *                     {"name" = "organization", "in" = "query", "description" = "Search for all loans of an organization", "type" = "string", "example" = "681-F1490"},
+ *                 }
+ *             }
+ *         }
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"
+ *     },
  *     iri="http://schema.org/LendAction",
  *     routePrefix="/loans",
  *     shortName="LibraryBookLoan",
  *     description="A book loan in the library",
- *     normalizationContext={"jsonld_embed_context"=true, "groups"={"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}},
- *     denormalizationContext={"groups"={"LibraryBookLoan:input"}}
+ *     normalizationContext={
+ *         "jsonld_embed_context" = true,
+ *         "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *     },
+ *     denormalizationContext={
+ *         "groups" = {"LibraryBookLoan:input"}
+ *     }
  * )
  */
 class BookLoan
