@@ -11,10 +11,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *     attributes={
- *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
  *     },
  *     collectionOperations={
  *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "parameters" = {
  *                     {"name" = "organization", "in" = "query", "Search for all budget monetary amounts of an organization", "type" = "string", "example" = "681-F1490"}
@@ -23,7 +24,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *     },
  *     itemOperations={
- *         "get"
+ *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         }
  *     },
  *     iri="https://schema.org/MonetaryAmount",
  *     shortName="LibraryBudgetMonetaryAmount",

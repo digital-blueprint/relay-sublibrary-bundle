@@ -18,10 +18,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     attributes={
- *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
  *     },
  *     collectionOperations={
  *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "parameters" = {
  *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"}
@@ -30,9 +31,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *     },
  *     itemOperations={
- *         "get",
- *         "put",
+ *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         },
+ *         "put" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         },
  *         "get_location_identifiers" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
  *             "path" = "/library_book_offers/{id}/location_identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
@@ -44,6 +50,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             },
  *         },
  *         "post_loan" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
  *             "path" = "/library_book_offers/{id}/loans",
  *             "controller" = PostBookLoanByBookOffer::class,
@@ -66,6 +73,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             },
  *         },
  *         "post_return" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
  *             "path" = "/library_book_offers/{id}/return",
  *             "controller" = PostReturnByBookOffer::class,
@@ -88,6 +96,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             },
  *         },
  *         "get_loans" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
  *             "path" = "/library_book_offers/{id}/loans",
  *             "controller" = GetBookLoansByBookOffer::class,

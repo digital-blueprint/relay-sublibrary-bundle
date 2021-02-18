@@ -14,13 +14,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     attributes={
- *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
  *     },
  *     collectionOperations={
- *         "get"
+ *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         }
  *     },
  *     itemOperations={
- *         "get"
+ *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         }
  *     },
  *     iri="http://schema.org/Book",
  *     routePrefix="/books",

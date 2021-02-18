@@ -13,10 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(
  *     attributes={
- *         "security" = "is_granted('ROLE_LIBRARY_MANAGER')"
+ *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
  *     },
  *     collectionOperations={
  *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "parameters" = {
  *                     {"name" = "name", "in" = "query", "description" = "Search for all loans of a person", "type" = "string", "example" = "woody007"},
@@ -26,8 +27,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *     },
  *     itemOperations={
- *         "get",
- *         "put"
+ *         "get" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         },
+ *         "put" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *         }
  *     },
  *     iri="http://schema.org/LendAction",
  *     routePrefix="/loans",
