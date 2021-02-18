@@ -8,20 +8,20 @@ use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class GetLibraryBookOrdersByOrganization extends OrganizationController
+class GetLibraryBookOrdersByOrganization extends AlmaController
 {
     /**
      * @throws ItemNotLoadedException
      */
     public function __invoke(Organization $data): ArrayCollection
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->checkPermissions();
 
-        $this->almaApi->checkOrganizationPermissions($data);
-        $this->almaApi->setAnalyticsUpdateDateHeader();
+        $this->api->checkOrganizationPermissions($data);
+        $this->api->setAnalyticsUpdateDateHeader();
 
         $collection = new ArrayCollection();
-        $this->almaApi->addAllBookOrdersByOrganizationToCollection($data, $collection);
+        $this->api->addAllBookOrdersByOrganizationToCollection($data, $collection);
 
         return $collection;
     }

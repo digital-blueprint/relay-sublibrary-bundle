@@ -14,7 +14,7 @@ class GetLocationIdentifiersByBookOffer extends AlmaController
      */
     public function __invoke(BookOffer $data): ArrayCollection
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->checkPermissions();
 
         $locationIdentifiers = $this->api->locationIdentifiersByBookOffer($data);
 

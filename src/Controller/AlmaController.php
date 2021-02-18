@@ -18,7 +18,11 @@ abstract class AlmaController extends AbstractController
     public function __construct(AlmaApi $api)
     {
         $this->api = $api;
-        $api->checkPermissions();
+    }
+
+    protected function checkPermissions()
+    {
+        $this->api->checkPermissions();
     }
 
     /**

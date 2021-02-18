@@ -1012,6 +1012,9 @@ class AlmaApi
 
     public function checkPermissions()
     {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw new AccessDeniedHttpException();
+        }
         if (!$this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
             throw new AccessDeniedHttpException('Only library officers can access the library api!');
         }

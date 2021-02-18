@@ -15,7 +15,7 @@ class GetBookLoansByBookOffer extends AlmaController
      */
     public function __invoke(BookOffer $data): ArrayCollection
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->checkPermissions();
 
         $jsonData = $this->api->getBookLoansJsonDataByBookOffer($data);
         $collection = new ArrayCollection();
