@@ -22,6 +22,8 @@ class PostReturnByBookOffer extends AlmaController
      */
     public function __invoke(BookOffer $data): BookOffer
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $this->api->returnBookOffer($data);
 
         // returnBookOffer doesn't return anything so we just return the book offer we got instead

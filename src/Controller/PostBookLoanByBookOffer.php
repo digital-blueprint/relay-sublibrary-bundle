@@ -27,6 +27,8 @@ class PostBookLoanByBookOffer extends AlmaController
      */
     public function __invoke(BookOffer $data, Request $request = null): BookLoan
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $bodyData = $this->decodeRequest($request);
         $bookLoan = $this->api->createBookLoan($data, $bodyData);
 

@@ -15,6 +15,8 @@ class GetLibraryBookLoansByOrganization extends OrganizationController
      */
     public function __invoke(Organization $data): ArrayCollection
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $this->almaApi->checkOrganizationPermissions($data);
         $this->almaApi->setAnalyticsUpdateDateHeader();
 
