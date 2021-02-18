@@ -18,13 +18,13 @@ class GetBookLoansByBookOffer extends AlmaController
         $this->checkPermissions();
 
         $jsonData = $this->api->getBookLoansJsonDataByBookOffer($data);
-        $collection = new ArrayCollection();
+        $bookLoans = [];
 
         foreach ($jsonData as $item) {
             $bookLoan = $this->api->bookLoanFromJsonItem($item);
-            $collection->add($bookLoan);
+            $bookLoans[] = $bookLoan;
         }
 
-        return $collection;
+        return new ArrayCollection($bookLoans);
     }
 }
