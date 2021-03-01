@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.3",
         "api-platform/core": "^2.5",
-        "dbp/api-core-bundle": "@dev",
+        "dbp/api-core-bundle": "dev-main",
         "doctrine/common": "^3.1",
         "guzzlehttp/guzzle": "^7.0",
         "kevinrob/guzzle-cache-middleware": "^3.3",
