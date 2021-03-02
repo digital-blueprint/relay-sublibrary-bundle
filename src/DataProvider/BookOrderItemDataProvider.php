@@ -44,6 +44,8 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?BookOrder
     {
+        $this->almaApi->checkPermissions();
+
         // we need to urldecode because of the encoded order number part
         $id = urldecode($id);
 
