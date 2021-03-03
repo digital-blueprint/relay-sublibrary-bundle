@@ -16,7 +16,7 @@ class ApiTest extends ApiTestCase
         $collection = $router->getRouteCollection();
         foreach ($collection as $key => $route) {
             $path = $route->getPath();
-            $path = str_replace(".{_format}", "", $path);
+            $path = str_replace('.{_format}', '', $path);
             foreach ($route->getMethods() as $method) {
                 $client = self::createClient();
                 $response = $client->request($method, $path);
