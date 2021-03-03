@@ -16,10 +16,11 @@ class ApiTest extends ApiTestCase
         $collection = $router->getRouteCollection();
         foreach ($collection as $key => $route) {
             $path = $route->getPath();
+            $path = str_replace(".{_format}", "", $path);
             foreach ($route->getMethods() as $method) {
                 $client = self::createClient();
                 $response = $client->request($method, $path);
-                $this->assertEquals(401, $response->getStatusCode(), $path);
+                $this->assertContains($response->getStatusCode(), [401, 404, 403], $path);
             }
         }
     }
