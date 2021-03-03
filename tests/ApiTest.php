@@ -20,7 +20,7 @@ class ApiTest extends ApiTestCase
             foreach ($route->getMethods() as $method) {
                 $client = self::createClient();
                 $response = $client->request($method, $path);
-                $this->assertContains($response->getStatusCode(), [401, 404, 403], $path);
+                $this->assertContains($response->getStatusCode(), [401, 404], $path);
             }
         }
     }

@@ -43,7 +43,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
 class AlmaApi
@@ -1013,10 +1013,10 @@ class AlmaApi
     public function checkPermissions()
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
         if (!$this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
-            throw new AccessDeniedHttpException('Only library officers can access the library api!');
+            throw new AccessDeniedException('Only library officers can access the library api!');
         }
     }
 
@@ -1169,14 +1169,14 @@ class AlmaApi
      *
      * @param BookOffer $bookOffer
      *
-     * @throws AccessDeniedHttpException
+     * @throws AccessDeniedException
      */
     public function checkBookOfferPermissions(BookOffer &$bookOffer)
     {
         $person = $this->personProvider->getCurrentPerson();
         $hasAccess = Tools::hasBookOfferPermissions($this->orgProvider, $person, $bookOffer);
         if (!$hasAccess) {
-            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
 
@@ -1839,19 +1839,19 @@ class AlmaApi
     private function checkReadOnlyMode()
     {
         if ($this->isReadOnlyMode()) {
-            throw new AccessDeniedHttpException(sprintf('The Alma API currently is in read-only mode!'));
+            throw new AccessDeniedException(sprintf('The Alma API currently is in read-only mode!'));
         }
     }
 
     /**
-     * @throws AccessDeniedHttpException
+     * @throws AccessDeniedException
      */
     public function checkOrganizationPermissions(Organization $organization)
     {
         $person = $this->personProvider->getCurrentPerson();
         if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
             $institute = $organization->getAlternateName();
-            throw new AccessDeniedHttpException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
     }
 }
