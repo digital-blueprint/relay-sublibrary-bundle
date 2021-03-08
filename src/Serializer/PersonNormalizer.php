@@ -29,6 +29,8 @@ class PersonNormalizer implements ContextAwareNormalizerInterface, NormalizerAwa
     public function normalize($object, $format = null, array $context = [])
     {
         if ($this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
+            $context['groups'][] = 'Person:extended-access';
+            // TODO: For backwards compat only, remove in the future
             $context['groups'][] = 'Person:birthdate-access';
         }
 
