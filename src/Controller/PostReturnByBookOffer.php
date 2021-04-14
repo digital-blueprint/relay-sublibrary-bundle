@@ -8,25 +8,20 @@ use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 
-/**
- * Class PostReturnByBookOffer.
- *
- * We need to set the annotation `"defaults":{"_api_persist"=false}` in class BookOffer to prevent that the BookOffer
- * will be updated after our controller is done
- */
 class PostReturnByBookOffer extends AlmaController
 {
     /**
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      */
-    public function __invoke(BookOffer $data): BookOffer
+    public function __invoke(string $id): BookOffer
     {
         $this->checkPermissions();
 
-        $this->api->returnBookOffer($data);
+        $bookOffer = $this->api->getBookOffer($id);
+        $this->api->returnBookOffer($bookOffer);
 
         // returnBookOffer doesn't return anything so we just return the book offer we got instead
-        return $data;
+        return $bookOffer;
     }
 }

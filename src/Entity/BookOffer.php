@@ -52,9 +52,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method" = "POST",
  *             "path" = "/library_book_offers/{id}/return",
  *             "controller" = PostReturnByBookOffer::class,
- *             "defaults" = {
- *                 "_api_persist" = false
- *             },
+ *             "read" = false,
+ *             "write" = false,
  *             "openapi_context" = {
  *                 "summary" = "Return a book offer.",
  *                 "requestBody" = {
