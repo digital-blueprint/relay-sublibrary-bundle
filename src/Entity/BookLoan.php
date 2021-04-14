@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
 use DBP\API\AlmaBundle\Controller\GetBookLoansByBookOffer;
+use DBP\API\AlmaBundle\Controller\PostBookLoanByBookOffer;
 use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -44,7 +45,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
  *                 }
  *             },
- *         }
+ *         },
+ *         "post_loan_by_book_offer" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "method" = "POST",
+ *             "path" = "/offers/library_book_offers/{id}/loans",
+ *             "controller" = PostBookLoanByBookOffer::class,
+ *             "read" = false,
+ *             "write" = false,
+ *             "openapi_context" = {
+ *                 "summary" = "Post a loan for a book offer.",
+ *                 "requestBody" = {
+ *                     "content" = {
+ *                         "application/json" = {
+ *                             "schema" = {"type" = "object"},
+ *                             "example" = {"borrower" = "/people/woody007", "library" = "F1490"}
+ *                         }
+ *                     }
+ *                 },
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
+ *                 }
+ *             },
+ *         },
  *     },
  *     itemOperations={
  *         "get" = {
@@ -54,7 +77,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/loans/library_book_loans/{id}",
- *         }
+ *         },
  *     },
  *     iri="http://schema.org/LendAction",
  *     shortName="LibraryBookLoan",

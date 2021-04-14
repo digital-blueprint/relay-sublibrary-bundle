@@ -6,18 +6,11 @@ namespace DBP\API\AlmaBundle\Controller;
 
 use DateTime;
 use DBP\API\AlmaBundle\Entity\BookLoan;
-use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Class PostBookLoanByBookOffer.
- *
- * We need to set the annotation `"defaults":{"_api_persist"=false}` in class BookOffer to prevent that the BookOffer
- * will be updated after our controller is done
- */
 class PostBookLoanByBookOffer extends AlmaController
 {
     /**
@@ -25,12 +18,13 @@ class PostBookLoanByBookOffer extends AlmaController
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
      */
-    public function __invoke(BookOffer $data, Request $request = null): BookLoan
+    public function __invoke(string $id, Request $request): BookLoan
     {
         $this->checkPermissions();
 
+        $bookOffer = $this->api->getBookOffer($id);
         $bodyData = $this->decodeRequest($request);
-        $bookLoan = $this->api->createBookLoan($data, $bodyData);
+        $bookLoan = $this->api->createBookLoan($bookOffer, $bodyData);
 
         // the Alma API doesn't support setting the end time when creating a book loan,
         // so we need to update it afterwards
