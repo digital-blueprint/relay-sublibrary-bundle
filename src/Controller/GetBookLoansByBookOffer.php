@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class GetBookLoansByBookOffer extends AlmaController
 {
     /**
      * @throws ItemNotLoadedException
      */
-    public function __invoke(BookOffer $data): ArrayCollection
+    public function __invoke(string $id): array
     {
         $this->checkPermissions();
 
-        $jsonData = $this->api->getBookLoansJsonDataByBookOffer($data);
+        $bookOffer = $this->api->getBookOffer($id);
+        $jsonData = $this->api->getBookLoansJsonDataByBookOffer($bookOffer);
         $bookLoans = [];
 
         foreach ($jsonData as $item) {
@@ -25,6 +24,6 @@ class GetBookLoansByBookOffer extends AlmaController
             $bookLoans[] = $bookLoan;
         }
 
-        return new ArrayCollection($bookLoans);
+        return $bookLoans;
     }
 }

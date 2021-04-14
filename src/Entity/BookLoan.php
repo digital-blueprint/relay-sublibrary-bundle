@@ -7,6 +7,7 @@ namespace DBP\API\AlmaBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use DBP\API\AlmaBundle\Controller\GetBookLoansByBookOffer;
 use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -18,24 +19,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/loans/library_book_loans",
  *             "openapi_context" = {
  *                 "parameters" = {
  *                     {"name" = "name", "in" = "query", "description" = "Search for all loans of a person", "type" = "string", "example" = "woody007"},
  *                     {"name" = "organization", "in" = "query", "description" = "Search for all loans of an organization", "type" = "string", "example" = "681-F1490"},
  *                 }
  *             }
+ *         },
+ *         "get_loans_by_book_offer" = {
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "method" = "GET",
+ *             "path" = "/offers/library_book_offers/{id}/loans",
+ *             "controller" = GetBookLoansByBookOffer::class,
+ *             "read" = false,
+ *             "pagination_enabled" = false,
+ *             "normalization_context" = {
+ *                 "jsonld_embed_context" = true,
+ *                 "groups" = {"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Get the loans on a book offer.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
+ *                 }
+ *             },
  *         }
  *     },
  *     itemOperations={
  *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/loans/library_book_loans/{id}",
  *         },
  *         "put" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/loans/library_book_loans/{id}",
  *         }
  *     },
  *     iri="http://schema.org/LendAction",
- *     routePrefix="/loans",
  *     shortName="LibraryBookLoan",
  *     description="A book loan in the library",
  *     normalizationContext={

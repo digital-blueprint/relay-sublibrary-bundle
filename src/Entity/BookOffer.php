@@ -7,7 +7,6 @@ namespace DBP\API\AlmaBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use DBP\API\AlmaBundle\Controller\GetBookLoansByBookOffer;
 use DBP\API\AlmaBundle\Controller\GetLocationIdentifiersByBookOffer;
 use DBP\API\AlmaBundle\Controller\PostBookLoanByBookOffer;
 use DBP\API\AlmaBundle\Controller\PostReturnByBookOffer;
@@ -95,22 +94,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 }
  *             },
  *         },
- *         "get_loans" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "method" = "GET",
- *             "path" = "/library_book_offers/{id}/loans",
- *             "controller" = GetBookLoansByBookOffer::class,
- *             "normalization_context" = {
- *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}
- *             },
- *             "openapi_context" = {
- *                 "summary" = "Get the loans on a book offer.",
- *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
- *                 }
- *             },
- *         }
  *     },
  *     iri="http://schema.org/Offer",
  *     routePrefix="/offers",
