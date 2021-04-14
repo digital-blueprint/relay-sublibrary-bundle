@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use DBP\API\CoreBundle\Entity\Person;
 use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Exception\ItemNotUsableException;
@@ -17,11 +16,12 @@ class GetLibraryBookLoansByPerson extends AlmaController
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
      */
-    public function __invoke(Person $data): ArrayCollection
+    public function __invoke(string $id): ArrayCollection
     {
         $this->checkPermissions();
 
-        $jsonData = $this->api->getBookLoansJsonDataByPerson($data);
+        $person = $this->personProvider->getPerson($id);
+        $jsonData = $this->api->getBookLoansJsonDataByPerson($person);
 
         $bookLoans = [];
         foreach ($jsonData as $item) {

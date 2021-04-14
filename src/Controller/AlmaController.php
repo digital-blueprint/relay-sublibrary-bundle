@@ -8,16 +8,22 @@ use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools;
+use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
+use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AlmaController extends AbstractController
 {
     protected $api;
+    protected $personProvider;
+    protected $orgProvider;
 
-    public function __construct(AlmaApi $api)
+    public function __construct(AlmaApi $api, PersonProviderInterface $personProvider, OrganizationProviderInterface $orgProvider)
     {
         $this->api = $api;
+        $this->personProvider = $personProvider;
+        $this->orgProvider = $orgProvider;
     }
 
     protected function checkPermissions()

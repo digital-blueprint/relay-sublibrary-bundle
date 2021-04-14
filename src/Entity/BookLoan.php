@@ -8,6 +8,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
 use DBP\API\AlmaBundle\Controller\GetBookLoansByBookOffer;
+use DBP\API\AlmaBundle\Controller\GetLibraryBookLoansByOrganization;
+use DBP\API\AlmaBundle\Controller\GetLibraryBookLoansByPerson;
 use DBP\API\AlmaBundle\Controller\PostBookLoanByBookOffer;
 use DBP\API\CoreBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -28,6 +30,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 }
  *             }
  *         },
+ *         "get_loans_by_organization" = {
+ *             "method" = "GET",
+ *             "path" = "/organizations/{id}/library-book-loans",
+ *             "controller" = GetLibraryBookLoansByOrganization::class,
+ *             "read" = false,
+ *             "pagination_enabled" = false,
+ *             "normalization_context" = {
+ *                 "jsonld_embed_context" = true,
+ *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Get the library book loans of an organization.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                 }
+ *             },
+ *         },
  *         "get_loans_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
@@ -43,6 +62,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "summary" = "Get the loans on a book offer.",
  *                 "parameters" = {
  *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
+ *                 }
+ *             },
+ *         },
+ *         "get_loans_by_person" = {
+ *             "method" = "GET",
+ *             "path" = "/people/{id}/library-book-loans",
+ *             "controller" = GetLibraryBookLoansByPerson::class,
+ *             "read" = false,
+ *             "pagination_enabled" = false,
+ *             "normalization_context" = {
+ *                 "jsonld_embed_context" = true,
+ *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *             },
+ *             "openapi_context" = {
+ *                 "summary" = "Get the library book loans of a person.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of person", "required" = true, "type" = "string", "example" = "vlts01"}
  *                 }
  *             },
  *         },

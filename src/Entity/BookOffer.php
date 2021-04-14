@@ -7,6 +7,7 @@ namespace DBP\API\AlmaBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use DBP\API\AlmaBundle\Controller\GetLibraryBookOffersByOrganization;
 use DBP\API\AlmaBundle\Controller\GetLocationIdentifiersByBookOffer;
 use DBP\API\AlmaBundle\Controller\PostReturnByBookOffer;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -21,24 +22,43 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/offers/library_book_offers",
  *             "openapi_context" = {
  *                 "parameters" = {
  *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"}
  *                 }
  *             }
- *         }
+ *         },
+ *         "get_library_book_offers" = {
+ *             "method" = "GET",
+ *             "path" = "/organizations/{id}/library-book-offers",
+ *             "controller" = GetLibraryBookOffersByOrganization::class,
+ *             "read" = false,
+ *             "pagination_enabled" = false,
+ *             "normalization_context" = {
+ *                 "jsonld_embed_context" = true,
+ *                 "groups" = {"LibraryBook:output", "LibraryBookOffer:output"}
+ *             },
+ *             "openapi_context" = {"summary" = "Get the library book offers of an organization.",
+ *                 "parameters" = {
+ *                     {"name" = "id", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                 }
+ *             },
+ *         },
  *     },
  *     itemOperations={
  *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/offers/library_book_offers/{id}",
  *         },
  *         "put" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "path" = "/offers/library_book_offers/{id}",
  *         },
  *         "get_location_identifiers" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/library_book_offers/{id}/location_identifiers",
+ *             "path" = "/offers/library_book_offers/{id}/location_identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
  *             "openapi_context" = {
  *                 "summary" = "Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
@@ -50,7 +70,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post_return" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/library_book_offers/{id}/return",
+ *             "path" = "/offers/library_book_offers/{id}/return",
  *             "controller" = PostReturnByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -71,7 +91,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     },
  *     iri="http://schema.org/Offer",
- *     routePrefix="/offers",
  *     shortName="LibraryBookOffer",
  *     description="A book to lend from the library",
  *     normalizationContext={
