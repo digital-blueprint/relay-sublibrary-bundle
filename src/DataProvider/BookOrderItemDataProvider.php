@@ -44,11 +44,8 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
     {
         $this->almaApi->checkPermissions();
 
-        // we need to urldecode because of the encoded order number part
-        $id = urldecode($id);
-
         $matches = [];
-        if (!preg_match('/^kbo-(\w+-F\w+)-(.+)$/i', $id, $matches)) {
+        if (!preg_match('/^o-(\w+-F\w+)-(.+)$/i', $id, $matches)) {
             throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
         }
 

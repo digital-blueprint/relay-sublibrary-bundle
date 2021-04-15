@@ -1651,7 +1651,7 @@ class AlmaApi
             $identifierData = explode('-', $poNumber);
 
             // "o" stands for Organization
-            $identifier = 'o-'.$organization->getIdentifier().'-'.$identifierData[0];
+            $identifier = 'o-'.$organization->getIdentifier().'-'.urlencode($identifierData[0]);
             $bookOrder->setIdentifier($identifier);
 
             $bookOrder->setOrderStatus($values['PO Line::Status (Active)']);
