@@ -24,8 +24,6 @@ final class BookLoanItemDataProvider implements ItemDataProviderInterface, Restr
     }
 
     /**
-     * @param array|int|string $id
-     *
      * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
      * @throws \DBP\API\CoreBundle\Exception\ItemNotStoredException
      */

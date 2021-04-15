@@ -37,8 +37,6 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
     /**
      * Fetches a book order from the list of book orders on an organization (there is no valid other api to do this).
      *
-     * @param array|int|string $id
-     *
      * @throws ItemNotLoadedException
      * @throws ItemNotFoundException
      */

@@ -28,11 +28,11 @@ class DbpAlmaExtension extends ConfigurableExtension implements PrependExtension
 
         $this->extendArrayParameter(
             $container, 'dbp_api.paths_to_hide', [
-            '/delivery_statuses/{id}',
-            '/parcel_deliveries/{id}',
-            '/order_items/library_book_order_items/{id}',
-            '/event_status_types/{id}',
-            '/library_budget_monetary_amounts/{id}',
+            '/delivery_statuses/{identifier}',
+            '/parcel_deliveries/{identifier}',
+            '/order_items/library_book_order_items/{identifier}',
+            '/event_status_types/{identifier}',
+            '/library_budget_monetary_amounts/{identifier}',
         ]);
 
         $def = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);

@@ -19,4 +19,9 @@ class DummyOrgProvider implements OrganizationProviderInterface
     {
         return [];
     }
+
+    public function getOrganizations(string $lang): array
+    {
+        return [];
+    }
 }

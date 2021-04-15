@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_book_orders_by_organization" = {
  *             "method" = "GET",
- *             "path" = "/organizations/{id}/library-book-orders",
+ *             "path" = "/organizations/{identifier}/library-book-orders",
  *             "controller" = GetLibraryBookOrdersByOrganization::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "openapi_context" = {
  *                 "summary" = "Get the library book orders of an organization.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
  *                 }
  *             },
  *         },
@@ -40,7 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/orders/library_book_orders/{id}",
+ *             "path" = "/orders/library_book_orders/{identifier}",
  *         }
  *     },
  *     iri="http://schema.org/Order",

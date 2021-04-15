@@ -14,11 +14,11 @@ class PostReturnByBookOffer extends AlmaController
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      */
-    public function __invoke(string $id): BookOffer
+    public function __invoke(string $identifier): BookOffer
     {
         $this->checkPermissions();
 
-        $bookOffer = $this->api->getBookOffer($id);
+        $bookOffer = $this->api->getBookOffer($identifier);
         $this->api->returnBookOffer($bookOffer);
 
         // returnBookOffer doesn't return anything so we just return the book offer we got instead

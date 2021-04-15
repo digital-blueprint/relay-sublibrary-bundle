@@ -11,11 +11,11 @@ class GetBookLoansByBookOffer extends AlmaController
     /**
      * @throws ItemNotLoadedException
      */
-    public function __invoke(string $id): array
+    public function __invoke(string $identifier): array
     {
         $this->checkPermissions();
 
-        $bookOffer = $this->api->getBookOffer($id);
+        $bookOffer = $this->api->getBookOffer($identifier);
         $jsonData = $this->api->getBookLoansJsonDataByBookOffer($bookOffer);
         $bookLoans = [];
 

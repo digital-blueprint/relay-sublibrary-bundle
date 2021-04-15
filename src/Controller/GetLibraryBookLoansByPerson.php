@@ -16,11 +16,11 @@ class GetLibraryBookLoansByPerson extends AlmaController
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
      */
-    public function __invoke(string $id): ArrayCollection
+    public function __invoke(string $identifier): ArrayCollection
     {
         $this->checkPermissions();
 
-        $person = $this->personProvider->getPerson($id);
+        $person = $this->personProvider->getPerson($identifier);
         $jsonData = $this->api->getBookLoansJsonDataByPerson($person);
 
         $bookLoans = [];

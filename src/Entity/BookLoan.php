@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_loans_by_organization" = {
  *             "method" = "GET",
- *             "path" = "/organizations/{id}/library-book-loans",
+ *             "path" = "/organizations/{identifier}/library-book-loans",
  *             "controller" = GetLibraryBookLoansByOrganization::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -43,14 +43,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "openapi_context" = {
  *                 "summary" = "Get the library book loans of an organization.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
  *                 }
  *             },
  *         },
  *         "get_loans_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/offers/library_book_offers/{id}/loans",
+ *             "path" = "/offers/library_book_offers/{identifier}/loans",
  *             "controller" = GetBookLoansByBookOffer::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -61,13 +61,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "openapi_context" = {
  *                 "summary" = "Get the loans on a book offer.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
  *                 }
  *             },
  *         },
  *         "get_loans_by_person" = {
  *             "method" = "GET",
- *             "path" = "/people/{id}/library-book-loans",
+ *             "path" = "/people/{identifier}/library-book-loans",
  *             "controller" = GetLibraryBookLoansByPerson::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -78,14 +78,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "openapi_context" = {
  *                 "summary" = "Get the library book loans of a person.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of person", "required" = true, "type" = "string", "example" = "vlts01"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of person", "required" = true, "type" = "string", "example" = "vlts01"}
  *                 }
  *             },
  *         },
  *         "post_loan_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/offers/library_book_offers/{id}/loans",
+ *             "path" = "/offers/library_book_offers/{identifier}/loans",
  *             "controller" = PostBookLoanByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -100,7 +100,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                     }
  *                 },
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
  *                 }
  *             },
  *         },
@@ -108,11 +108,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/loans/library_book_loans/{id}",
+ *             "path" = "/loans/library_book_loans/{identifier}",
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/loans/library_book_loans/{id}",
+ *             "path" = "/loans/library_book_loans/{identifier}",
  *         },
  *     },
  *     iri="http://schema.org/LendAction",

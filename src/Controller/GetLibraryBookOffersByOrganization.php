@@ -12,11 +12,11 @@ class GetLibraryBookOffersByOrganization extends AlmaController
     /**
      * @throws ItemNotLoadedException
      */
-    public function __invoke(string $id): ArrayCollection
+    public function __invoke(string $identifier): ArrayCollection
     {
         $this->checkPermissions();
 
-        $org = $this->orgProvider->getOrganizationById($id, 'en');
+        $org = $this->orgProvider->getOrganizationById($identifier, 'en');
         $this->api->checkOrganizationPermissions($org);
         $this->api->setAnalyticsUpdateDateHeader();
 

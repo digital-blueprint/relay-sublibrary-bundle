@@ -18,11 +18,11 @@ class PostBookLoanByBookOffer extends AlmaController
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
      */
-    public function __invoke(string $id, Request $request): BookLoan
+    public function __invoke(string $identifier, Request $request): BookLoan
     {
         $this->checkPermissions();
 
-        $bookOffer = $this->api->getBookOffer($id);
+        $bookOffer = $this->api->getBookOffer($identifier);
         $bodyData = $this->decodeRequest($request);
         $bookLoan = $this->api->createBookLoan($bookOffer, $bodyData);
 

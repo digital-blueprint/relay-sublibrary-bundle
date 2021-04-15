@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_library_book_offers" = {
  *             "method" = "GET",
- *             "path" = "/organizations/{id}/library-book-offers",
+ *             "path" = "/organizations/{identifier}/library-book-offers",
  *             "controller" = GetLibraryBookOffersByOrganization::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             },
  *             "openapi_context" = {"summary" = "Get the library book offers of an organization.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
  *                 }
  *             },
  *         },
@@ -49,28 +49,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/offers/library_book_offers/{id}",
+ *             "path" = "/offers/library_book_offers/{identifier}",
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/offers/library_book_offers/{id}",
+ *             "path" = "/offers/library_book_offers/{identifier}",
  *         },
  *         "get_location_identifiers" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/offers/library_book_offers/{id}/location_identifiers",
+ *             "path" = "/offers/library_book_offers/{identifier}/location_identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
  *             "openapi_context" = {
  *                 "summary" = "Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string"}
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string"}
  *                 }
  *             },
  *         },
  *         "post_return" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/offers/library_book_offers/{id}/return",
+ *             "path" = "/offers/library_book_offers/{identifier}/return",
  *             "controller" = PostReturnByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -85,7 +85,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                     }
  *                 },
  *                 "parameters" = {
- *                     {"name" = "id", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
+ *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"},
  *                 }
  *             },
  *         },
