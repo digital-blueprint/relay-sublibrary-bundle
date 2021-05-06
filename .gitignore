@@ -1,6 +1,6 @@
 /vendor
 /var
 /.php_cs
-/.php_cs.cache
+/*.cache
 /.phpunit.result.cache
 /.idea
