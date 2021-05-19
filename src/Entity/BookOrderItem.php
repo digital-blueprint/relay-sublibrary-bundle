@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
+ *             "path" = "/order_items/library_book_order_items/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Alma"},
@@ -23,7 +24,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *     },
  *     iri="http://schema.org/OrderItem",
- *     routePrefix="/order_items",
  *     shortName="LibraryBookOrderItem",
  *     description="A book order item from the library",
  *     normalizationContext={

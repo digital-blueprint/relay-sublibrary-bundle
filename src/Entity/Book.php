@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "get" = {
+ *             "path" = "/books/library_books",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Alma"},
@@ -26,6 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     itemOperations={
  *         "get" = {
+ *             "path" = "/books/library_books/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Alma"},
@@ -33,7 +35,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         }
  *     },
  *     iri="http://schema.org/Book",
- *     routePrefix="/books",
  *     shortName="LibraryBook",
  *     description="A book from the library",
  *     normalizationContext={
