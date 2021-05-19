@@ -16,7 +16,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         }
  *     },
  *     iri="http://schema.org/ParcelDelivery",

@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/loans/library_book_loans",
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "parameters" = {
  *                     {"name" = "name", "in" = "query", "description" = "Search for all loans of a person", "type" = "string", "example" = "woody007"},
  *                     {"name" = "organization", "in" = "query", "description" = "Search for all loans of an organization", "type" = "string", "example" = "681-F1490"},
@@ -41,6 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *             },
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "summary" = "Get the library book loans of an organization.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
@@ -59,6 +61,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "groups" = {"LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *             },
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "summary" = "Get the loans on a book offer.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string", "example" = "991293320000541-2280429390003340-2380429400003340"}
@@ -76,6 +79,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *             },
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "summary" = "Get the library book loans of a person.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of person", "required" = true, "type" = "string", "example" = "vlts01"}
@@ -90,6 +94,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "read" = false,
  *             "write" = false,
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "summary" = "Post a loan for a book offer.",
  *                 "requestBody" = {
  *                     "content" = {
@@ -109,10 +114,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/loans/library_book_loans/{identifier}",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/loans/library_book_loans/{identifier}",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         },
  *     },
  *     iri="http://schema.org/LendAction",

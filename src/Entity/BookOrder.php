@@ -19,6 +19,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/orders/library_book_orders",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         },
  *         "get_book_orders_by_organization" = {
  *             "method" = "GET",
@@ -30,6 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "groups" = {"LibraryBookOrder:output", "LibraryBookOrderItem:output", "ParcelDelivery:output", "DeliveryStatus:output", "DeliveryEvent:output", "LibraryBook:output", "EventStatusType:output"}
  *             },
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "summary" = "Get the library book orders of an organization.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
@@ -41,6 +45,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/orders/library_book_orders/{identifier}",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         }
  *     },
  *     iri="http://schema.org/Order",

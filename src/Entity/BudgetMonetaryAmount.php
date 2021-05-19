@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
  *                 "parameters" = {
  *                     {"name" = "organization", "in" = "query", "Search for all budget monetary amounts of an organization", "type" = "string", "example" = "681-F1490"}
  *                 }
@@ -25,7 +26,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     itemOperations={
  *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+ *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
+ *             "openapi_context" = {
+ *                 "tags" = {"Alma"},
+ *             },
  *         }
  *     },
  *     iri="https://schema.org/MonetaryAmount",
