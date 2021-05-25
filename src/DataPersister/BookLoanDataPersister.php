@@ -30,15 +30,16 @@ final class BookLoanDataPersister implements DataPersisterInterface
      * We haven't manage to get "object" and "borrower" in a POST request, they always were set to "null"
      * So we are using a "PostBookLoanByBookOffer" controller for creating loans
      *
-     * @param BookLoan $bookLoan
+     * @param BookLoan $data
      *
      * @return BookLoan
      *
      * @throws ItemNotStoredException
      * @throws ItemNotLoadedException
      */
-    public function persist($bookLoan)
+    public function persist($data)
     {
+        $bookLoan = $data;
         $api = $this->api;
         $api->checkPermissions();
         $api->updateBookLoan($bookLoan);
@@ -47,9 +48,9 @@ final class BookLoanDataPersister implements DataPersisterInterface
     }
 
     /**
-     * @param BookLoan $bookLoan
+     * @param BookLoan $data
      */
-    public function remove($bookLoan)
+    public function remove($data)
     {
     }
 }
