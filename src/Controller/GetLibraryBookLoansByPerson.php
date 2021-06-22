@@ -4,18 +4,10 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
-use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLibraryBookLoansByPerson extends AlmaController
 {
-    /**
-     * @throws ItemNotStoredException
-     * @throws ItemNotLoadedException
-     * @throws ItemNotUsableException
-     */
     public function __invoke(string $identifier): ArrayCollection
     {
         $this->checkPermissions();

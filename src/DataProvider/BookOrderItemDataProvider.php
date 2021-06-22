@@ -6,10 +6,9 @@ namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BookOrder;
+use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,7 +36,6 @@ final class BookOrderItemDataProvider implements ItemDataProviderInterface, Rest
     /**
      * Fetches a book order from the list of book orders on an organization (there is no valid other api to do this).
      *
-     * @throws ItemNotLoadedException
      * @throws ItemNotFoundException
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?BookOrder

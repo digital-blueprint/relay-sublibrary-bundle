@@ -7,8 +7,6 @@ namespace DBP\API\AlmaBundle\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 
 final class BookLoanDataPersister implements DataPersisterInterface
 {
@@ -33,9 +31,6 @@ final class BookLoanDataPersister implements DataPersisterInterface
      * @param BookLoan $data
      *
      * @return BookLoan
-     *
-     * @throws ItemNotStoredException
-     * @throws ItemNotLoadedException
      */
     public function persist($data)
     {

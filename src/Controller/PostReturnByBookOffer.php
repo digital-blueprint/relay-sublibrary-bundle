@@ -5,15 +5,9 @@ declare(strict_types=1);
 namespace DBP\API\AlmaBundle\Controller;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 
 class PostReturnByBookOffer extends AlmaController
 {
-    /**
-     * @throws ItemNotStoredException
-     * @throws ItemNotLoadedException
-     */
     public function __invoke(string $identifier): BookOffer
     {
         $this->checkPermissions();

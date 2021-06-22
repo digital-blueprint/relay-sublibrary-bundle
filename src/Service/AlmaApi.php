@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Service;
 
-use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DateTime;
 use DBP\API\AlmaBundle\Entity\Book;
 use DBP\API\AlmaBundle\Entity\BookLoan;
@@ -18,12 +17,13 @@ use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
 use DBP\API\AlmaBundle\Entity\DeliveryEvent;
 use DBP\API\AlmaBundle\Entity\EventStatusType;
 use DBP\API\AlmaBundle\Entity\ParcelDelivery;
+use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
+use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
+use DBP\API\AlmaBundle\Helpers\ItemNotStoredException;
+use DBP\API\AlmaBundle\Helpers\ItemNotUsableException;
 use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\CoreBundle\Entity\Organization;
 use DBP\API\CoreBundle\Entity\Person;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
-use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use DBP\API\CoreBundle\Helpers\GuzzleTools;
 use DBP\API\CoreBundle\Helpers\JsonException;
 use DBP\API\CoreBundle\Helpers\Tools as CoreTools;

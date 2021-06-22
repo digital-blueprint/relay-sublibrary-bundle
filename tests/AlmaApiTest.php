@@ -6,9 +6,9 @@ namespace DBP\API\AlmaBundle\Tests;
 
 use DBP\API\AlmaBundle\Entity\Book;
 use DBP\API\AlmaBundle\Entity\BookOffer;
+use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Entity\Person;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\Tools;
 use DBP\API\CoreBundle\TestUtils\DummyPersonProvider;
 use GuzzleHttp\Exception\RequestException;

@@ -9,7 +9,6 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\CoreBundle\Exception\ApiError;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,9 +28,6 @@ final class BookLoanCollectionDataProvider implements CollectionDataProviderInte
         return BookLoan::class === $resourceClass;
     }
 
-    /**
-     * @throws ItemNotLoadedException
-     */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
     {
         $api = $this->api;

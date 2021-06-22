@@ -6,10 +6,9 @@ namespace DBP\API\AlmaBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\Exception\ItemNotFoundException;
 use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
+use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
 use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
 use DBP\API\CoreBundle\Service\PersonProviderInterface;
@@ -41,7 +40,6 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
     }
 
     /**
-     * @throws ItemNotLoadedException
      * @throws UriException
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator

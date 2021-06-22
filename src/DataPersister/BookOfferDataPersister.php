@@ -7,8 +7,6 @@ namespace DBP\API\AlmaBundle\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class BookOfferDataPersister implements DataPersisterInterface
@@ -34,9 +32,6 @@ final class BookOfferDataPersister implements DataPersisterInterface
      * @param BookOffer $data
      *
      * @return BookOffer
-     *
-     * @throws ItemNotStoredException
-     * @throws ItemNotLoadedException
      */
     public function persist($data)
     {

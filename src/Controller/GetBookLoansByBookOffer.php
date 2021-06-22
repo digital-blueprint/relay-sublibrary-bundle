@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Controller;
 
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-
 class GetBookLoansByBookOffer extends AlmaController
 {
-    /**
-     * @throws ItemNotLoadedException
-     */
     public function __invoke(string $identifier): array
     {
         $this->checkPermissions();

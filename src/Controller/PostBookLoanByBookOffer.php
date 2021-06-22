@@ -6,18 +6,10 @@ namespace DBP\API\AlmaBundle\Controller;
 
 use DateTime;
 use DBP\API\AlmaBundle\Entity\BookLoan;
-use DBP\API\CoreBundle\Exception\ItemNotLoadedException;
-use DBP\API\CoreBundle\Exception\ItemNotStoredException;
-use DBP\API\CoreBundle\Exception\ItemNotUsableException;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostBookLoanByBookOffer extends AlmaController
 {
-    /**
-     * @throws ItemNotStoredException
-     * @throws ItemNotLoadedException
-     * @throws ItemNotUsableException
-     */
     public function __invoke(string $identifier, Request $request): BookLoan
     {
         $this->checkPermissions();
