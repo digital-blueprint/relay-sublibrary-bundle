@@ -40,14 +40,17 @@ use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use SimpleXMLElement;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
-class AlmaApi
+class AlmaApi implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var PersonProviderInterface
      */
@@ -69,7 +72,6 @@ class AlmaApi
     private $apiUrl;
     private $readonly;
     private $urls;
-    private $logger;
     private $container;
     private $analyticsUpdatesHash = '';
 
@@ -81,13 +83,12 @@ class AlmaApi
 
     public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
                                 OrganizationProviderInterface $orgProvider,
-                                Security $security, LoggerInterface $logger)
+                                Security $security)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
         $this->clientHandler = null;
         $this->urls = new AlmaUrlApi();
-        $this->logger = $logger;
         $this->container = $container;
         $this->orgProvider = $orgProvider;
 
@@ -146,7 +147,9 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->apiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        if ($this->logger !== null) {
+            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        }
 
         $client = new Client($client_options);
 
@@ -167,7 +170,9 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        if ($this->logger !== null) {
+            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        }
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
@@ -208,7 +213,9 @@ class AlmaApi
             'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
         ];
 
-        $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        if ($this->logger !== null) {
+            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+        }
 
         $guzzleCachePool = $this->getCachePool();
         $cacheMiddleWare = new CacheMiddleware(
@@ -1828,7 +1835,9 @@ class AlmaApi
     private function log(string $message, array $context = [])
     {
         $context['service'] = 'Alma';
-        $this->logger->notice('[{service}] '.$message, $context);
+        if ($this->logger !== null) {
+            $this->logger->notice('[{service}] '.$message, $context);
+        }
     }
 
     private function isReadOnlyMode(): bool

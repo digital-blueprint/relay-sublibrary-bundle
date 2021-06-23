@@ -17,8 +17,6 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Monolog\Handler\NullHandler;
-use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Security;
 
@@ -34,7 +32,6 @@ class AlmaApiTest extends WebTestCase
     protected function setUp(): void
     {
         $client = static::createClient();
-        $nullLogger = new Logger('dummy', [new NullHandler()]);
 
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
@@ -44,8 +41,7 @@ class AlmaApiTest extends WebTestCase
             $client->getContainer(),
             $personProvider,
             $orgProvider,
-            new Security($client->getContainer()),
-            $nullLogger
+            new Security($client->getContainer())
         );
         $this->api->setApiKey('secret');
         $this->api->setAnalyticsApiKey('secret');
