@@ -43,7 +43,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use SimpleXMLElement;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
@@ -72,8 +71,9 @@ class AlmaApi implements LoggerAwareInterface
     private $apiUrl;
     private $readonly;
     private $urls;
-    private $container;
     private $analyticsUpdatesHash = '';
+
+    private $cachePool;
 
     // 30h caching for Analytics, they will expire when there is a new Analytics Update
     private const ANALYTICS_CACHE_TTL = 108000;
@@ -81,7 +81,7 @@ class AlmaApi implements LoggerAwareInterface
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    public function __construct(ContainerInterface $container, PersonProviderInterface $personProvider,
+    public function __construct(PersonProviderInterface $personProvider,
                                 OrganizationProviderInterface $orgProvider,
                                 Security $security)
     {
@@ -89,14 +89,25 @@ class AlmaApi implements LoggerAwareInterface
         $this->personProvider = $personProvider;
         $this->clientHandler = null;
         $this->urls = new AlmaUrlApi();
-        $this->container = $container;
         $this->orgProvider = $orgProvider;
 
-        $config = $container->getParameter('dbp_api.alma.config');
+        $this->apiKey = '';
+        $this->analyticsApiKey = '';
+        $this->apiUrl = '';
+        $this->readonly = false;
+    }
+
+    public function setConfig(array $config)
+    {
         $this->apiKey = $config['api_key'] ?? '';
         $this->analyticsApiKey = $config['analytics_api_key'] ?? $this->apiKey;
         $this->apiUrl = $config['api_url'] ?? '';
         $this->readonly = $config['readonly'];
+    }
+
+    public function setCache(?CacheItemPoolInterface $cachePool)
+    {
+        $this->cachePool = $cachePool;
     }
 
     /**
@@ -174,29 +185,22 @@ class AlmaApi implements LoggerAwareInterface
             $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
         }
 
-        $guzzleCachePool = $this->getCachePool();
-        $cacheMiddleWare = new CacheMiddleware(
-            new GreedyCacheStrategy(
-                new Psr6CacheStorage($guzzleCachePool),
-                self::ANALYTICS_CACHE_TTL,
-                new KeyValueHttpHeader(['Authorization', 'X-Request-Counter', 'X-Analytics-Updates-Hash'])
-            )
-        );
+        if ($this->cachePool !== null) {
+            $cacheMiddleWare = new CacheMiddleware(
+                new GreedyCacheStrategy(
+                    new Psr6CacheStorage($this->cachePool),
+                    self::ANALYTICS_CACHE_TTL,
+                    new KeyValueHttpHeader(['Authorization', 'X-Request-Counter', 'X-Analytics-Updates-Hash'])
+                )
+            );
 
-        $cacheMiddleWare->setHttpMethods(['GET' => true, 'HEAD' => true]);
-        $stack->push($cacheMiddleWare);
+            $cacheMiddleWare->setHttpMethods(['GET' => true, 'HEAD' => true]);
+            $stack->push($cacheMiddleWare);
+        }
 
         $client = new Client($client_options);
 
         return $client;
-    }
-
-    private function getCachePool(): CacheItemPoolInterface
-    {
-        $guzzleCachePool = $this->container->get('dbp_api.cache.alma.analytics');
-        assert($guzzleCachePool instanceof CacheItemPoolInterface);
-
-        return $guzzleCachePool;
     }
 
     private function getAnalyticsUpdatesClient(): Client
@@ -217,17 +221,18 @@ class AlmaApi implements LoggerAwareInterface
             $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
         }
 
-        $guzzleCachePool = $this->getCachePool();
-        $cacheMiddleWare = new CacheMiddleware(
-            new GreedyCacheStrategy(
-                new Psr6CacheStorage($guzzleCachePool),
-                self::ANALYTICS_UPDATES_CACHE_TTL,
-                new KeyValueHttpHeader(['Authorization'])
-            )
-        );
+        if ($this->cachePool !== null) {
+            $cacheMiddleWare = new CacheMiddleware(
+                new GreedyCacheStrategy(
+                    new Psr6CacheStorage($this->cachePool),
+                    self::ANALYTICS_UPDATES_CACHE_TTL,
+                    new KeyValueHttpHeader(['Authorization'])
+                )
+            );
 
-        $cacheMiddleWare->setHttpMethods(['GET' => true, 'HEAD' => true]);
-        $stack->push($cacheMiddleWare);
+            $cacheMiddleWare->setHttpMethods(['GET' => true, 'HEAD' => true]);
+            $stack->push($cacheMiddleWare);
+        }
 
         $client = new Client($client_options);
 

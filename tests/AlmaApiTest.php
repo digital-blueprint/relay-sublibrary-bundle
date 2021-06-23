@@ -38,7 +38,6 @@ class AlmaApiTest extends WebTestCase
         $orgProvider = new DummyOrgProvider();
 
         $this->api = new AlmaApi(
-            $client->getContainer(),
             $personProvider,
             $orgProvider,
             new Security($client->getContainer())

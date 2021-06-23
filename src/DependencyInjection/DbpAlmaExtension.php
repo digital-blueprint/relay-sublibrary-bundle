@@ -35,18 +35,20 @@ class DbpAlmaExtension extends ConfigurableExtension implements PrependExtension
             '/library_budget_monetary_amounts/{identifier}',
         ]);
 
-        $def = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);
-        $def->setArguments(['alma-analytics', 60, '%kernel.cache_dir%/dbp/alma-analytics']);
-        $def->setPublic(true);
-        $def->addTag('cache.pool');
-
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yaml');
 
-        $container->setParameter('dbp_api.alma.config', $mergedConfig);
+        $cacheDef = $container->register('dbp_api.cache.alma.analytics', FilesystemAdapter::class);
+        $cacheDef->setArguments(['alma-analytics', 60, '%kernel.cache_dir%/dbp/alma-analytics']);
+        $cacheDef->setPublic(true);
+        $cacheDef->addTag('cache.pool');
+
+        $definition = $container->getDefinition('DBP\API\AlmaBundle\Service\AlmaApi');
+        $definition->addMethodCall('setConfig', [$mergedConfig]);
+        $definition->addMethodCall('setCache', [$cacheDef]);
     }
 
     private function extendArrayParameter(ContainerBuilder $container, string $parameter, array $values)
