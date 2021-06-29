@@ -9,9 +9,9 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
 use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
+use DBP\API\CoreBundle\API\OrganizationProviderInterface;
+use DBP\API\CoreBundle\API\PersonProviderInterface;
 use DBP\API\CoreBundle\Helpers\ArrayFullPaginator;
-use DBP\API\CoreBundle\Service\OrganizationProviderInterface;
-use DBP\API\CoreBundle\Service\PersonProviderInterface;
 use League\Uri\Contracts\UriException;
 
 final class BudgetMonetaryAmountCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
