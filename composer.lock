@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "259da79d962bbb8b0f04d3f125a3750a",
+    "content-hash": "fc825338e0451cbd7868aff2cb896c14",
     "packages": [
         {
             "name": "api-platform/core",
@@ -222,18 +222,97 @@
             "time": "2021-01-20T22:51:39+00:00"
         },
         {
-            "name": "dbp/api-core-bundle",
+            "name": "dbp/api-base-bundle",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-core-bundle.git",
-                "reference": "8ab8f7ead5aa41f1378da1de16b2870b2f81b676"
+                "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-base-bundle.git",
+                "reference": "72e108354704e8cbc380300f1f62c6bb6bb9fa5a"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.tugraz.at/api/v4/projects/dbp%2Fdbp-api%2Fapi-core-bundle/repository/archive.zip?sha=8ab8f7ead5aa41f1378da1de16b2870b2f81b676",
-                "reference": "8ab8f7ead5aa41f1378da1de16b2870b2f81b676",
-                "shasum": ""
+            "require": {
+                "api-platform/core": "^2.6.3",
+                "dbp/api-core-bundle": "^0.1.2",
+                "doctrine/annotations": "^1.0",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "kevinrob/guzzle-cache-middleware": "^3.3",
+                "monolog/monolog": "^1.4||^2.1",
+                "nelmio/cors-bundle": "^2.1.0",
+                "php": "^7.3",
+                "phpdocumentor/reflection-docblock": "^3.0 || ^4.0 || ^5.0",
+                "symfony/asset": "^5.2",
+                "symfony/config": "^5.2",
+                "symfony/expression-language": "^5.2",
+                "symfony/framework-bundle": "^5.2",
+                "symfony/security-bundle": "^5.2",
+                "symfony/security-core": "^5.2",
+                "symfony/security-guard": "^5.2",
+                "symfony/twig-bundle": "^5.2",
+                "symfony/validator": "^5.2",
+                "symfony/yaml": "^5.2",
+                "web-token/jwt-easy": "^2.1",
+                "web-token/jwt-signature-algorithm-rsa": "^2.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^0.12.33",
+                "phpstan/phpstan-phpunit": "^0.12.13",
+                "symfony/browser-kit": "^5.2",
+                "symfony/http-client": "^5.2",
+                "symfony/phpunit-bridge": "^5.2",
+                "vimeo/psalm": "^4.4"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "DBP\\API\\BaseBundle\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "DBP\\API\\BaseBundle\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@php vendor/bin/simple-phpunit"
+                ],
+                "phpstan": [
+                    "@php vendor/bin/simple-phpunit --atleast-version 0",
+                    "@php vendor/bin/phpstan analyze --ansi"
+                ],
+                "psalm": [
+                    "@php vendor/bin/simple-phpunit --atleast-version 0",
+                    "@php vendor/bin/psalm"
+                ],
+                "lint": [
+                    "@composer run cs",
+                    "@composer run phpstan",
+                    "@composer run psalm"
+                ],
+                "cs-fix": [
+                    "@php vendor/bin/php-cs-fixer --ansi fix"
+                ],
+                "cs": [
+                    "@php vendor/bin/php-cs-fixer --ansi fix --dry-run --diff"
+                ],
+                "coverage": [
+                    "@php -dxdebug.mode=coverage vendor/bin/simple-phpunit --coverage-html _coverage"
+                ]
+            },
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "time": "2021-07-06T14:01:58+00:00"
+        },
+        {
+            "name": "dbp/api-core-bundle",
+            "version": "v0.1.4",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-core-bundle.git",
+                "reference": "c05273c2313eb90ac5d1868097ba45c6ca0e7b0e"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -267,7 +346,6 @@
                 "symfony/phpunit-bridge": "^5.2",
                 "vimeo/psalm": "^4.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -309,10 +387,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "support": {
-                "issues": "https://gitlab.tugraz.at/api/v4/projects/8296/issues"
-            },
-            "time": "2021-07-03T14:09:30+02:00"
+            "time": "2021-07-06T13:58:53+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -8827,7 +8902,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dbp/api-core-bundle": 20
+        "dbp/api-base-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

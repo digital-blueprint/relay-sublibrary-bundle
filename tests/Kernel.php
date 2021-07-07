@@ -6,6 +6,7 @@ namespace DBP\API\AlmaBundle\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
 use DBP\API\AlmaBundle\DbpAlmaBundle;
+use DBP\API\BaseBundle\DbpBaseBundle;
 use DBP\API\CoreBundle\DbpCoreBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -28,6 +29,7 @@ class Kernel extends BaseKernel
         yield new TwigBundle();
         yield new NelmioCorsBundle();
         yield new ApiPlatformBundle();
+        yield new DbpBaseBundle();
         yield new DbpCoreBundle();
         yield new DbpAlmaBundle();
     }

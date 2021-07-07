@@ -9,8 +9,8 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use DBP\API\AlmaBundle\Entity\BookOrder;
 use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\CoreBundle\API\OrganizationProviderInterface;
-use DBP\API\CoreBundle\API\PersonProviderInterface;
+use DBP\API\BaseBundle\API\OrganizationProviderInterface;
+use DBP\API\BaseBundle\API\PersonProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final class BookOrderItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface

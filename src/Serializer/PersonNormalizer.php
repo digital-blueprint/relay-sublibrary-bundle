@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Serializer;
 
-use DBP\API\CoreBundle\Entity\Person;
+use DBP\API\BaseBundle\Entity\Person;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;

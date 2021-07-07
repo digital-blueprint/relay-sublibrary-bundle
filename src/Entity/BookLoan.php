@@ -11,7 +11,7 @@ use DBP\API\AlmaBundle\Controller\GetBookLoansByBookOffer;
 use DBP\API\AlmaBundle\Controller\GetLibraryBookLoansByOrganization;
 use DBP\API\AlmaBundle\Controller\GetLibraryBookLoansByPerson;
 use DBP\API\AlmaBundle\Controller\PostBookLoanByBookOffer;
-use DBP\API\CoreBundle\Entity\Person;
+use DBP\API\BaseBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
