@@ -11,6 +11,7 @@ use DBP\API\CoreBundle\DbpCoreBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -28,6 +29,7 @@ class Kernel extends BaseKernel
         yield new SecurityBundle();
         yield new TwigBundle();
         yield new NelmioCorsBundle();
+        yield new MonologBundle();
         yield new ApiPlatformBundle();
         yield new DbpBaseBundle();
         yield new DbpCoreBundle();
