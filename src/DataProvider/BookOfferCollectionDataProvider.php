@@ -26,9 +26,6 @@ final class BookOfferCollectionDataProvider implements CollectionDataProviderInt
         return BookOffer::class === $resourceClass;
     }
 
-    /**
-     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
-     */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
     {
         $api = $this->api;

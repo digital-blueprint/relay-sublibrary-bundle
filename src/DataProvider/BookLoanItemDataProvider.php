@@ -23,10 +23,6 @@ final class BookLoanItemDataProvider implements ItemDataProviderInterface, Restr
         return BookLoan::class === $resourceClass;
     }
 
-    /**
-     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
-     * @throws \DBP\API\CoreBundle\Exception\ItemNotStoredException
-     */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?BookLoan
     {
         $api = $this->api;

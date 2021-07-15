@@ -9,9 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLocationIdentifiersByBookOffer extends AlmaController
 {
-    /**
-     * @throws \DBP\API\CoreBundle\Exception\ItemNotLoadedException
-     */
     public function __invoke(BookOffer $data): ArrayCollection
     {
         $this->checkPermissions();
