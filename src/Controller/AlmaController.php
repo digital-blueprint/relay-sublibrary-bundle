@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace DBP\API\AlmaBundle\Controller;
 
 use DBP\API\AlmaBundle\Helpers\ItemNotStoredException;
+use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\BaseBundle\API\OrganizationProviderInterface;
 use DBP\API\BaseBundle\API\PersonProviderInterface;
-use DBP\API\CoreBundle\Helpers\JsonException;
-use DBP\API\CoreBundle\Helpers\Tools;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,7 +40,7 @@ abstract class AlmaController extends AbstractController
         $content = (string) $request->getContent();
         try {
             return Tools::decodeJSON($content, true);
-        } catch (JsonException $e) {
+        } catch (\JsonException $e) {
             throw new ItemNotStoredException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }
     }

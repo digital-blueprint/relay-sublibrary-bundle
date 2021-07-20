@@ -15,7 +15,8 @@
         "myclabs/php-enum": "^1.7",
         "symfony/framework-bundle": "^5.2",
         "symfony/security-core": "^5.2",
-        "symfony/yaml": "^5.2"
+        "symfony/yaml": "^5.2",
+        "ext-json": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",

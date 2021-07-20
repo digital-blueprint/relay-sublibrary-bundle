@@ -27,8 +27,6 @@ use DBP\API\BaseBundle\API\PersonProviderInterface;
 use DBP\API\BaseBundle\Entity\Organization;
 use DBP\API\BaseBundle\Entity\Person;
 use DBP\API\CoreBundle\Helpers\GuzzleTools;
-use DBP\API\CoreBundle\Helpers\JsonException;
-use DBP\API\CoreBundle\Helpers\Tools as CoreTools;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -248,9 +246,9 @@ class AlmaApi implements LoggerAwareInterface
     {
         $body = $response->getBody();
         try {
-            return CoreTools::decodeJSON((string) $body, true);
-        } catch (JsonException $e) {
-            throw new ItemNotLoadedException(sprintf('Invalid json: %s', CoreTools::filterErrorMessage($e->getMessage())));
+            return Tools::decodeJSON((string) $body, true);
+        } catch (\JsonException $e) {
+            throw new ItemNotLoadedException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }
     }
 
@@ -260,7 +258,7 @@ class AlmaApi implements LoggerAwareInterface
     private function getRequestExceptionMessage(RequestException $e): string
     {
         if (!$e->hasResponse()) {
-            return CoreTools::filterErrorMessage($e->getMessage());
+            return Tools::filterErrorMessage($e->getMessage());
         }
 
         $response = $e->getResponse();
@@ -272,23 +270,23 @@ class AlmaApi implements LoggerAwareInterface
             try {
                 $xml = new \SimpleXMLElement($content);
 
-                return CoreTools::filterErrorMessage($xml->errorList->error->errorMessage);
+                return Tools::filterErrorMessage($xml->errorList->error->errorMessage);
             } catch (\Exception $xmlException) {
-                return CoreTools::filterErrorMessage($content);
+                return Tools::filterErrorMessage($content);
             }
         }
 
         // try to handle json errors
         try {
-            $decoded = CoreTools::decodeJSON((string) $body, true);
-        } catch (JsonException $e) {
-            return CoreTools::filterErrorMessage($e->getMessage());
+            $decoded = Tools::decodeJSON((string) $body, true);
+        } catch (\JsonException $e) {
+            return Tools::filterErrorMessage($e->getMessage());
         }
         // If we get proper json we try to include the whole content
         $message = explode("\n", $e->getMessage())[0];
         $message .= "\n".json_encode($decoded);
 
-        return CoreTools::filterErrorMessage($message);
+        return Tools::filterErrorMessage($message);
     }
 
     /**
@@ -306,7 +304,7 @@ class AlmaApi implements LoggerAwareInterface
         try {
             $url = $this->urls->getBookOfferUrl($identifier);
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
 
         try {
@@ -434,7 +432,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $dataArray;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -680,12 +678,12 @@ class AlmaApi implements LoggerAwareInterface
 
             return $bookOffer;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookOffer with id '%s' could not be stored! Message: %s", $identifier, $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -745,7 +743,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $bookLoan;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -769,7 +767,7 @@ class AlmaApi implements LoggerAwareInterface
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookLoan for BookOffer '%s' could not be stored! Message: %s", $bookOffer->getName(), $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -934,7 +932,7 @@ class AlmaApi implements LoggerAwareInterface
 
             $this->log("Book offer <{$identifier}> ({$bookOffer->getName()}) was returned", ['library' => $library]);
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
 
@@ -1002,7 +1000,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $bookLoan;
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             if ($e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
@@ -1018,7 +1016,7 @@ class AlmaApi implements LoggerAwareInterface
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotStoredException(sprintf("LibraryBookLoan with id '%s' could not be stored! Message: %s", $identifier, $message));
         } catch (GuzzleException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
     }
 
@@ -1077,7 +1075,7 @@ class AlmaApi implements LoggerAwareInterface
                 $collection->add($result);
             }
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
         } catch (GuzzleException $e) {
         }
@@ -1111,7 +1109,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $dataArray['item_loan'] ?? [];
         } catch (InvalidIdentifierException $e) {
-            throw new ItemNotLoadedException(CoreTools::filterErrorMessage($e->getMessage()));
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotLoadedException(sprintf("LibraryBookLoans of BookOffer with id '%s' could not be loaded! Message: %s", $identifier, $message));
