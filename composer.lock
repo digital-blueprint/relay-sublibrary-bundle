@@ -227,17 +227,11 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-base-bundle.git",
-                "reference": "33b629b0f4881058b5338960b79f5c9b8aca1de1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.tugraz.at/api/v4/projects/dbp%2Fdbp-api%2Fapi-base-bundle/repository/archive.zip?sha=33b629b0f4881058b5338960b79f5c9b8aca1de1",
-                "reference": "33b629b0f4881058b5338960b79f5c9b8aca1de1",
-                "shasum": ""
+                "reference": "674e1644a4c0eb5b509db908bef1fb8a4ce532e4"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
-                "dbp/api-core-bundle": "^0.1.2",
+                "dbp/api-core-bundle": "^0.1.7",
                 "doctrine/annotations": "^1.0",
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^7.0",
@@ -311,24 +305,15 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "support": {
-                "issues": "https://gitlab.tugraz.at/api/v4/projects/12564/issues"
-            },
-            "time": "2021-07-15T16:25:09+02:00"
+            "time": "2021-07-26T09:35:50+00:00"
         },
         {
             "name": "dbp/api-core-bundle",
-            "version": "v0.1.6",
+            "version": "v0.1.7",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.tugraz.at/dbp/dbp-api/api-core-bundle.git",
-                "reference": "00152673fe78d63feeea06e9d24a2a5c991bbe9e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.tugraz.at/api/v4/projects/dbp%2Fdbp-api%2Fapi-core-bundle/repository/archive.zip?sha=00152673fe78d63feeea06e9d24a2a5c991bbe9e",
-                "reference": "00152673fe78d63feeea06e9d24a2a5c991bbe9e",
-                "shasum": ""
+                "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-core-bundle.git",
+                "reference": "3c805ba5d963849be0b07d6b5f28c2d22a01f3d3"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -403,10 +388,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "support": {
-                "issues": "https://gitlab.tugraz.at/api/v4/projects/8296/issues"
-            },
-            "time": "2021-07-12T00:17:21+00:00"
+            "time": "2021-07-22T08:56:16+00:00"
         },
         {
             "name": "doctrine/annotations",
