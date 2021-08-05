@@ -26,7 +26,7 @@ use DBP\API\BaseBundle\API\OrganizationProviderInterface;
 use DBP\API\BaseBundle\API\PersonProviderInterface;
 use DBP\API\BaseBundle\Entity\Organization;
 use DBP\API\BaseBundle\Entity\Person;
-use DBP\API\CoreBundle\Helpers\GuzzleTools;
+use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

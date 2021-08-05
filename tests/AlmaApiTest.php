@@ -10,7 +10,7 @@ use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
 use DBP\API\BaseBundle\Entity\Person;
 use DBP\API\BaseBundle\TestUtils\DummyPersonProvider;
-use DBP\API\CoreBundle\Helpers\Tools;
+use Dbp\Relay\CoreBundle\Helpers\Tools;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
