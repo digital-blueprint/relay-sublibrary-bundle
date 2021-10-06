@@ -6,9 +6,9 @@ namespace DBP\API\AlmaBundle\Helpers;
 
 use DBP\API\AlmaBundle\Entity\BookLoan;
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\BaseBundle\API\OrganizationProviderInterface;
-use DBP\API\BaseBundle\Entity\Organization;
-use DBP\API\BaseBundle\Entity\Person;
+use Dbp\Relay\BaseBundle\API\OrganizationProviderInterface;
+use Dbp\Relay\BaseBundle\Entity\Organization;
+use Dbp\Relay\BaseBundle\Entity\Person;
 
 class Tools
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DBP\API\AlmaBundle\Service;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\BaseBundle\Entity\Organization;
+use Dbp\Relay\BaseBundle\Entity\Organization;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 

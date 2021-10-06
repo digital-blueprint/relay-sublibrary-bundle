@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ecc663530aca35a2236875a2baf675a7",
+    "content-hash": "70411cb109825f0699c5b5d401ad7447",
     "packages": [
         {
             "name": "api-platform/core",
@@ -166,12 +166,12 @@
             "time": "2021-06-15T16:53:33+00:00"
         },
         {
-            "name": "dbp/api-base-bundle",
-            "version": "dev-main",
+            "name": "dbp/relay-base-bundle",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-base-bundle.git",
-                "reference": "8d1a2fbf500fcc3fd3c4254e671a48e0722ca86e"
+                "reference": "aa1a43d56a52b60efadd5ba929a2bd0a8c7dac3c"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -201,16 +201,15 @@
                 "symfony/phpunit-bridge": "^5.2",
                 "vimeo/psalm": "^4.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "DBP\\API\\BaseBundle\\": "src/"
+                    "Dbp\\Relay\\BaseBundle\\": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "DBP\\API\\BaseBundle\\Tests\\": "tests/"
+                    "Dbp\\Relay\\BaseBundle\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -243,7 +242,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "time": "2021-08-05T10:10:00+00:00"
+            "time": "2021-10-06T09:01:14+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",
@@ -8252,9 +8251,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dbp/api-base-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

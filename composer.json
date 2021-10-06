@@ -7,7 +7,7 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "api-platform/core": "^2.6",
-        "dbp/api-base-bundle": "dev-main",
+        "dbp/relay-base-bundle": "^0.1.2",
         "dbp/relay-core-bundle": "^0.1.11",
         "doctrine/common": "^3.1",
         "guzzlehttp/guzzle": "^7.0",
