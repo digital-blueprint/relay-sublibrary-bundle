@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "pagination_enabled" = false,
  *             "normalization_context" = {
  *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *                 "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *             },
  *             "openapi_context" = {
  *                 "tags" = {"Alma"},
@@ -76,7 +76,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "pagination_enabled" = false,
  *             "normalization_context" = {
  *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *                 "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *             },
  *             "openapi_context" = {
  *                 "tags" = {"Alma"},
@@ -131,7 +131,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A book loan in the library",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookLoan:output", "Person:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *         "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
  *     },
  *     denormalizationContext={
  *         "groups" = {"LibraryBookLoan:input"}
