@@ -167,11 +167,11 @@
         },
         {
             "name": "dbp/relay-base-bundle",
-            "version": "v0.1.2",
+            "version": "v0.1.3",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-base-bundle.git",
-                "reference": "aa1a43d56a52b60efadd5ba929a2bd0a8c7dac3c"
+                "reference": "c92db122be772da88cd8a571912d04d3e893ab4a"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -242,7 +242,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "time": "2021-10-06T09:01:14+00:00"
+            "time": "2021-10-21T08:58:17+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",

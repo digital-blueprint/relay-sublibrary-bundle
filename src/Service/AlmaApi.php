@@ -687,6 +687,11 @@ class AlmaApi implements LoggerAwareInterface
         }
     }
 
+    private function getPersonName(Person $person): string
+    {
+        return $person->getGivenName() ?? ''.' '.$person->getFamilyName() ?? '';
+    }
+
     /**
      * Creates a loan in Alma
      * See: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/UE9TVCAvYWxtYXdzL3YxL2JpYnMve21tc19pZH0vaG9sZGluZ3Mve2hvbGRpbmdfaWR9L2l0ZW1zL3tpdGVtX3BpZH0vbG9hbnM=/.
@@ -718,7 +723,7 @@ class AlmaApi implements LoggerAwareInterface
         $userId = $person->getExtraData('alma-id');
 
         if ($userId === null || $userId === '') {
-            throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $person->getName()));
+            throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $this->getPersonName($person)));
         }
 
         $client = $this->getClient();
@@ -738,7 +743,7 @@ class AlmaApi implements LoggerAwareInterface
             $data = $this->decodeResponse($response);
             $bookLoan = $this->bookLoanFromJsonItem($data);
 
-            $this->log("Loan was created for book offer <{$identifier}> ({$bookOffer->getName()}) for <{$person->getIdentifier()}> ({$person->getName()})",
+            $this->log("Loan was created for book offer <{$identifier}> ({$bookOffer->getName()}) for <{$person->getIdentifier()}> ({$this->getPersonName($person)})",
                 ['library' => $library, 'userId' => $userId]);
 
             return $bookLoan;
@@ -760,7 +765,7 @@ class AlmaApi implements LoggerAwareInterface
                     case 401651:
                         throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' is not loanable!", $bookOffer->getName()));
                     case 401168:
-                        throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' cannot be loaded by %s! Patrons card has expired!", $bookOffer->getName(), $person->getName()));
+                        throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' cannot be loaded by %s! Patrons card has expired!", $bookOffer->getName(), $this->getPersonName($person)));
                 }
             }
 
@@ -1143,7 +1148,7 @@ class AlmaApi implements LoggerAwareInterface
         $userId = $person->getExtraData('alma-id');
 
         if ($userId === null || $userId === '') {
-            throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $person->getName()));
+            throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $this->getPersonName($person)));
         }
 
         try {
