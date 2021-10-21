@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DBP\API\AlmaBundle\Tests;
 
-use Dbp\Relay\BaseBundle\API\OrganizationProviderInterface;
-use Dbp\Relay\BaseBundle\Entity\Organization;
-use Dbp\Relay\BaseBundle\Entity\Person;
+use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
+use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
+use Dbp\Relay\BasePersonBundle\Entity\Person;
 
 class DummyOrgProvider implements OrganizationProviderInterface
 {

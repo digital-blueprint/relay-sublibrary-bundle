@@ -7,8 +7,8 @@ namespace DBP\API\AlmaBundle\Controller;
 use DBP\API\AlmaBundle\Helpers\ItemNotStoredException;
 use DBP\API\AlmaBundle\Helpers\Tools;
 use DBP\API\AlmaBundle\Service\AlmaApi;
-use Dbp\Relay\BaseBundle\API\OrganizationProviderInterface;
-use Dbp\Relay\BaseBundle\API\PersonProviderInterface;
+use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
+use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 

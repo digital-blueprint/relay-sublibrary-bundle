@@ -6,7 +6,8 @@ namespace DBP\API\AlmaBundle\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
 use DBP\API\AlmaBundle\DbpAlmaBundle;
-use Dbp\Relay\BaseBundle\DbpRelayBaseBundle;
+use Dbp\Relay\BaseOrganizationBundle\DbpRelayBaseOrganizationBundle;
+use Dbp\Relay\BasePersonBundle\DbpRelayBasePersonBundle;
 use Dbp\Relay\CoreBundle\DbpRelayCoreBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -30,7 +31,8 @@ class Kernel extends BaseKernel
         yield new NelmioCorsBundle();
         yield new MonologBundle();
         yield new ApiPlatformBundle();
-        yield new DbpRelayBaseBundle();
+        yield new DbpRelayBasePersonBundle();
+        yield new DbpRelayBaseOrganizationBundle();
         yield new DbpAlmaBundle();
         yield new DbpRelayCoreBundle();
     }
