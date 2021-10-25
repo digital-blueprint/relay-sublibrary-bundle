@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_book_orders_by_organization" = {
  *             "method" = "GET",
- *             "path" = "/organizations/{identifier}/library-book-orders",
+ *             "path" = "/base/organizations/{identifier}/library-book-orders",
  *             "controller" = GetLibraryBookOrdersByOrganization::class,
  *             "read" = false,
  *             "pagination_enabled" = false,

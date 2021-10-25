@@ -167,11 +167,11 @@
         },
         {
             "name": "dbp/relay-base-organization-bundle",
-            "version": "v0.1.3",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.tugraz.at/dbp/relay/dbp-relay-base-organization-bundle",
-                "reference": "c05a5f055497a49c46d0cb1c0cdeaaefff04912b"
+                "reference": "f8294d5fd1fbce2250867e0fae1dd68fd506e54d"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -212,7 +212,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "time": "2021-10-21T12:48:13+00:00"
+            "time": "2021-10-25T09:24:28+00:00"
         },
         {
             "name": "dbp/relay-base-person-bundle",

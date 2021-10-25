@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_library_book_offers" = {
  *             "method" = "GET",
- *             "path" = "/organizations/{identifier}/library-book-offers",
+ *             "path" = "/base/organizations/{identifier}/library-book-offers",
  *             "controller" = GetLibraryBookOffersByOrganization::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
