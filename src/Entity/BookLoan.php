@@ -70,7 +70,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *         "get_loans_by_person" = {
  *             "method" = "GET",
- *             "path" = "/people/{identifier}/library-book-loans",
+ *             "path" = "/base/people/{identifier}/library-book-loans",
  *             "controller" = GetLibraryBookLoansByPerson::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -100,7 +100,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                     "content" = {
  *                         "application/json" = {
  *                             "schema" = {"type" = "object"},
- *                             "example" = {"borrower" = "/people/woody007", "library" = "F1490"}
+ *                             "example" = {"borrower" = "/base/people/woody007", "library" = "F1490"}
  *                         }
  *                     }
  *                 },
