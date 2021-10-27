@@ -718,7 +718,14 @@ class AlmaApi implements LoggerAwareInterface
             'library' => ['value' => $library],
         ];
 
-        $personId = $bodyData['borrower'];
+        // XXX: Is there a better way to get an object for a API path?
+        $personPath = $bodyData['borrower'];
+        $res = preg_match('/^\/base\/people\/(.*)$/', $personPath, $match);
+        if ($res !== 1) {
+            throw new ItemNotFoundException('person not found');
+        }
+        $personId = $match[1];
+
         $person = $this->personProvider->getPerson($personId);
         $userId = $person->getExtraData('alma-id');
 
