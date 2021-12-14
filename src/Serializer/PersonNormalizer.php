@@ -26,6 +26,9 @@ class PersonNormalizer implements ContextAwareNormalizerInterface, NormalizerAwa
         $this->security = $security;
     }
 
+    /**
+     * @return array|string|int|float|bool|\ArrayObject|null
+     */
     public function normalize($object, $format = null, array $context = [])
     {
         if ($this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
@@ -40,7 +43,7 @@ class PersonNormalizer implements ContextAwareNormalizerInterface, NormalizerAwa
         return $this->normalizer->normalize($object, $format, $context);
     }
 
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         // Make sure we're not called twice
         if (isset($context[self::ALREADY_CALLED])) {
