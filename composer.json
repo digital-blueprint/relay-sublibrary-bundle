@@ -24,6 +24,7 @@
         "nelmio/cors-bundle": "^2.1.0",
         "phpstan/phpstan": "^1.0.0",
         "phpstan/phpstan-phpunit": "^1.0.0",
+        "phpunit/phpunit": "^9",
         "symfony/browser-kit": "^5.2",
         "symfony/config": "^5.2",
         "symfony/http-client": "^5.2",
@@ -57,14 +58,12 @@
     },
     "scripts": {
         "test": [
-            "@php vendor/bin/simple-phpunit"
+            "@php vendor/bin/phpunit"
         ],
         "phpstan": [
-            "@php vendor/bin/simple-phpunit --atleast-version 0",
             "@php vendor/bin/phpstan analyze --ansi"
         ],
         "psalm": [
-            "@php vendor/bin/simple-phpunit --atleast-version 0",
             "@php vendor/bin/psalm"
         ],
         "lint": [
