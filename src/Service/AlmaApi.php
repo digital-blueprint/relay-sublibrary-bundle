@@ -815,7 +815,7 @@ class AlmaApi implements LoggerAwareInterface
             $values = AlmaUtils::mapRowColumns($row, $mapping);
             $mmsId = $values['Bibliographic Details::MMS Id'];
             $loanId = $values['Loan Details::Item Loan Id'];
-            $itemId = $values['Physical Item Details::Item Id'];
+            $itemId = $values['Physical Item Details::Physical Item Id'] ?? $values['Physical Item Details::Item Id'];
             $holdingId = $values['Holding Details::Holding Id'];
 
             if ($mmsId === '' || $loanId === '' || $itemId === '' || $holdingId === '') {
@@ -1292,6 +1292,8 @@ class AlmaApi implements LoggerAwareInterface
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
             $url = $this->urls->getBookLoanAnalyticsUrl($organization, $resumptionToken);
+
+            dump($url);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
@@ -1566,7 +1568,7 @@ class AlmaApi implements LoggerAwareInterface
             $values = AlmaUtils::mapRowColumns($row, $mapping);
             $mmsId = $values['Bibliographic Details::MMS Id'];
             $holdingId = $values['Holding Details::Holding Id'];
-            $itemId = $values['Physical Item Details::Item Id'];
+            $itemId = $values['Physical Item Details::Physical Item Id'] ?? $values['Physical Item Details::Item Id'];
 
             if ($mmsId === '' || $holdingId === '' || $itemId === '') {
                 continue;
