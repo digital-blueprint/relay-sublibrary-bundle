@@ -29,12 +29,13 @@ final class BookOfferDataPersister implements DataPersisterInterface
     /**
      * Updates an item in Alma.
      *
-     * @param BookOffer $data
+     * @param mixed $data
      *
      * @return BookOffer
      */
     public function persist($data)
     {
+        assert($data instanceof BookOffer);
         $bookOffer = $data;
         $api = $this->api;
         $api->checkPermissions();
@@ -44,7 +45,7 @@ final class BookOfferDataPersister implements DataPersisterInterface
     }
 
     /**
-     * @param BookOffer $data
+     * @param mixed $data
      */
     public function remove($data)
     {
