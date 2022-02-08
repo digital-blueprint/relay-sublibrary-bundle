@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "license": "AGPL-3.0-or-later",
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": ">=7.3",
         "ext-json": "*",
         "ext-simplexml": "*",
         "api-platform/core": "^2.6",
@@ -12,7 +12,7 @@
         "dbp/relay-core-bundle": "^0.1.11",
         "doctrine/common": "^3.1",
         "guzzlehttp/guzzle": "^7.0",
-        "kevinrob/guzzle-cache-middleware": "^3.3",
+        "kevinrob/guzzle-cache-middleware": "^3.3 | ^4.0",
         "league/uri": "^6.4",
         "symfony/framework-bundle": "^5.2",
         "symfony/security-core": "^5.2",
