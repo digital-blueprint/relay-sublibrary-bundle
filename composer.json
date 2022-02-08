@@ -34,12 +34,6 @@
         "symfony/twig-bundle": "^5.2",
         "vimeo/psalm": "^4.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@gitlab.tugraz.at:dbp/dbp-api/api-base-bundle.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "DBP\\API\\AlmaBundle\\": "src/"
