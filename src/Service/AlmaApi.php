@@ -1628,6 +1628,38 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
+     * @param string $id
+     *
+     * @return BookOrder
+     */
+    public function getBookOrder(string $id): BookOrder
+    {
+        $matches = [];
+        if (!preg_match('/^o-(\w+-F\w+)-(.+)$/i', $id, $matches)) {
+            throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
+        }
+
+        // load organization
+        $organizationId = $matches[1];
+        $organization = $this->orgProvider->getOrganizationById($organizationId, 'de');
+        $this->checkOrganizationPermissions($organization);
+
+        // fetch all book orders of the organization
+        $collection = new ArrayCollection();
+        $this->addAllBookOrdersByOrganizationToCollection($organization, $collection);
+
+        // search for the correct book order in the collection of book orders
+        /** @var BookOrder $bookOrder */
+        foreach ($collection as $bookOrder) {
+            if ($bookOrder->getIdentifier() === $id) {
+                return $bookOrder;
+            }
+        }
+
+        throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
+    }
+
+    /**
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
