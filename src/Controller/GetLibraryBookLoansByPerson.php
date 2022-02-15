@@ -10,7 +10,7 @@ class GetLibraryBookLoansByPerson extends AlmaController
 {
     public function __invoke(string $identifier): ArrayCollection
     {
-        $this->checkPermissions();
+        $this->api->checkPermissions();
 
         $person = $this->personProvider->getPerson($identifier);
         $jsonData = $this->api->getBookLoansJsonDataByPerson($person);

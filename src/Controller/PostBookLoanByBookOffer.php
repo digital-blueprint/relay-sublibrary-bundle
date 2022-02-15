@@ -12,7 +12,7 @@ class PostBookLoanByBookOffer extends AlmaController
 {
     public function __invoke(string $identifier, Request $request): BookLoan
     {
-        $this->checkPermissions();
+        $this->api->checkPermissions();
 
         $bookOffer = $this->api->getBookOffer($identifier);
         $bodyData = $this->decodeRequest($request);

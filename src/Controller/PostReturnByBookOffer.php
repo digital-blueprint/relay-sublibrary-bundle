@@ -10,7 +10,7 @@ class PostReturnByBookOffer extends AlmaController
 {
     public function __invoke(string $identifier): BookOffer
     {
-        $this->checkPermissions();
+        $this->api->checkPermissions();
 
         $bookOffer = $this->api->getBookOffer($identifier);
         $this->api->returnBookOffer($bookOffer);

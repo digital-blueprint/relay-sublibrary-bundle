@@ -25,11 +25,6 @@ abstract class AlmaController extends AbstractController
         $this->orgProvider = $orgProvider;
     }
 
-    protected function checkPermissions()
-    {
-        $this->api->checkPermissions();
-    }
-
     /**
      * @return mixed
      *

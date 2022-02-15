@@ -10,7 +10,7 @@ class GetLibraryBookLoansByOrganization extends AlmaController
 {
     public function __invoke(string $identifier): ArrayCollection
     {
-        $this->checkPermissions();
+        $this->api->checkPermissions();
 
         $org = $this->orgProvider->getOrganizationById($identifier, 'en');
         $this->api->checkOrganizationPermissions($org);
