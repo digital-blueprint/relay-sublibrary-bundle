@@ -1423,7 +1423,8 @@ class AlmaApi implements LoggerAwareInterface
     {
         $xml = $this->getBudgetMonetaryAmountAnalyticsXML();
         $mapping = AlmaUtils::getColumnMapping($xml);
-        $fundLedgerCode = $organization->getAlternateName().'MON';
+        $institute = Tools::getOrganizationLibraryID($organization);
+        $fundLedgerCode = $institute.'MON';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         if (count($rows) === 0) {
@@ -1876,7 +1877,7 @@ class AlmaApi implements LoggerAwareInterface
     {
         $person = $this->personProvider->getCurrentPerson();
         if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
-            $institute = $organization->getAlternateName();
+            $institute = Tools::getOrganizationLibraryID($organization);
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
         }
     }

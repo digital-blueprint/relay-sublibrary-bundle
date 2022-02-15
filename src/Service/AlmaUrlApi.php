@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DBP\API\AlmaBundle\Service;
 
 use DBP\API\AlmaBundle\Entity\BookOffer;
+use DBP\API\AlmaBundle\Helpers\Tools;
 use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
@@ -247,7 +248,7 @@ class AlmaUrlApi
      */
     public function getBookOfferAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
     {
-        $institute = $organization->getAlternateName();
+        $institute = Tools::getOrganizationLibraryID($organization);
         $limit = 1000;
 //        $limit = 25;
 
@@ -273,7 +274,7 @@ class AlmaUrlApi
     {
         $limit = 1000;
 //        $limit = 25;
-        $institute = $organization->getAlternateName();
+        $institute = Tools::getOrganizationLibraryID($organization);
         $filterExpression = '"Item Location at time of loan"."Library Code"';
 //        $filterExpression = '"Physical Items"."Library Unit"."Library Code"';
 
@@ -312,7 +313,8 @@ class AlmaUrlApi
      */
     public function getBookOrderAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
     {
-        $institute = $organization->getAlternateName().'MON';
+        $institute = Tools::getOrganizationLibraryID($organization);
+        $institute = $institute.'MON';
         $limit = 1000;
 //        $limit = 25;
 
