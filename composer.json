@@ -7,7 +7,7 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "api-platform/core": "^2.6",
-        "dbp/relay-base-organization-bundle": "^0.1.3",
+        "dbp/relay-base-organization-bundle": "dev-main as 0.1.3",
         "dbp/relay-base-person-bundle": "^0.1.3",
         "dbp/relay-core-bundle": "^0.1.11",
         "doctrine/common": "^3.1",

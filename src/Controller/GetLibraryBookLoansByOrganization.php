@@ -12,7 +12,7 @@ class GetLibraryBookLoansByOrganization extends AlmaController
     {
         $this->api->checkPermissions();
 
-        $org = $this->orgProvider->getOrganizationById($identifier, 'en');
+        $org = $this->orgProvider->getOrganizationById($identifier, ['lang' => 'en']);
         $this->api->checkOrganizationPermissions($org);
         $this->api->setAnalyticsUpdateDateHeader();
 

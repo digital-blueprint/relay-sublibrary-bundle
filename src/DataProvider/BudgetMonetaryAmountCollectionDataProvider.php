@@ -57,7 +57,7 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
 
         // load organization
         $organizationId = $matches[1];
-        $organization = $this->organizationProvider->getOrganizationById($organizationId, 'de');
+        $organization = $this->organizationProvider->getOrganizationById($organizationId, ['lang' => 'en']);
 
         // check permissions of current user to organization
         $this->api->checkOrganizationPermissions($organization);

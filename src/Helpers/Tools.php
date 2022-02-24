@@ -38,9 +38,9 @@ class Tools
 
     public static function getOrganizationLibraryID(Organization $organization): ?string
     {
-        // XXX: we shouldn't depend on the format of the alternateName for the ID
+        // XXX: we shouldn't depend on the format of the ID
         // but at least we have it in one place here..
-        return $organization->getAlternateName();
+        return explode('-', $organization->getIdentifier())[1];
     }
 
     /**
@@ -48,7 +48,7 @@ class Tools
      */
     public static function getLibraryIDs(OrganizationProviderInterface $orgProvider, Person $person): array
     {
-        $orgs = $orgProvider->getOrganizationsByPerson($person, 'library-manager', 'en');
+        $orgs = $orgProvider->getOrganizationsByPerson($person, 'library-manager', ['lang' => 'en']);
         $institutes = [];
         foreach ($orgs as $org) {
             $id = self::getOrganizationLibraryID($org);

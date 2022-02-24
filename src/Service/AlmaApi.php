@@ -610,10 +610,8 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         if ($filters['organization']) {
-            $alternateName = explode('-', $filters['organization'])[1];
             $organization = new Organization();
             $organization->setIdentifier($filters['organization']);
-            $organization->setAlternateName($alternateName);
 
             $this->checkOrganizationPermissions($organization);
             $this->setAnalyticsUpdateDateHeader();
@@ -1641,7 +1639,7 @@ class AlmaApi implements LoggerAwareInterface
 
         // load organization
         $organizationId = $matches[1];
-        $organization = $this->orgProvider->getOrganizationById($organizationId, 'de');
+        $organization = $this->orgProvider->getOrganizationById($organizationId, ['lang' => 'en']);
         $this->checkOrganizationPermissions($organization);
 
         // fetch all book orders of the organization
