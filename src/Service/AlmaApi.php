@@ -595,11 +595,11 @@ class AlmaApi implements LoggerAwareInterface
                 //       while searching for an organization only leads to "old" results
                 //       -- how to deal with this?
                 //       throw new \Exception('search for name and organization at the same time is forbidden');
-                $alternateName = explode('-', $filters['organization'])[1];
-                $bookLoansData = array_filter($bookLoansData, function ($item) use ($alternateName) {
+                $libraryID = explode('-', $filters['organization'])[1];
+                $bookLoansData = array_filter($bookLoansData, function ($item) use ($libraryID) {
                     $bookLoan = $this->bookLoanFromJsonItem($item);
 
-                    return $alternateName === $bookLoan->getLibrary();
+                    return $libraryID === $bookLoan->getLibrary();
                 });
             }
             foreach ($bookLoansData as $bookLoanData) {

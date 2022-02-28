@@ -38,8 +38,6 @@ class Tools
 
     public static function getOrganizationLibraryID(Organization $organization): ?string
     {
-        // XXX: we shouldn't depend on the format of the ID
-        // but at least we have it in one place here..
         return explode('-', $organization->getIdentifier())[1];
     }
 
@@ -65,7 +63,7 @@ class Tools
         $institutes = self::getLibraryIDs($orgProvider, $person);
         $institute = self::getOrganizationLibraryID($organization);
 
-        return in_array($institute, $institutes, true);
+        return $institute !== null && in_array($institute, $institutes, true);
     }
 
     public static function hasBookOfferPermissions(OrganizationProviderInterface $orgProvider, Person $person, BookOffer $bookOffer): bool
