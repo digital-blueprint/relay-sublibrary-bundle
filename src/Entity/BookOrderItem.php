@@ -56,7 +56,7 @@ class BookOrderItem
     private $orderDelivery;
 
     /**
-     * A BookOrderItem usually doesn't have a price, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
+     * A BookOrderItem usually doesn't have a price, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/price")
@@ -64,7 +64,7 @@ class BookOrderItem
     private $price;
 
     /**
-     * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one so we don't need to add another BookOffer layer to our book loan list.
+     * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrderItem:output"})
      * @ApiProperty(iri="http://schema.org/priceCurrency")
