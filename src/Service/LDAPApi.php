@@ -59,8 +59,6 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
 
     private $providerConfig;
 
-    private $deploymentEnv;
-
     private $identifierAttributeName;
 
     private $almaUserIdAttributeName;
@@ -72,22 +70,21 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         $this->personProvider = $personProvider;
         $this->cacheTTL = 0;
         $this->currentPerson = null;
-        $this->deploymentEnv = 'production';
     }
 
     public function setConfig(array $config)
     {
-        $this->identifierAttributeName = $config['ldap']['attributes']['identifier'] ?? 'cn';
-        $this->almaUserIdAttributeName = $config['ldap']['attributes']['alma_user_id'] ?? 'CO-ALMA-PATRON-ID';
+        $this->identifierAttributeName = $config['attributes']['identifier'] ?? 'cn';
+        $this->almaUserIdAttributeName = $config['attributes']['alma_user_id'] ?? 'CO-ALMA-PATRON-ID';
 
         $this->providerConfig = [
-            'hosts' => [$config['ldap']['host'] ?? ''],
-            'base_dn' => $config['ldap']['base_dn'] ?? '',
-            'username' => $config['ldap']['username'] ?? '',
-            'password' => $config['ldap']['password'] ?? '',
+            'hosts' => [$config['host'] ?? ''],
+            'base_dn' => $config['base_dn'] ?? '',
+            'username' => $config['username'] ?? '',
+            'password' => $config['password'] ?? '',
         ];
 
-        $encryption = $config['ldap']['encryption'];
+        $encryption = $config['encryption'];
         assert(in_array($encryption, ['start_tls', 'simple_tls'], true));
         $this->providerConfig['use_tls'] = ($encryption === 'start_tls');
         $this->providerConfig['use_ssl'] = ($encryption === 'simple_tls');
@@ -99,11 +96,6 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         $provider = $this->getProvider();
         $builder = $this->getCachedBuilder($provider);
         $builder->first();
-    }
-
-    public function setDeploymentEnvironment(string $env)
-    {
-        $this->deploymentEnv = $env;
     }
 
     public function setLDAPCache(?CacheItemPoolInterface $cachePool, int $ttl)

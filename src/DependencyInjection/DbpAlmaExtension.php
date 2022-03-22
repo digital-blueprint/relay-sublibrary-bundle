@@ -46,6 +46,15 @@ class DbpAlmaExtension extends ConfigurableExtension implements PrependExtension
         $cacheDef->setPublic(true);
         $cacheDef->addTag('cache.pool');
 
+        $ldapCache = $container->register('dbp_api.cache.alma.ldap', FilesystemAdapter::class);
+        $ldapCache->setArguments(['core-ldap', 360, '%kernel.cache_dir%/dbp/alma-ldap']);
+        $ldapCache->setPublic(true);
+        $ldapCache->addTag('cache.pool');
+
+        $definition = $container->getDefinition('DBP\API\AlmaBundle\Service\LDAPApi');
+        $definition->addMethodCall('setConfig', [$mergedConfig['ldap'] ?? []]);
+        $definition->addMethodCall('setLDAPCache', [$ldapCache, 360]);
+
         $definition = $container->getDefinition('DBP\API\AlmaBundle\Service\AlmaApi');
         $definition->addMethodCall('setConfig', [$mergedConfig]);
         $definition->addMethodCall('setCache', [$cacheDef]);
