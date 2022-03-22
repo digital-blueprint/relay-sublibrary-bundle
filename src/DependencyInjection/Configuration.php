@@ -33,11 +33,13 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('base_dn')->end()
             ->scalarNode('username')->end()
             ->scalarNode('password')->end()
+            ->scalarNode('encryption')->end()
             ->end();
 
         $attributesBuilder = new TreeBuilder('attributes');
         $attributesNode = $attributesBuilder->getRootNode()
             ->children()
+            ->scalarNode('identifier')->end()
             ->scalarNode('alma_user_id')->end()
             ->end();
         $ldapNode->append($attributesNode);
