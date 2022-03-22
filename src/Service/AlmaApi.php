@@ -70,6 +70,7 @@ class AlmaApi implements LoggerAwareInterface
     private $readonly;
     private $urls;
     private $analyticsUpdatesHash = '';
+    private $ldapApi;
 
     private $cachePool;
 
@@ -81,13 +82,14 @@ class AlmaApi implements LoggerAwareInterface
 
     public function __construct(PersonProviderInterface $personProvider,
                                 OrganizationProviderInterface $orgProvider,
-                                Security $security)
+                                Security $security, LDAPApi $ldapApi)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
         $this->clientHandler = null;
         $this->urls = new AlmaUrlApi();
         $this->orgProvider = $orgProvider;
+        $this->ldapApi = $ldapApi;
 
         $this->apiKey = '';
         $this->analyticsApiKey = '';
@@ -478,7 +480,7 @@ class AlmaApi implements LoggerAwareInterface
         $userId = $item['user_id'];
 
         try {
-            $person = $this->personProvider->getPersonForExternalService('ALMA', $userId);
+            $person = $this->ldapApi->getPersonByAlmaUserId($userId);
             $bookLoan->setBorrower($person);
         } catch (ItemNotFoundException $e) {
             // this happens if no person was found in LDAP by AlmaUserId, must be handled in the frontend

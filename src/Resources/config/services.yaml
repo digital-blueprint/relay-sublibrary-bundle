@@ -3,6 +3,10 @@ services:
         public: false
         autowire: true
 
+    DBP\API\AlmaBundle\Service\LDAPApi:
+        autowire: true
+        autoconfigure: true
+
     DBP\API\AlmaBundle\Controller\:
         resource: '../../Controller'
         autowire: true

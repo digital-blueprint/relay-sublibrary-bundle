@@ -8,6 +8,7 @@ use DBP\API\AlmaBundle\Entity\Book;
 use DBP\API\AlmaBundle\Entity\BookOffer;
 use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
 use DBP\API\AlmaBundle\Service\AlmaApi;
+use DBP\API\AlmaBundle\Service\LDAPApi;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\BasePersonBundle\TestUtils\DummyPersonProvider;
 use Dbp\Relay\CoreBundle\Helpers\Tools;
@@ -36,11 +37,22 @@ class AlmaApiTest extends WebTestCase
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
         $orgProvider = new DummyOrgProvider();
+        $ldapApi = new LDAPApi($personProvider);
+//        $ldapApi->setConfig([
+//            'ldap' => [
+//                'encryption' => 'simple_tls',
+//                'attributes' => [
+//                    'email' => 'email',
+//                    'birthday' => 'dateofbirth',
+//                ],
+//            ],
+//        ]);
 
         $this->api = new AlmaApi(
             $personProvider,
             $orgProvider,
-            new Security($client->getContainer())
+            new Security($client->getContainer()),
+            $ldapApi
         );
         $this->api->setApiKey('secret');
         $this->api->setAnalyticsApiKey('secret');
