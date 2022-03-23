@@ -49,5 +49,11 @@ class Kernel extends BaseKernel
             'test' => true,
             'secret' => '',
         ]);
+
+        $container->extension('dbp_alma', [
+            'ldap' => [
+                'encryption' => 'simple_tls',
+            ],
+        ]);
     }
 }
