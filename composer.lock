@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24911aed3eaf2c81918afa4a4b1e415a",
+    "content-hash": "d7705c103b821f0d8d90757eb8e50d2b",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -238,11 +238,11 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.tugraz.at/dbp/relay/dbp-relay-base-organization-bundle",
-                "reference": "5091d10629a982100440d741340d9a0e614ab2a2"
+                "reference": "c10cce6d03f840197909bec288063db3bfad173a"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
-                "dbp/relay-base-person-bundle": "^0.1.3",
+                "dbp/relay-base-person-bundle": "^0.2.0",
                 "dbp/relay-core-bundle": "^0.1.25",
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^7.0",
@@ -281,15 +281,15 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "time": "2022-03-21T00:21:19+00:00"
+            "time": "2022-03-23T09:51:43+00:00"
         },
         {
             "name": "dbp/relay-base-person-bundle",
-            "version": "v0.1.6",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.tugraz.at/dbp/relay/dbp-relay-base-person-bundle",
-                "reference": "aaae7b2cb9e6fbb22c116b777fde800312ad10ea"
+                "reference": "9793a5e69a4a4b4ae76f0eacc1510ad33e5ec1a3"
             },
             "require": {
                 "api-platform/core": "^2.6.3",
@@ -330,7 +330,7 @@
             "license": [
                 "AGPL-3.0-or-later"
             ],
-            "time": "2022-02-02T15:46:45+00:00"
+            "time": "2022-03-17T14:27:32+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",
