@@ -39,12 +39,10 @@ class AlmaApiTest extends WebTestCase
         $orgProvider = new DummyOrgProvider();
         $ldapApi = new LDAPApi($personProvider);
 //        $ldapApi->setConfig([
-//            'ldap' => [
-//                'encryption' => 'simple_tls',
-//                'attributes' => [
-//                    'email' => 'email',
-//                    'birthday' => 'dateofbirth',
-//                ],
+//            'encryption' => 'simple_tls',
+//            'attributes' => [
+//                'email' => 'email',
+//                'birthday' => 'dateofbirth',
 //            ],
 //        ]);
 

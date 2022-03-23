@@ -84,7 +84,7 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
             'password' => $config['password'] ?? '',
         ];
 
-        $encryption = $config['encryption'];
+        $encryption = $config['encryption'] ?? '';
         assert(in_array($encryption, ['start_tls', 'simple_tls'], true));
         $this->providerConfig['use_tls'] = ($encryption === 'start_tls');
         $this->providerConfig['use_ssl'] = ($encryption === 'simple_tls');
