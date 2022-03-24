@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 final class BookOfferItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {

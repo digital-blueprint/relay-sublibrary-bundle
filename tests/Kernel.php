@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Tests;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
-use DBP\API\AlmaBundle\DbpAlmaBundle;
+use Dbp\Relay\SublibraryBundle\DbpSublibraryBundle;
 use Dbp\Relay\BaseOrganizationBundle\DbpRelayBaseOrganizationBundle;
 use Dbp\Relay\BasePersonBundle\DbpRelayBasePersonBundle;
 use Dbp\Relay\CoreBundle\DbpRelayCoreBundle;
@@ -33,7 +33,7 @@ class Kernel extends BaseKernel
         yield new ApiPlatformBundle();
         yield new DbpRelayBasePersonBundle();
         yield new DbpRelayBaseOrganizationBundle();
-        yield new DbpAlmaBundle();
+        yield new DbpSublibraryBundle();
         yield new DbpRelayCoreBundle();
     }
 

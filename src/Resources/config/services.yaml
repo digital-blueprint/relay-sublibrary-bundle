@@ -1,27 +1,27 @@
 services:
-    DBP\API\AlmaBundle\Service\AlmaApi:
+    Dbp\Relay\SublibraryBundle\Service\AlmaApi:
         public: false
         autowire: true
 
-    DBP\API\AlmaBundle\Service\LDAPApi:
+    Dbp\Relay\SublibraryBundle\Service\LDAPApi:
         autowire: true
         autoconfigure: true
 
-    DBP\API\AlmaBundle\Controller\:
+    Dbp\Relay\SublibraryBundle\Controller\:
         resource: '../../Controller'
         autowire: true
         autoconfigure: true
 
-    DBP\API\AlmaBundle\DataPersister\:
+    Dbp\Relay\SublibraryBundle\DataPersister\:
         resource: '../../DataPersister'
         autowire: true
         autoconfigure: true
 
-    DBP\API\AlmaBundle\DataProvider\:
+    Dbp\Relay\SublibraryBundle\DataProvider\:
         resource: '../../DataProvider'
         autowire: true
         autoconfigure: true
 
-    DBP\API\AlmaBundle\Serializer\PersonNormalizer:
+    Dbp\Relay\SublibraryBundle\Serializer\PersonNormalizer:
         autowire: true
         autoconfigure: true

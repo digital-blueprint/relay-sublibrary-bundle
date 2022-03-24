@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use DBP\API\AlmaBundle\Helpers\ItemNotStoredException;
-use DBP\API\AlmaBundle\Helpers\Tools;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
+use Dbp\Relay\SublibraryBundle\Helpers\Tools;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

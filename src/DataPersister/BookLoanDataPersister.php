@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\DataPersister;
+namespace Dbp\Relay\SublibraryBundle\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use DBP\API\AlmaBundle\Entity\BookLoan;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 final class BookLoanDataPersister implements DataPersisterInterface
 {

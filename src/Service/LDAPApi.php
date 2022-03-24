@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @see https://github.com/Adldap2/Adldap2
  */
 
-namespace DBP\API\AlmaBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Adldap\Adldap;
 use Adldap\Connections\Provider;

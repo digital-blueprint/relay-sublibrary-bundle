@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use DBP\API\AlmaBundle\Entity\BookOrder;
-use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 final class BookOrderItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {

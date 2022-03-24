@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\DependencyInjection;
+namespace Dbp\Relay\SublibraryBundle\DependencyInjection;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Config\FileLocator;
@@ -51,11 +51,11 @@ class DbpAlmaExtension extends ConfigurableExtension implements PrependExtension
         $ldapCache->setPublic(true);
         $ldapCache->addTag('cache.pool');
 
-        $definition = $container->getDefinition('DBP\API\AlmaBundle\Service\LDAPApi');
+        $definition = $container->getDefinition('Dbp\Relay\SublibraryBundle\Service\LDAPApi');
         $definition->addMethodCall('setConfig', [$mergedConfig['ldap'] ?? []]);
         $definition->addMethodCall('setLDAPCache', [$ldapCache, 360]);
 
-        $definition = $container->getDefinition('DBP\API\AlmaBundle\Service\AlmaApi');
+        $definition = $container->getDefinition('Dbp\Relay\SublibraryBundle\Service\AlmaApi');
         $definition->addMethodCall('setConfig', [$mergedConfig]);
         $definition->addMethodCall('setCache', [$cacheDef]);
     }

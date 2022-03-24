@@ -1,5 +1,5 @@
 {
-    "name": "dbp/api-alma-bundle",
+    "name": "dbp/relay-sublibrary-bundle",
     "type": "symfony-bundle",
     "license": "AGPL-3.0-or-later",
     "require": {
@@ -37,12 +37,12 @@
     },
     "autoload": {
         "psr-4": {
-            "DBP\\API\\AlmaBundle\\": "src/"
+            "Dbp\\Relay\\SublibraryBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DBP\\API\\AlmaBundle\\Tests\\": "tests/"
+            "Dbp\\Relay\\SublibraryBundle\\Tests\\": "tests/"
         }
     },
     "config": {

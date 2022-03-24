@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Tests\DataPersister;
+namespace Dbp\Relay\SublibraryBundle\Tests\DataPersister;
 
-use DBP\API\AlmaBundle\DataPersister\BookOfferDataPersister;
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\DataPersister\BookOfferDataPersister;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

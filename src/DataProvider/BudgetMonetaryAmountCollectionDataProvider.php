@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
-use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
-use DBP\API\AlmaBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Entity\BudgetMonetaryAmount;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Tests\Entity;
+namespace Dbp\Relay\SublibraryBundle\Tests\Entity;
 
-use DBP\API\AlmaBundle\Entity\Book;
+use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

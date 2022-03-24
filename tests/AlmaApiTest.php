@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Tests;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use DBP\API\AlmaBundle\Entity\Book;
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
-use DBP\API\AlmaBundle\Service\AlmaApi;
-use DBP\API\AlmaBundle\Service\LDAPApi;
+use Dbp\Relay\SublibraryBundle\Entity\Book;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Service\LDAPApi;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\BasePersonBundle\TestUtils\DummyPersonProvider;
 use Dbp\Relay\CoreBundle\Helpers\Tools;

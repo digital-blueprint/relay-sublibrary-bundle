@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\Controller;
 
 use DateTime;
-use DBP\API\AlmaBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostBookLoanByBookOffer extends AlmaController

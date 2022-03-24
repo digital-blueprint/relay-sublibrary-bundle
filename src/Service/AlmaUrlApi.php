@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Service;
 
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Helpers\Tools;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Helpers\Tools;
 use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;

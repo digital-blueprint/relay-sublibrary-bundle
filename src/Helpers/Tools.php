@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Helpers;
+namespace Dbp\Relay\SublibraryBundle\Helpers;
 
-use DBP\API\AlmaBundle\Entity\BookLoan;
-use DBP\API\AlmaBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\BasePersonBundle\Entity\Person;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\Controller;
 
 class GetBookLoansByBookOffer extends AlmaController
 {

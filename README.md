@@ -1,4 +1,4 @@
-# Api-ALMA-Bundle
+# Relay-SubLibrary-Bundle
 
 This Symfony 4.4 bundle provides API endpoints for
 
@@ -21,7 +21,7 @@ for the API-Gateway.
 
 ### Step 1.
 
-Copy this bundle to `./bundles/api-alma-bundle`
+Copy this bundle to `./bundles/relay-sublibrary-bundle`
 
 ### Step 2.
 
@@ -31,7 +31,7 @@ Enable this bundle in `./config/bundles.php` by adding this element to the array
 ...
     return [
         ...
-        DBP\API\AlmaBundle\AlmaBundle::class => ['all' => true],
+        Dbp\Relay\SublibraryBundle\SublibraryBundle::class => ['all' => true],
     ];
 }
 ```
@@ -42,7 +42,7 @@ Add this bundle to `./symfony.lock`:
 
 ```json
 ...
-    "dbp/api-alma-bundle": {
+    "dbp/relay-sublibrary-bundle": {
         "version": "@dev"
     },
 ...

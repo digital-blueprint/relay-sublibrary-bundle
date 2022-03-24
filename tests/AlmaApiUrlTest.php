@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Tests;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Service\AlmaUrlApi;
-use DBP\API\AlmaBundle\Service\InvalidIdentifierException;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Service\AlmaUrlApi;
+use Dbp\Relay\SublibraryBundle\Service\InvalidIdentifierException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlmaApiUrlTest extends WebTestCase

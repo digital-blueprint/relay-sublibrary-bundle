@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;

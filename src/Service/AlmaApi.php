@@ -5,23 +5,23 @@ declare(strict_types=1);
  * Alma API wrapper service.
  */
 
-namespace DBP\API\AlmaBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Service;
 
 use DateTime;
-use DBP\API\AlmaBundle\Entity\Book;
-use DBP\API\AlmaBundle\Entity\BookLoan;
-use DBP\API\AlmaBundle\Entity\BookOffer;
-use DBP\API\AlmaBundle\Entity\BookOrder;
-use DBP\API\AlmaBundle\Entity\BookOrderItem;
-use DBP\API\AlmaBundle\Entity\BudgetMonetaryAmount;
-use DBP\API\AlmaBundle\Entity\DeliveryEvent;
-use DBP\API\AlmaBundle\Entity\EventStatusType;
-use DBP\API\AlmaBundle\Entity\ParcelDelivery;
-use DBP\API\AlmaBundle\Helpers\ItemNotFoundException;
-use DBP\API\AlmaBundle\Helpers\ItemNotLoadedException;
-use DBP\API\AlmaBundle\Helpers\ItemNotStoredException;
-use DBP\API\AlmaBundle\Helpers\ItemNotUsableException;
-use DBP\API\AlmaBundle\Helpers\Tools;
+use Dbp\Relay\SublibraryBundle\Entity\Book;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
+use Dbp\Relay\SublibraryBundle\Entity\BookOrderItem;
+use Dbp\Relay\SublibraryBundle\Entity\BudgetMonetaryAmount;
+use Dbp\Relay\SublibraryBundle\Entity\DeliveryEvent;
+use Dbp\Relay\SublibraryBundle\Entity\EventStatusType;
+use Dbp\Relay\SublibraryBundle\Entity\ParcelDelivery;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotUsableException;
+use Dbp\Relay\SublibraryBundle\Helpers\Tools;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;

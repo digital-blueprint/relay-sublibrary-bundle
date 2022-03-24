@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Serializer;
+namespace Dbp\Relay\SublibraryBundle\Serializer;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Symfony\Component\Security\Core\Security;

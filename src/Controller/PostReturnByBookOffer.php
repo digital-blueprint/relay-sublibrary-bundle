@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use DBP\API\AlmaBundle\Entity\BookOffer;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 
 class PostReturnByBookOffer extends AlmaController
 {

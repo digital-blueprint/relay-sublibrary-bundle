@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use DBP\API\AlmaBundle\Controller\GetLibraryBookOffersByOrganization;
-use DBP\API\AlmaBundle\Controller\GetLocationIdentifiersByBookOffer;
-use DBP\API\AlmaBundle\Controller\PostReturnByBookOffer;
+use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookOffersByOrganization;
+use Dbp\Relay\SublibraryBundle\Controller\GetLocationIdentifiersByBookOffer;
+use Dbp\Relay\SublibraryBundle\Controller\PostReturnByBookOffer;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
