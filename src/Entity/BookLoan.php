@@ -7,11 +7,11 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\SublibraryBundle\Controller\GetBookLoansByBookOffer;
 use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookLoansByOrganization;
 use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookLoansByPerson;
 use Dbp\Relay\SublibraryBundle\Controller\PostBookLoanByBookOffer;
-use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

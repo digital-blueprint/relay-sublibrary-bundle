@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Helpers;
 
-use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
-use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 
 class Tools
 {

@@ -6,10 +6,10 @@ namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
-use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
 final class BookLoanCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface

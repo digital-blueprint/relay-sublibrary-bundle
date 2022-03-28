@@ -6,9 +6,9 @@ namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
-use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
 
 final class BookOfferCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
+use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\SublibraryBundle\Helpers\Tools;
-use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 
