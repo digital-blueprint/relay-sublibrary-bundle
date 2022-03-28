@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class DbpAlmaExtension extends ConfigurableExtension implements PrependExtensionInterface
+class DbpSublibraryExtension extends ConfigurableExtension implements PrependExtensionInterface
 {
     public function prepend(ContainerBuilder $container)
     {
