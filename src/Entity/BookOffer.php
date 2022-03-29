@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/offers/library_book_offers",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
  *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"}
  *                 }
@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 "groups" = {"LibraryBook:output", "LibraryBookOffer:output"}
  *             },
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *                 "summary" = "Get the library book offers of an organization.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
@@ -54,14 +54,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/offers/library_book_offers/{identifier}",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "path" = "/offers/library_book_offers/{identifier}",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "get_location_identifiers" = {
@@ -70,7 +70,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path" = "/offers/library_book_offers/{identifier}/location_identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *                 "summary" = "Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
  *                 "parameters" = {
  *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string"}
@@ -85,7 +85,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "read" = false,
  *             "write" = false,
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *                 "summary" = "Return a book offer.",
  *                 "requestBody" = {
  *                     "content" = {

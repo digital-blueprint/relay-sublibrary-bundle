@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path" = "/library_budget_monetary_amounts",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
  *                     {"name" = "organization", "in" = "query", "Search for all budget monetary amounts of an organization", "type" = "string", "example" = "681-F1490"}
  *                 }
@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path" = "/library_budget_monetary_amounts/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *             },
  *         }
  *     },

@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path" = "/event_status_types/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
- *                 "tags" = {"Alma"},
+ *                 "tags" = {"Sublibrary"},
  *             },
  *         }
  *     },
