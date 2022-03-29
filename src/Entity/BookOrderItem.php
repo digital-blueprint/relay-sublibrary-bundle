@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "path" = "/order_items/library_book_order_items/{identifier}",
+ *             "path" = "/sublibrary/book_order_items/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},

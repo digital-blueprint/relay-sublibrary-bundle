@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/orders/library_book_orders",
+ *             "path" = "/sublibrary/book_orders",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
@@ -44,7 +44,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/orders/library_book_orders/{identifier}",
+ *             "path" = "/sublibrary/book_orders/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },

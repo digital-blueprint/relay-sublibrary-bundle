@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/loans/library_book_loans",
+ *             "path" = "/sublibrary/book_loans",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
@@ -52,7 +52,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get_loans_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/offers/library_book_offers/{identifier}/loans",
+ *             "path" = "/sublibrary/book_offers/{identifier}/loans",
  *             "controller" = GetBookLoansByBookOffer::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -89,7 +89,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post_loan_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/offers/library_book_offers/{identifier}/loans",
+ *             "path" = "/sublibrary/book_offers/{identifier}/loans",
  *             "controller" = PostBookLoanByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -113,14 +113,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/loans/library_book_loans/{identifier}",
+ *             "path" = "/sublibrary/book_loans/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/loans/library_book_loans/{identifier}",
+ *             "path" = "/sublibrary/book_loans/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },

@@ -21,13 +21,13 @@ class Test extends ApiTestCase
 
     public function testIndex()
     {
-        $response = $this->client->request('GET', '/books/library_books');
+        $response = $this->client->request('GET', '/sublibrary/books');
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testJSONLD()
     {
-        $response = $this->client->request('GET', '/books/library_books', ['headers' => ['HTTP_ACCEPT' => 'application/ld+json']]);
+        $response = $this->client->request('GET', '/sublibrary/books', ['headers' => ['HTTP_ACCEPT' => 'application/ld+json']]);
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
         $this->assertJson($response->getContent(false));
     }

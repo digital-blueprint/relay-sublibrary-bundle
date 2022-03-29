@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/offers/library_book_offers",
+ *             "path" = "/sublibrary/book_offers",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
@@ -52,14 +52,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/offers/library_book_offers/{identifier}",
+ *             "path" = "/sublibrary/book_offers/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/offers/library_book_offers/{identifier}",
+ *             "path" = "/sublibrary/book_offers/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
@@ -67,7 +67,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get_location_identifiers" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/offers/library_book_offers/{identifier}/location_identifiers",
+ *             "path" = "/sublibrary/book_offers/{identifier}/location_identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -80,7 +80,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post_return" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/offers/library_book_offers/{identifier}/return",
+ *             "path" = "/sublibrary/book_offers/{identifier}/return",
  *             "controller" = PostReturnByBookOffer::class,
  *             "read" = false,
  *             "write" = false,

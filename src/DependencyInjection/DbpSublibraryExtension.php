@@ -28,10 +28,10 @@ class DbpSublibraryExtension extends ConfigurableExtension implements PrependExt
 
         $this->extendArrayParameter(
             $container, 'dbp_api.paths_to_hide', [
-            '/delivery_statuses/{identifier}',
-            '/parcel_deliveries/{identifier}',
-            '/order_items/library_book_order_items/{identifier}',
-            '/event_status_types/{identifier}',
+            '/sublibrary/delivery_statuses/{identifier}',
+            '/sublibrary/parcel_deliveries/{identifier}',
+            '/sublibrary/book_order_items/{identifier}',
+            '/sublibrary/event_status_types/{identifier}',
             '/library_budget_monetary_amounts/{identifier}',
         ]);
 
