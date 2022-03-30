@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
+use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
 use Dbp\Relay\SublibraryBundle\Helpers\Tools;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;

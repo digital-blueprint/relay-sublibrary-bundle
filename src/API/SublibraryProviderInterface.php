@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\API;
 
-use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
+use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 
 interface SublibraryProviderInterface
 {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetLibraryBookLoansByOrganization extends AlmaController
@@ -13,15 +12,9 @@ class GetLibraryBookLoansByOrganization extends AlmaController
     {
         $this->api->checkPermissions();
 
-        //$org = $this->orgProvider->getOrganizationById($identifier, ['lang' => 'en']);
+        $org = $this->orgProvider->getOrganizationById($identifier, ['lang' => 'en']);
 
-        $library = $this->libraryProvider->getSublibrary($identifier, ['lang' => 'en']);
-
-        dump($library);
-
-        $org = new Organization();
-        $org->setIdentifier($library->getIdentifier());
-        $org->setName($library->getName());
+        //$library = $this->libraryProvider->getSublibrary($identifier, ['lang' => 'en']);
 
         $this->api->checkOrganizationPermissions($org);
         $this->api->setAnalyticsUpdateDateHeader();
