@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\Entity;
 
 class Sublibrary
 {

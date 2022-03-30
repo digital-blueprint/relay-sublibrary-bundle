@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DBP\API\AlmaBundle\API;
+namespace Dbp\Relay\SublibraryBundle\API;
 
-use DBP\API\AlmaBundle\Entity\Sublibrary;
+use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 
 interface SublibraryProviderInterface
