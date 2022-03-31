@@ -50,7 +50,7 @@ class Kernel extends BaseKernel
             'secret' => '',
         ]);
 
-        $container->extension('dbp_sublibrary', [
+        $container->extension('dbp_relay_sublibrary', [
             'ldap' => [
                 'encryption' => 'simple_tls',
             ],
