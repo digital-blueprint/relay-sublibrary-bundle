@@ -2,6 +2,9 @@
 
 [GitLab](https://gitlab.tugraz.at/dbp/library/dbp-relay-sublibrary-bundle) | [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle)
 
+DISCLAIMER: This bundle is mainly for internal use of the Graz University of Technology (TU Graz)
+and may need some adjustments for other use cases.
+
 This Symfony 4.4 bundle provides API endpoints for
 
 - assigning a call number to a book
