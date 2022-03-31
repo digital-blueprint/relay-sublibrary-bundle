@@ -8,7 +8,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
 use Dbp\Relay\BaseOrganizationBundle\DbpRelayBaseOrganizationBundle;
 use Dbp\Relay\BasePersonBundle\DbpRelayBasePersonBundle;
 use Dbp\Relay\CoreBundle\DbpRelayCoreBundle;
-use Dbp\Relay\SublibraryBundle\DbpSublibraryBundle;
+use Dbp\Relay\SublibraryBundle\DbpRelaySublibraryBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -33,7 +33,7 @@ class Kernel extends BaseKernel
         yield new ApiPlatformBundle();
         yield new DbpRelayBasePersonBundle();
         yield new DbpRelayBaseOrganizationBundle();
-        yield new DbpSublibraryBundle();
+        yield new DbpRelaySublibraryBundle();
         yield new DbpRelayCoreBundle();
     }
 

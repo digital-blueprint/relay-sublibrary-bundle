@@ -7,7 +7,7 @@ namespace Dbp\Relay\SublibraryBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class DbpSublibraryBundle extends Bundle
+class DbpRelaySublibraryBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
