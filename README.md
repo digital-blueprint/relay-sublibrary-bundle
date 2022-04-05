@@ -2,8 +2,7 @@
 
 [GitLab](https://gitlab.tugraz.at/dbp/library/dbp-relay-sublibrary-bundle) | [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle)
 
-DISCLAIMER: This bundle is mainly for internal use of the Graz University of Technology (TU Graz)
-and may need some adjustments for other use cases.
+DISCLAIMER: This bundle needs a specific ALMA configuration to work. Please contact [info@digital-blueprint.org](mailto:info@digital-blueprint.org) for more information.`
 
 This Symfony 4.4 bundle provides API endpoints for
 
