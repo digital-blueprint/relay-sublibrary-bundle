@@ -1,6 +1,6 @@
 # Dbp Relay SubLibrary Bundle
 
-[GitLab](https://gitlab.tugraz.at/dbp/library/dbp-relay-sublibrary-bundle) | [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle)
+[GitLab](https://gitlab.tugraz.at/dbp/sublibrary/dbp-relay-sublibrary-bundle) | [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle)
 
 DISCLAIMER: This bundle needs a specific ALMA configuration to work. Please contact [info@digital-blueprint.org](mailto:info@digital-blueprint.org) for more information.`
 
