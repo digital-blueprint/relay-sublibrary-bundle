@@ -26,6 +26,13 @@ services:
         autowire: true
         autoconfigure: true
 
-    Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface:
+    Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider:
         autowire: true
         autoconfigure: true
+
+#    Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface:
+#        autowire: true
+#        autoconfigure: true
+
+    Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface:
+        '@Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider'

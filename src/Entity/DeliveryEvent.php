@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "path" = "/sublibrary/delivery_statuses/{identifier}",
+ *             "path" = "/sublibrary/delivery-statuses/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A delivery status",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"DeliveryStatus:output", "EventStatusType:output"}
+ *         "groups" = {"LibraryBookOrder:output"}
  *     },
  * )
  */
@@ -49,7 +49,6 @@ class DeliveryEvent
     private $identifier;
 
     /**
-     * @Groups({"DeliveryStatus:output"})
      * @ApiProperty(iri="http://schema.org/DateTime")
      *
      * @var DateTimeInterface
@@ -57,7 +56,7 @@ class DeliveryEvent
     private $availableFrom;
 
     /**
-     * @Groups({"DeliveryStatus:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/EventStatusType ")
      *
      * @var EventStatusType

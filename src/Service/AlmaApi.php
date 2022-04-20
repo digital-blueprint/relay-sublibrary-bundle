@@ -8,11 +8,11 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\Service;
 
 use DateTime;
-use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
-use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
+use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
+use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
@@ -22,6 +22,7 @@ use Dbp\Relay\SublibraryBundle\Entity\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\Entity\DeliveryEvent;
 use Dbp\Relay\SublibraryBundle\Entity\EventStatusType;
 use Dbp\Relay\SublibraryBundle\Entity\ParcelDelivery;
+use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
@@ -41,6 +42,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use SimpleXMLElement;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
@@ -48,20 +50,14 @@ class AlmaApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var PersonProviderInterface
-     */
+    /** @var PersonProviderInterface */
     private $personProvider;
 
-    /**
-     * @var Security
-     */
+    /** @var Security */
     private $security;
 
-    /**
-     * @var OrganizationProviderInterface
-     */
-    private $orgProvider;
+    /** @var SublibraryProviderInterface */
+    private $libraryProvider;
 
     private $clientHandler;
     private $apiKey;
@@ -81,14 +77,14 @@ class AlmaApi implements LoggerAwareInterface
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
     public function __construct(PersonProviderInterface $personProvider,
-                                OrganizationProviderInterface $orgProvider,
+                                SublibraryProviderInterface $libraryProvider,
                                 Security $security, LDAPApi $ldapApi)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
         $this->clientHandler = null;
         $this->urls = new AlmaUrlApi();
-        $this->orgProvider = $orgProvider;
+        $this->libraryProvider = $libraryProvider;
         $this->ldapApi = $ldapApi;
 
         $this->apiKey = '';
@@ -333,7 +329,7 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @throws ItemNotLoadedException
      */
-    private function getBookOffersJsonData(array $filter): ?array
+    private function getBookOffersJsonData(string $barcode): ?array
     {
         $client = $this->getClient();
         $options = [
@@ -342,31 +338,26 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        if (isset($filter['barcode'])) {
-            $barcode = $filter['barcode'];
-            $url = $this->urls->getBarcodeBookOfferUrl($barcode);
+        $url = $this->urls->getBarcodeBookOfferUrl($barcode);
 
-            try {
-                $response = $client->request('GET', $url, $options);
-                $dataArray = $this->decodeResponse($response);
+        try {
+            $response = $client->request('GET', $url, $options);
+            $dataArray = $this->decodeResponse($response);
 
-                return [$dataArray];
-            } catch (RequestException $e) {
-                if ($e->getCode() === 400) {
-                    $dataArray = $this->decodeResponse($e->getResponse());
-                    $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
+            return [$dataArray];
+        } catch (RequestException $e) {
+            if ($e->getCode() === 400) {
+                $dataArray = $this->decodeResponse($e->getResponse());
+                $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
-                    if ($errorCode === 401689) {
-                        return [];
-                    }
+                if ($errorCode === 401689) {
+                    return [];
                 }
-
-                $message = $this->getRequestExceptionMessage($e);
-                throw new ItemNotLoadedException(sprintf("LibraryBookOffer with barcode '%s' could not be loaded! Message: %s", $barcode, $message));
-            } catch (GuzzleException $e) {
             }
-        } else {
-            throw new ItemNotFoundException('barcode missing');
+
+            $message = $this->getRequestExceptionMessage($e);
+            throw new ItemNotLoadedException(sprintf("LibraryBookOffer with barcode '%s' could not be loaded! Message: %s", $barcode, $message));
+        } catch (GuzzleException $e) {
         }
 
         return null;
@@ -550,35 +541,53 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @throws ItemNotLoadedException
      */
-    public function getBookOffer(string $id): BookOffer
+    public function getBookOffer(string $identifier): BookOffer
     {
-        $data = $this->getBookOfferJsonData($id);
+        $data = $this->getBookOfferJsonData($identifier);
 
         return $this->bookOfferFromJsonItem($data);
     }
 
     /**
-     * @return BookOffer[]
+     * @return ArrayCollection
      *
      * @throws ItemNotLoadedException
      */
-    public function getBookOffers(array $filters): array
+    public function getBookOffers(array $filters): ArrayCollection
     {
-        $bookOffersData = $this->getBookOffersJsonData($filters);
-        $bookOffers = [];
+        $collection = new ArrayCollection();
+        $library = null;
 
-        // if there is a library filter set we want to use it
-        $library = $filters['library'] ?? '';
+        $barcode = $filters['barcode'] ?? null;
+        $libraryId = $filters['sublibrary'] ?? null;
 
-        foreach ($bookOffersData as $bookOfferData) {
-            $bookOffer = $this->bookOfferFromJsonItem($bookOfferData);
-
-            if (in_array($library, ['', $bookOffer->getLibrary()], true)) {
-                $bookOffers[] = $bookOffer;
+        if (!empty($libraryId)) {
+            $library = $this->libraryProvider->getSublibrary($libraryId);
+            if ($library === null) {
+                throw new ItemNotFoundException("Sublibrary with id '".$libraryId."' not found!");
             }
+            $this->checkCurrentPersonLibraryPermissions($library);
         }
 
-        return $bookOffers;
+        if (!empty($barcode)) {
+            $bookOffersData = $this->getBookOffersJsonData($barcode);
+            $bookOffers = [];
+
+            foreach ($bookOffersData as $bookOfferData) {
+                $bookOffer = $this->bookOfferFromJsonItem($bookOfferData);
+
+                // if there is a library filter set we want to use it
+                if (!$library || in_array($library->getCode(), ['', $bookOffer->getLibrary()], true)) {
+                    $bookOffers[] = $bookOffer;
+                }
+                $collection = new ArrayCollection($bookOffers);
+            }
+        } elseif ($library) {
+            $this->setAnalyticsUpdateDateHeader();
+            $this->addAllBookOffersByLibraryToCollection($library, $collection);
+        }
+
+        return $collection;
     }
 
     /**
@@ -586,41 +595,47 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function getBookLoans(array $filters): ArrayCollection
     {
-        /** @var ArrayCollection<int,BookLoan> $collection */
         $collection = new ArrayCollection();
 
-        if ($filters['name']) {
-            $person = $this->personProvider->getPerson($filters['name']);
+        $borrowerId = $filters['borrower'] ?? null;
+        $libraryId = $filters['sublibrary'] ?? null;
+
+        $library = null;
+        if (!empty($libraryId)) {
+            $library = $this->libraryProvider->getSublibrary($libraryId);
+            if ($library === null) {
+                throw new ItemNotFoundException("Sublibrary with id '".$libraryId."' not found!");
+            }
+            $this->checkCurrentPersonLibraryPermissions($library);
+        }
+
+        if (!empty($borrowerId)) {
+            $person = $this->personProvider->getPerson($borrowerId);
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
-            if (isset($filters['organization'])) {
+
+            if ($library) {
                 // TODO: this leads to up to date results,
                 //       while searching for an organization only leads to "old" results
                 //       -- how to deal with this?
                 //       throw new \Exception('search for name and organization at the same time is forbidden');
-                $libraryID = explode('-', $filters['organization'])[1];
-                $bookLoansData = array_filter($bookLoansData, function ($item) use ($libraryID) {
+                $bookLoansData = array_filter($bookLoansData, function ($item) use ($library) {
                     $bookLoan = $this->bookLoanFromJsonItem($item);
 
-                    return $libraryID === $bookLoan->getLibrary();
+                    return $library->getCode() === $bookLoan->getLibrary();
                 });
             }
+
+            $bookLoans = [];
             foreach ($bookLoansData as $bookLoanData) {
-                $collection->add($this->bookLoanFromJsonItem($bookLoanData));
+                $bookLoans[] = $this->bookLoanFromJsonItem($bookLoanData);
             }
 
-            return $collection;
-        }
-
-        if ($filters['organization']) {
-            $organization = new Organization();
-            $organization->setIdentifier($filters['organization']);
-
-            $this->checkOrganizationPermissions($organization);
+            // only return the ones the user has permissions to
+            $bookLoans = $this->filterBookLoans($bookLoans);
+            $collection = new ArrayCollection($bookLoans);
+        } elseif ($library) {
             $this->setAnalyticsUpdateDateHeader();
-
-            $this->addAllBookLoansByOrganizationToCollection($organization, $collection);
-
-            return $collection;
+            $this->addAllBookLoansByLibraryToCollection($library, $collection);
         }
 
         return $collection;
@@ -641,7 +656,7 @@ class AlmaApi implements LoggerAwareInterface
         $this->checkReadOnlyMode();
 
         // check if the current user has permissions to a book offer with a certain library
-        $this->checkBookOfferPermissions($bookOffer);
+        $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         $identifier = $bookOffer->getIdentifier();
         $jsonData = $this->getBookOfferJsonData($identifier);
@@ -707,15 +722,15 @@ class AlmaApi implements LoggerAwareInterface
         $this->checkReadOnlyMode();
 
         // "F" + number of institution (e.g. F1390)
-        $library = $bodyData['library'];
+        $libraryCode = $bodyData['library'];
 
         // check if the current user has permissions to a book offer with a certain library
-        $this->checkBookOfferPermissions($bookOffer);
+        $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         // See: https://developers.exlibrisgroup.com/alma/apis/docs/xsd/rest_item_loan.xsd/
         $jsonData = [
             'circ_desk' => ['value' => 'DEFAULT_CIRC_DESK'],
-            'library' => ['value' => $library],
+            'library' => ['value' => $libraryCode],
         ];
 
         // XXX: Is there a better way to get an object for a API path?
@@ -751,7 +766,7 @@ class AlmaApi implements LoggerAwareInterface
             $bookLoan = $this->bookLoanFromJsonItem($data);
 
             $this->log("Loan was created for book offer <{$identifier}> ({$bookOffer->getName()}) for <{$person->getIdentifier()}> ({$this->getPersonName($person)})",
-                ['library' => $library, 'userId' => $userId]);
+                ['library' => $libraryCode, 'userId' => $userId]);
 
             return $bookLoan;
         } catch (InvalidIdentifierException $e) {
@@ -784,20 +799,20 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param ArrayCollection $collection
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function addAllBookLoansByOrganizationToCollection(Organization $organization, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookLoansByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
         ++$resumptionData['request-counter'];
 
-        $xml = $this->getBookLoanAnalyticsXMLByOrganization($organization, $resumptionData);
+        $xml = $this->getBookLoanAnalyticsXMLByOrganization($library, $resumptionData);
 
         $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
@@ -907,7 +922,7 @@ class AlmaApi implements LoggerAwareInterface
         unset($xml);
 
         if (!$isFinished) {
-            $this->addAllBookLoansByOrganizationToCollection($organization, $collection, $resumptionData);
+            $this->addAllBookLoansByLibraryToCollection($library, $collection, $resumptionData);
         }
     }
 
@@ -926,7 +941,7 @@ class AlmaApi implements LoggerAwareInterface
         $this->checkReadOnlyMode();
 
         // check if the current user has permissions to a book offer with a certain library
-        $this->checkBookOfferPermissions($bookOffer);
+        $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         $client = $this->getClient();
         $options = [
@@ -936,13 +951,13 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         $identifier = $bookOffer->getIdentifier();
-        $library = $bookOffer->getLibrary();
+        $libraryCode = $bookOffer->getLibrary();
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $client->request('POST', $this->urls->getReturnBookOfferUrl($identifier, $library), $options);
+            $client->request('POST', $this->urls->getReturnBookOfferUrl($identifier, $libraryCode), $options);
 
-            $this->log("Book offer <{$identifier}> ({$bookOffer->getName()}) was returned", ['library' => $library]);
+            $this->log("Book offer <{$identifier}> ({$bookOffer->getName()}) was returned", ['library' => $libraryCode]);
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
@@ -983,7 +998,7 @@ class AlmaApi implements LoggerAwareInterface
 
         // check if the current user has permissions to the book loan
         $bookOffer = $bookLoan->getObject();
-        $this->checkBookOfferPermissions($bookOffer);
+        $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         $jsonData['loan_status'] = $bookLoan->getLoanStatus();
         $jsonData['due_date'] = $bookLoan->getEndTime()->format('c');
@@ -1193,11 +1208,10 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws AccessDeniedException
      */
-    public function checkBookOfferPermissions(BookOffer &$bookOffer)
+    public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
     {
         $person = $this->personProvider->getCurrentPerson();
-        $hasAccess = Tools::hasBookOfferPermissions($this->orgProvider, $person, $bookOffer);
-        if (!$hasAccess) {
+        if (!$this->libraryProvider->isLibraryManagerByCode($person, $bookOffer->getLibrary())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
@@ -1211,13 +1225,21 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function filterBookLoans(array $bookLoans): array
     {
-        $person = $this->personProvider->getCurrentPerson();
+        $currentPerson = $this->personProvider->getCurrentPerson();
+        $libraryCodes = $this->libraryProvider->getSublibraryCodesByLibraryManager($currentPerson);
 
-        return Tools::filterBookLoans($this->orgProvider, $person, $bookLoans);
+        $filtered = [];
+        foreach ($bookLoans as $bookLoan) {
+            if (in_array($bookLoan->getLibrary(), $libraryCodes, true)) {
+                $filtered[] = $bookLoan;
+            }
+        }
+
+        return $filtered;
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $sublibrary
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
@@ -1225,7 +1247,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function getBookOffersAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1236,17 +1258,17 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        $identifier = $organization->getIdentifier();
+        $libraryCode = $sublibrary->getCode();
         $resumptionToken = $resumptionData['token'] ?? '';
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookOfferAnalyticsUrl($organization, $resumptionToken);
+            $url = $this->urls->getBookOfferAnalyticsUrl($sublibrary, $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
             if (!isset($dataArray['anies'][0])) {
-                throw new ItemNotLoadedException(sprintf("LibraryBookOffers of Organization with id '%s' were not valid!", $identifier));
+                throw new ItemNotLoadedException(sprintf("LibraryBookOffers of library '%s' were not valid!", $libraryCode));
             }
 
             // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
@@ -1259,7 +1281,7 @@ class AlmaApi implements LoggerAwareInterface
             return $xml;
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
-            throw new ItemNotLoadedException(sprintf("LibraryBookOffers of Organization with id '%s' could not be loaded! Message: %s", $identifier, $message));
+            throw new ItemNotLoadedException(sprintf("LibraryBookOffers of library '%s' could not be loaded! Message: %s", $libraryCode, $message));
         } catch (GuzzleException $e) {
         }
 
@@ -1267,7 +1289,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
@@ -1275,7 +1297,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function getBookLoanAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
+    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1286,19 +1308,19 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        $identifier = $organization->getIdentifier();
+        $libraryCode = $library->getCode();
         $resumptionToken = $resumptionData['token'] ?? '';
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookLoanAnalyticsUrl($organization, $resumptionToken);
+            $url = $this->urls->getBookLoanAnalyticsUrl($library, $resumptionToken);
 
             dump($url);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
             if (!isset($dataArray['anies'][0])) {
-                throw new ItemNotLoadedException(sprintf("LibraryBookLoans of Organization with id '%s' were not valid!", $identifier));
+                throw new ItemNotLoadedException(sprintf("LibraryBookLoans of library '%s' were not valid!", $libraryCode));
             }
 
             // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
@@ -1311,7 +1333,7 @@ class AlmaApi implements LoggerAwareInterface
             return $xml;
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
-            throw new ItemNotLoadedException(sprintf("LibraryBookLoans of Organization with id '%s' could not be loaded! Message: %s", $identifier, $message));
+            throw new ItemNotLoadedException(sprintf("LibraryBookLoans of library '%s' could not be loaded! Message: %s", $libraryCode, $message));
         } catch (GuzzleException $e) {
         }
 
@@ -1319,7 +1341,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param array $resumptionData
      *
      * @return SimpleXMLElement|null
@@ -1327,7 +1349,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function getBookOrdersAnalyticsXMLByOrganization(Organization $organization, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1338,18 +1360,18 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        $identifier = $organization->getIdentifier();
+        $libraryCode = $library->getCode();
 
         $resumptionToken = $resumptionData['token'] ?? '';
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookOrderAnalyticsUrl($organization, $resumptionToken);
+            $url = $this->urls->getBookOrderAnalyticsUrl($library, $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
             if (!isset($dataArray['anies'][0])) {
-                throw new ItemNotLoadedException(sprintf("LibraryBookOrders of Organization with id '%s' were not valid!", $identifier));
+                throw new ItemNotLoadedException(sprintf("LibraryBookOrders of library with id '%s' were not valid!", $libraryCode));
             }
 
             // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
@@ -1361,7 +1383,7 @@ class AlmaApi implements LoggerAwareInterface
             return $xml;
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
-            throw new ItemNotLoadedException(sprintf("LibraryBookOrders of Organization with id '%s' could not be loaded! Message: %s", $identifier, $message));
+            throw new ItemNotLoadedException(sprintf("LibraryBookOrders of library '%s' could not be loaded! Message: %s", $libraryCode, $message));
         } catch (GuzzleException $e) {
         }
 
@@ -1410,21 +1432,21 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * Returns the BudgetMonetaryAmounts for an Organization.
+     * Returns the BudgetMonetaryAmounts for a Sublibrary.
      *
-     * @param Organization $organization
+     * @param Sublibrary $library
      *
      * @return BudgetMonetaryAmount[]
      *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function getBudgetMonetaryAmountsByOrganization(Organization $organization): array
+    public function getBudgetMonetaryAmountsByLibrary(Sublibrary $library): array
     {
         $xml = $this->getBudgetMonetaryAmountAnalyticsXML();
         $mapping = AlmaUtils::getColumnMapping($xml);
-        $institute = Tools::getOrganizationLibraryID($organization);
-        $fundLedgerCode = $institute.'MON';
+        $libraryCode = $library->getCode();
+        $fundLedgerCode = $libraryCode.'MON';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
         if (count($rows) === 0) {
@@ -1440,7 +1462,7 @@ class AlmaApi implements LoggerAwareInterface
                     $names = self::budgetMonetaryAmountNames();
 
                     foreach (array_keys($names) as $key) {
-                        self::addBudgetMonetaryAmountToList($organizationBudgetList, $values, $key, $organization);
+                        self::addBudgetMonetaryAmountToList($organizationBudgetList, $values, $key, $library);
                     }
 
                     break;
@@ -1455,14 +1477,14 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @param array $values
      * @param string $key
-     * @param Organization $organization
+     * @param Sublibrary $library
      *
      * @return BudgetMonetaryAmount|null
      */
     private static function budgetMonetaryAmountFromAnalyticsRow(
         array $values,
         string $key,
-        Organization $organization
+        Sublibrary $library
     ): ?BudgetMonetaryAmount {
         $names = self::budgetMonetaryAmountNames();
 
@@ -1472,7 +1494,7 @@ class AlmaApi implements LoggerAwareInterface
 
         $name = $names[$key];
         $organizationBudget = new BudgetMonetaryAmount();
-        $organizationBudget->setIdentifier($organization->getIdentifier().'-'.$name);
+        $organizationBudget->setIdentifier($library->getCode().'-'.$name);
         $organizationBudget->setName($name);
         // careful with decimal numbers and float :/
         $organizationBudget->setValue(((float) $values[$key]));
@@ -1485,15 +1507,15 @@ class AlmaApi implements LoggerAwareInterface
      * @param array $organizationBudgetList
      * @param array $values
      * @param string $key
-     * @param Organization $organization
+     * @param Sublibrary $library
      */
     private static function addBudgetMonetaryAmountToList(
         array &$organizationBudgetList,
         array $values,
         string $key,
-        Organization $organization
+        Sublibrary $library
     ) {
-        $budgetMonetaryAmount = self::budgetMonetaryAmountFromAnalyticsRow($values, $key, $organization);
+        $budgetMonetaryAmount = self::budgetMonetaryAmountFromAnalyticsRow($values, $key, $library);
 
         if ($budgetMonetaryAmount !== null) {
             $organizationBudgetList[] = $budgetMonetaryAmount;
@@ -1545,13 +1567,13 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    public function addAllBookOffersByOrganizationToCollection(Organization $organization, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookOffersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
         ++$resumptionData['request-counter'];
 
-        $xml = $this->getBookOffersAnalyticsXMLByOrganization($organization, $resumptionData);
+        $xml = $this->getBookOffersAnalyticsXMLByOrganization($library, $resumptionData);
 
         $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
@@ -1623,7 +1645,7 @@ class AlmaApi implements LoggerAwareInterface
         unset($xml);
 
         if (!$isFinished) {
-            $this->addAllBookOffersByOrganizationToCollection($organization, $collection, $resumptionData);
+            $this->addAllBookOffersByLibraryToCollection($library, $collection, $resumptionData);
         }
     }
 
@@ -1635,18 +1657,22 @@ class AlmaApi implements LoggerAwareInterface
     public function getBookOrder(string $id): BookOrder
     {
         $matches = [];
-        if (!preg_match('/^o-(\w+-F\w+)-(.+)$/i', $id, $matches)) {
+        // TODO: CAUTION used to be pattern with compound org ID: '/^o-(\w+-F\w+)-(.+)$/i'
+        if (!preg_match('/^o-(\w+)-(.+)$/i', $id, $matches)) {
             throw new ItemNotFoundException(sprintf("BookOrder with id '%s' could not be found!", $id));
         }
 
-        // load organization
-        $organizationId = $matches[1];
-        $organization = $this->orgProvider->getOrganizationById($organizationId, ['lang' => 'en']);
-        $this->checkOrganizationPermissions($organization);
+        $libraryId = $matches[1];
+        $library = $this->libraryProvider->getSublibrary($libraryId);
+        if ($library === null) {
+            throw new ItemNotFoundException("library with id '".$libraryId."' not found!");
+        }
+
+        $this->checkCurrentPersonLibraryPermissions($library);
 
         // fetch all book orders of the organization
         $collection = new ArrayCollection();
-        $this->addAllBookOrdersByOrganizationToCollection($organization, $collection);
+        $this->addAllBookOrdersByLibraryToCollection($library, $collection);
 
         // search for the correct book order in the collection of book orders
         /** @var BookOrder $bookOrder */
@@ -1660,17 +1686,41 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
+     * @throws ApiError|ItemNotLoadedException
+     */
+    public function getBookOrders(array $filters): ArrayCollection
+    {
+        $libraryId = $filters['sublibrary'] ?? null;
+        if (empty($libraryId)) {
+            throw new ApiError(Response::HTTP_BAD_REQUEST, "parameter 'sublibrary' is mandatory!");
+        }
+
+        $library = $this->libraryProvider->getSublibrary($libraryId);
+        if ($library === null) {
+            throw new ItemNotFoundException("library with id '".$libraryId."' not found!");
+        }
+        $this->checkCurrentPersonLibraryPermissions($library);
+
+        $this->setAnalyticsUpdateDateHeader();
+
+        $collection = new ArrayCollection();
+        $this->addAllBookOrdersByLibraryToCollection($library, $collection);
+
+        return $collection;
+    }
+
+    /**
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
      */
-    public function addAllBookOrdersByOrganizationToCollection(Organization $organization, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookOrdersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
         ++$resumptionData['request-counter'];
 
-        $xml = $this->getBookOrdersAnalyticsXMLByOrganization($organization, $resumptionData);
+        $xml = $this->getBookOrdersAnalyticsXMLByOrganization($library, $resumptionData);
 
         $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
@@ -1707,8 +1757,8 @@ class AlmaApi implements LoggerAwareInterface
             // PO Number
             $identifierData = explode('-', $poNumber);
 
-            // "o" stands for Organization
-            $identifier = 'o-'.$organization->getIdentifier().'-'.urlencode($identifierData[0]);
+            // TODO: "o" used to stand for Organization, maybe replace by "l"
+            $identifier = 'o-'.$library->getIdentifier().'-'.urlencode($identifierData[0]);
             $bookOrder->setIdentifier($identifier);
 
             $bookOrder->setOrderStatus($values['PO Line::Status (Active)']);
@@ -1773,7 +1823,7 @@ class AlmaApi implements LoggerAwareInterface
         unset($xml);
 
         if (!$isFinished) {
-            $this->addAllBookOrdersByOrganizationToCollection($organization, $collection, $resumptionData);
+            $this->addAllBookOrdersByLibraryToCollection($library, $collection, $resumptionData);
         }
     }
 
@@ -1905,12 +1955,16 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @throws AccessDeniedException
      */
-    public function checkOrganizationPermissions(Organization $organization)
+    public function checkCurrentPersonLibraryPermissions(Sublibrary $library)
     {
         $person = $this->personProvider->getCurrentPerson();
-        if (!Tools::hasOrganizationPermissions($this->orgProvider, $person, $organization)) {
-            $institute = Tools::getOrganizationLibraryID($organization);
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $institute));
+        if (!$this->libraryProvider->isLibraryManagerById($person, $library->getIdentifier())) {
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $library->getCode()));
         }
+    }
+
+    public function getCurrentPerson(): ?Person
+    {
+        return $this->personProvider->getCurrentPerson();
     }
 }

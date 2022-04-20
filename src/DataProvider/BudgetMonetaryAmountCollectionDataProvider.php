@@ -6,30 +6,35 @@ namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Dbp\Relay\BaseOrganizationBundle\API\OrganizationProviderInterface;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
+use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use League\Uri\Contracts\UriException;
+use Symfony\Component\HttpFoundation\Response;
 
 final class BudgetMonetaryAmountCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
-    private $organizationProvider;
+    /** @var SublibraryProviderInterface */
+    private $libraryProvider;
 
+    /** @var PersonProviderInterface */
     private $personProvider;
 
+    /** @var AlmaApi */
     private $api;
 
     public function __construct(
-        OrganizationProviderInterface $organizationProvider,
+        SublibraryProviderInterface $libraryProvider,
         PersonProviderInterface $personProvider,
         AlmaApi $api
     ) {
-        $this->organizationProvider = $organizationProvider;
+        $this->libraryProvider = $libraryProvider;
         $this->personProvider = $personProvider;
         $this->api = $api;
     }
@@ -48,22 +53,20 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
         $api->checkPermissions();
 
         $filters = $context['filters'] ?? [];
-        $organizationId = $filters['organization'] ?? '';
 
-        $matches = [];
-        if (!preg_match('/^(\w+-F\w+)$/i', $organizationId, $matches)) {
-            throw new ItemNotFoundException(sprintf("BudgetMonetaryAmounts for organization id '%s' could not be found!", $organizationId));
+        $libraryId = $filters['sublibrary'] ?? null;
+        if (empty($libraryId)) {
+            throw new ApiError(Response::HTTP_BAD_REQUEST, "parameter 'sublibrary' is mandatory!");
         }
 
-        // load organization
-        $organizationId = $matches[1];
-        $organization = $this->organizationProvider->getOrganizationById($organizationId, ['lang' => 'en']);
-
-        // check permissions of current user to organization
-        $this->api->checkOrganizationPermissions($organization);
+        $library = $this->libraryProvider->getSublibrary($libraryId);
+        if ($library === null) {
+            throw new ItemNotFoundException("library with id '".$libraryId."' not found!");
+        }
+        $api->checkCurrentPersonLibraryPermissions($library);
 
         // fetch budget monetary amounts of organization
-        $budgetMonetaryAmounts = $api->getBudgetMonetaryAmountsByOrganization($organization);
+        $budgetMonetaryAmounts = $api->getBudgetMonetaryAmountsByLibrary($library);
 
         $perPage = self::ITEMS_PER_PAGE;
         $page = 1;

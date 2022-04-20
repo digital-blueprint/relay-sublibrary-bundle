@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
-use Dbp\Relay\BaseOrganizationBundle\DbpRelayBaseOrganizationBundle;
 use Dbp\Relay\BasePersonBundle\DbpRelayBasePersonBundle;
 use Dbp\Relay\CoreBundle\DbpRelayCoreBundle;
 use Dbp\Relay\SublibraryBundle\DbpRelaySublibraryBundle;
@@ -32,7 +31,6 @@ class Kernel extends BaseKernel
         yield new MonologBundle();
         yield new ApiPlatformBundle();
         yield new DbpRelayBasePersonBundle();
-        yield new DbpRelayBaseOrganizationBundle();
         yield new DbpRelaySublibraryBundle();
         yield new DbpRelayCoreBundle();
     }

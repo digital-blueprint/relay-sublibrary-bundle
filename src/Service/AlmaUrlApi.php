@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use Dbp\Relay\BaseOrganizationBundle\Entity\Organization;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
-use Dbp\Relay\SublibraryBundle\Helpers\Tools;
+use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 
@@ -239,16 +238,16 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param string $resumptionToken
      *
      * @return string
      *
      * @throws UriException
      */
-    public function getBookOfferAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
+    public function getBookOfferAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
     {
-        $institute = Tools::getOrganizationLibraryID($organization);
+        $libraryCode = $library->getCode();
         $limit = 1000;
 //        $limit = 25;
 
@@ -256,25 +255,25 @@ class AlmaUrlApi
 
         return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Bestand-Institute-pbeke',
-            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
+            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$libraryCode.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
         ]);
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param string $resumptionToken
      *
      * @return string
      *
      * @throws UriException
      */
-    public function getBookLoanAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
+    public function getBookLoanAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
     {
         $limit = 1000;
 //        $limit = 25;
-        $institute = Tools::getOrganizationLibraryID($organization);
+        $libraryCode = $library->getCode();
         $filterExpression = '"Item Location at time of loan"."Library Code"';
 //        $filterExpression = '"Physical Items"."Library Unit"."Library Code"';
 
@@ -286,7 +285,7 @@ class AlmaUrlApi
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                 <sawx:expr xsi:type="sawx:comparison" op="equal">
                     <sawx:expr xsi:type="sawx:sqlExpression">'.$filterExpression.'</sawx:expr>
-                    <sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr>
+                    <sawx:expr xsi:type="xsd:string"><![CDATA['.$libraryCode.']]></sawx:expr>
                 </sawx:expr>
                 <sawx:expr xsi:type="sawx:comparison" op="null">
                     <sawx:expr xsi:type="sawx:sqlExpression">"Return Date"."Return Date"</sawx:expr>
@@ -304,17 +303,17 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Organization $organization
+     * @param Sublibrary $library
      * @param string $resumptionToken
      *
      * @return string
      *
      * @throws UriException
      */
-    public function getBookOrderAnalyticsUrl(Organization $organization, $resumptionToken = ''): string
+    public function getBookOrderAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
     {
-        $institute = Tools::getOrganizationLibraryID($organization);
-        $institute = $institute.'MON';
+        $libraryCode = $library->getCode();
+        $libraryCode = $libraryCode.'MON';
         $limit = 1000;
 //        $limit = 25;
 
@@ -322,7 +321,7 @@ class AlmaUrlApi
 
         return (string) $uriTemplate->expand([
             'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF_6c',
-            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Fund Ledger"."Fund Ledger Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$institute.']]></sawx:expr></sawx:expr>',
+            'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Fund Ledger"."Fund Ledger Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$libraryCode.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
         ]);

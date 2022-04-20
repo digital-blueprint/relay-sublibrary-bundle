@@ -6,13 +6,11 @@ namespace Dbp\Relay\SublibraryBundle\DataProvider;
 
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
-use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
-use Symfony\Component\HttpFoundation\Response;
 
-final class BookLoanCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BookOrderCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
@@ -26,7 +24,7 @@ final class BookLoanCollectionDataProvider implements CollectionDataProviderInte
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return BookLoan::class === $resourceClass;
+        return BookOrder::class === $resourceClass;
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
@@ -35,23 +33,18 @@ final class BookLoanCollectionDataProvider implements CollectionDataProviderInte
 
         $filters = $context['filters'] ?? [];
 
-        try {
-            $bookLoans = $this->api->getBookLoans($filters);
-        } catch (\Exception $e) {
-            throw new ApiError(Response::HTTP_BAD_REQUEST, $e->getMessage());
-        }
+        $collection = $this->api->getBookOrders($filters);
 
         $perPage = self::ITEMS_PER_PAGE;
         $page = 1;
-        if (isset($filters['page'])) {
-            $page = (int) $filters['page'];
+        if (isset($context['filters']['page'])) {
+            $page = (int) $context['filters']['page'];
         }
 
-        if (isset($filters['perPage'])) {
-            $perPage = (int) $filters['perPage'];
+        if (isset($context['filters']['perPage'])) {
+            $perPage = (int) $context['filters']['perPage'];
         }
 
-        // TODO: do pagination via API
-        return new ArrayFullPaginator($bookLoans, $page, $perPage);
+        return new ArrayFullPaginator($collection, $page, $perPage);
     }
 }

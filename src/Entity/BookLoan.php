@@ -9,8 +9,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\SublibraryBundle\Controller\GetBookLoansByBookOffer;
-use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookLoansByOrganization;
-use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookLoansByPerson;
 use Dbp\Relay\SublibraryBundle\Controller\PostBookLoanByBookOffer;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -22,37 +20,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_loans",
+ *             "path" = "/sublibrary/book-loans",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
- *                     {"name" = "name", "in" = "query", "description" = "Search for all loans of a person", "type" = "string", "example" = "woody007"},
- *                     {"name" = "organization", "in" = "query", "description" = "Search for all loans of an organization", "type" = "string", "example" = "681-F1490"},
+ *                     {"name" = "borrower", "in" = "query", "description" = "Get all book loans of a borrower (ID of BasePerson resource)", "type" = "string", "example" = "woody007"},
+ *                     {"name" = "sublibrary", "in" = "query", "description" = "Get all book loans at a sublibrary (ID of Sublibrary resource)", "type" = "string", "example" = "1190"},
  *                 }
  *             }
- *         },
- *         "get_loans_by_organization" = {
- *             "method" = "GET",
- *             "path" = "/base/organizations/{identifier}/library-book-loans",
- *             "controller" = GetLibraryBookLoansByOrganization::class,
- *             "read" = false,
- *             "pagination_enabled" = false,
- *             "normalization_context" = {
- *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
- *             },
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "summary" = "Get the library book loans of an organization.",
- *                 "parameters" = {
- *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
- *                 }
- *             },
  *         },
  *         "get_loans_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/sublibrary/book_offers/{identifier}/loans",
+ *             "path" = "/sublibrary/book-offers/{identifier}/loans",
  *             "controller" = GetBookLoansByBookOffer::class,
  *             "read" = false,
  *             "pagination_enabled" = false,
@@ -68,28 +48,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                 }
  *             },
  *         },
- *         "get_loans_by_person" = {
- *             "method" = "GET",
- *             "path" = "/base/people/{identifier}/library-book-loans",
- *             "controller" = GetLibraryBookLoansByPerson::class,
- *             "read" = false,
- *             "pagination_enabled" = false,
- *             "normalization_context" = {
- *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
- *             },
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "summary" = "Get the library book loans of a person.",
- *                 "parameters" = {
- *                     {"name" = "identifier", "in" = "path", "description" = "Id of person", "required" = true, "type" = "string", "example" = "vlts01"}
- *                 }
- *             },
- *         },
  *         "post_loan_by_book_offer" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/sublibrary/book_offers/{identifier}/loans",
+ *             "path" = "/sublibrary/book-offers/{identifier}/loans",
  *             "controller" = PostBookLoanByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -113,14 +75,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_loans/{identifier}",
+ *             "path" = "/sublibrary/book-loans/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_loans/{identifier}",
+ *             "path" = "/sublibrary/book-loans/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
@@ -274,6 +236,9 @@ class BookLoan
         return $this;
     }
 
+    /*
+     * returns the library code of this book loans book offer.
+     */
     public function getLibrary(): ?string
     {
         return $this->object ? $this->object->getLibrary() : null;

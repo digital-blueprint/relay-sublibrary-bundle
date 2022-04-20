@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "path" = "/sublibrary/book_order_items/{identifier}",
+ *             "path" = "/sublibrary/book-order-items/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A book order item from the library",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}
+ *         "groups" = {"LibraryBookOrder:output"}
  *     },
  * )
  */
@@ -40,7 +40,7 @@ class BookOrderItem
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrderItem:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/OrderItem")
      *
      * @var Book
@@ -48,7 +48,7 @@ class BookOrderItem
     private $orderedItem;
 
     /**
-     * @Groups({"LibraryBookOrderItem:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/ParcelDelivery")
      *
      * @var ParcelDelivery
@@ -58,7 +58,7 @@ class BookOrderItem
     /**
      * A BookOrderItem usually doesn't have a price, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
-     * @Groups({"LibraryBookOrderItem:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/price")
      */
     private $price;
@@ -66,7 +66,7 @@ class BookOrderItem
     /**
      * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
-     * @Groups({"LibraryBookOrderItem:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/priceCurrency")
      */
     private $priceCurrency;

@@ -11,6 +11,7 @@ use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
 use Dbp\Relay\SublibraryBundle\Service\LDAPApi;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -36,7 +37,7 @@ class AlmaApiTest extends WebTestCase
 
         $person = new Person();
         $personProvider = new DummyPersonProvider($person);
-        $orgProvider = new DummyOrgProvider();
+        $libraryProvider = new DummySublibraryProvider();
         $ldapApi = new LDAPApi($personProvider);
         $ldapApi->setConfig([
             'encryption' => 'simple_tls',
@@ -44,7 +45,7 @@ class AlmaApiTest extends WebTestCase
 
         $this->api = new AlmaApi(
             $personProvider,
-            $orgProvider,
+            $libraryProvider,
             new Security($client->getContainer()),
             $ldapApi
         );
@@ -133,7 +134,6 @@ class AlmaApiTest extends WebTestCase
 
         $barcode = '+F20313804';
         $offers = $this->api->getBookOffers(['barcode' => $barcode]);
-        $this->assertIsArray($offers);
         $this->assertCount(1, $offers);
         $offer = $offers[0];
         $this->assertEquals($offer->getBarcode(), $barcode);
@@ -147,14 +147,14 @@ class AlmaApiTest extends WebTestCase
 
         // check if token is replaced by "hidden"
         try {
-            throw new ItemNotLoadedException(sprintf("Organization with id '%s' could not be loaded because of XML error! Message: %s", $identifier, Tools::filterErrorMessage($message)));
+            throw new ItemNotLoadedException(sprintf("Sublibrary with id '%s' could not be loaded because of XML error! Message: %s", $identifier, Tools::filterErrorMessage($message)));
         } catch (ItemNotLoadedException $e) {
             $this->assertStringContainsString('token=hidden', $e->getMessage());
         }
 
         // check if token isn't present
         try {
-            throw new ItemNotLoadedException(sprintf("Organization with id '%s' could not be loaded because of XML error! Message: %s", $identifier, Tools::filterErrorMessage($message)));
+            throw new ItemNotLoadedException(sprintf("Sublibrary with id '%s' could not be loaded because of XML error! Message: %s", $identifier, Tools::filterErrorMessage($message)));
         } catch (ItemNotLoadedException $e) {
             $this->assertStringNotContainsString($token, $e->getMessage());
         }

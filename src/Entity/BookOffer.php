@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookOffersByOrganization;
 use Dbp\Relay\SublibraryBundle\Controller\GetLocationIdentifiersByBookOffer;
 use Dbp\Relay\SublibraryBundle\Controller\PostReturnByBookOffer;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,44 +21,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_offers",
+ *             "path" = "/sublibrary/book-offers",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
- *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"}
+ *                     {"name" = "barcode", "in" = "query", "description" = "Search for a book offer by barcode", "type" = "string"},
+ *                     {"name" = "sublibrary", "in" = "query", "description" = "Get all book offers of a sublibrary (ID of Sublibrary resource)", "type" = "string", "example" = "1190"},
  *                 }
  *             }
- *         },
- *         "get_library_book_offers" = {
- *             "method" = "GET",
- *             "path" = "/base/organizations/{identifier}/library-book-offers",
- *             "controller" = GetLibraryBookOffersByOrganization::class,
- *             "read" = false,
- *             "pagination_enabled" = false,
- *             "normalization_context" = {
- *                 "jsonld_embed_context" = true,
- *                 "groups" = {"LibraryBook:output", "LibraryBookOffer:output"}
- *             },
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "summary" = "Get the library book offers of an organization.",
- *                 "parameters" = {
- *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
- *                 }
- *             },
  *         },
  *     },
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_offers/{identifier}",
+ *             "path" = "/sublibrary/book-offers/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
  *         },
  *         "put" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_offers/{identifier}",
+ *             "path" = "/sublibrary/book-offers/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
@@ -67,7 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get_location_identifiers" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "GET",
- *             "path" = "/sublibrary/book_offers/{identifier}/location_identifiers",
+ *             "path" = "/sublibrary/book-offers/{identifier}/location-identifiers",
  *             "controller" = GetLocationIdentifiersByBookOffer::class,
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -80,7 +62,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post_return" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "method" = "POST",
- *             "path" = "/sublibrary/book_offers/{identifier}/return",
+ *             "path" = "/sublibrary/book-offers/{identifier}/return",
  *             "controller" = PostReturnByBookOffer::class,
  *             "read" = false,
  *             "write" = false,
@@ -246,6 +228,8 @@ class BookOffer
     }
 
     /**
+     * returns the library code of this book offer.
+     *
      * @return string
      */
     public function getLibrary(): ?string

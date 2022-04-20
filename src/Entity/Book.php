@@ -47,7 +47,6 @@ class Book
 {
     /**
      * @ApiProperty(identifier=true)
-     * @Groups({"LibraryBook:output"})
      *
      * @var string
      */
@@ -55,7 +54,7 @@ class Book
 
     /**
      * @ApiProperty(iri="http://schema.org/name")
-     * @Groups({"LibraryBook:output"})
+     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
      *
      * @var string
      */
@@ -63,7 +62,7 @@ class Book
 
     /**
      * @ApiProperty(iri="http://schema.org/isbn")
-     * @Groups({"LibraryBook:output"})
+     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
      *
      * @var string
      */
@@ -71,7 +70,7 @@ class Book
 
     /**
      * @ApiProperty(iri="http://schema.org/author")
-     * @Groups({"LibraryBook:output"})
+     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
      *
      * @var string
      */

@@ -28,11 +28,13 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
 
         $this->extendArrayParameter(
             $container, 'dbp_api.paths_to_hide', [
-            '/sublibrary/delivery_statuses/{identifier}',
-            '/sublibrary/parcel_deliveries/{identifier}',
-            '/sublibrary/book_order_items/{identifier}',
-            '/sublibrary/event_status_types/{identifier}',
-            '/library_budget_monetary_amounts/{identifier}',
+            '/sublibrary/delivery-statuses/{identifier}',
+            '/sublibrary/parcel-deliveries/{identifier}',
+            '/sublibrary/book-order-items/{identifier}',
+            '/sublibrary/event-status-types/{identifier}',
+            '/sublibrary/sublibraries/{identifier}',
+            '/sublibrary/books',
+            '/sublibrary/budget-monetary-amounts/{identifier}',
         ]);
 
         $loader = new YamlFileLoader(

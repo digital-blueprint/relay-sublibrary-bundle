@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "path" = "/sublibrary/event_status_types/{identifier}",
+ *             "path" = "/sublibrary/event-status-types/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A event status type",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"EventStatusType:output"}
+ *         "groups" = {"LibraryBookOrder:output"}
  *     },
  * )
  */
@@ -48,7 +48,7 @@ class EventStatusType
     private $identifier;
 
     /**
-     * @Groups({"EventStatusType:output"})
+     * @Groups({"LibraryBookOrder:output"})
      * @ApiProperty(iri="http://schema.org/name")
      *
      * @var string

@@ -15,19 +15,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "get" = {
- *             "path" = "/sublibrary/budget_monetary_amounts",
+ *             "path" = "/sublibrary/budget-monetary-amounts",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "parameters" = {
- *                     {"name" = "organization", "in" = "query", "Search for all budget monetary amounts of an organization", "type" = "string", "example" = "681-F1490"}
+ *                     {"name" = "sublibrary", "in" = "query", "Get all budget values of a sublibrary (ID of Sublibrary resource)", "required" = true, "type" = "string", "example" = "1190"}
  *                 }
  *             }
  *         }
  *     },
  *     itemOperations={
  *         "get" = {
- *             "path" = "/sublibrary/budget_monetary_amounts/{identifier}",
+ *             "path" = "/sublibrary/budget-monetary-amounts/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     iri="https://schema.org/MonetaryAmount",
  *     shortName="LibraryBudgetMonetaryAmount",
- *     description="A budget value of an organization in the library",
+ *     description="A budget value of Sublibrary",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
  *         "groups" = {"LibraryBudgetMonetaryAmount:output"}

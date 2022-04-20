@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  *     itemOperations={
  *         "get" = {
- *             "path" = "/sublibrary/parcel_deliveries/{identifier}",
+ *             "path" = "/sublibrary/parcel-deliveries/{identifier}",
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A parcel delivery",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"ParcelDelivery:output", "DeliveryEvent:output", "EventStatusType:output"}
+ *         "groups" = {"LibraryBookOrder:output"}
  *     },
  * )
  */
@@ -48,7 +48,7 @@ class ParcelDelivery
     private $identifier;
 
     /**
-     * @Groups({"ParcelDelivery:output"})
+     * @Groups("LibraryBookOrder:output")
      * @ApiProperty(iri="http://schema.org/DeliveryEvent")
      *
      * @var DeliveryEvent

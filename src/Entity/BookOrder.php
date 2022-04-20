@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use Dbp\Relay\SublibraryBundle\Controller\GetLibraryBookOrdersByOrganization;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -18,33 +17,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_orders",
+ *             "path" = "/sublibrary/book-orders",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
- *             },
- *         },
- *         "get_book_orders_by_organization" = {
- *             "method" = "GET",
- *             "path" = "/base/organizations/{identifier}/library-book-orders",
- *             "controller" = GetLibraryBookOrdersByOrganization::class,
- *             "read" = false,
- *             "pagination_enabled" = false,
- *             "normalization_context" = {
- *                 "groups" = {"LibraryBookOrder:output", "LibraryBookOrderItem:output", "ParcelDelivery:output", "DeliveryStatus:output", "DeliveryEvent:output", "LibraryBook:output", "EventStatusType:output"}
- *             },
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "summary" = "Get the library book orders of an organization.",
  *                 "parameters" = {
- *                     {"name" = "identifier", "in" = "path", "description" = "Id of organization", "required" = true, "type" = "string", "example" = "1190-F2050"}
+ *                     {"name" = "sublibrary", "in" = "query", "description" = "Get all book offers of a sublibrary (ID of Sublibrary resource)", "required" = true, "type" = "string", "example" = "1190"},
  *                 }
- *             },
- *         },
+ *             }
+ *         }
  *     },
  *     itemOperations={
  *         "get" = {
  *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book_orders/{identifier}",
+ *             "path" = "/sublibrary/book-orders/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *             },
@@ -55,7 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A book order from the library",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrder:output", "LibraryBookOrderItem:output", "LibraryBook:output", "ParcelDelivery:output"}
+ *         "groups" = {"LibraryBookOrder:output"}
  *     },
  * )
  */

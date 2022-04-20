@@ -35,7 +35,7 @@ final class BookOfferItemDataProvider implements ItemDataProviderInterface, Rest
             case 'post_loan':
             case 'get_loans':
             case 'post_return':
-                $api->checkBookOfferPermissions($bookOffer);
+                $api->checkCurrentPersonBookOfferPermissions($bookOffer);
                 break;
         }
 

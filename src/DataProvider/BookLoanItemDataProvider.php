@@ -33,7 +33,7 @@ final class BookLoanItemDataProvider implements ItemDataProviderInterface, Restr
         $bookOffer = $bookLoan->getObject();
 
         // check for the user's permissions to the book offer of the requested book loan
-        $api->checkBookOfferPermissions($bookOffer);
+        $api->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         return $bookLoan;
     }
