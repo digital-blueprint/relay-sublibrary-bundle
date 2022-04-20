@@ -8,7 +8,6 @@
         "ext-simplexml": "*",
         "adldap2/adldap2": "^10.4",
         "api-platform/core": "^2.6",
-        "dbp/relay-base-organization-bundle": "^0.1.3",
         "dbp/relay-base-person-bundle": "^0.2.0",
         "dbp/relay-core-bundle": "^0.1.11",
         "doctrine/common": "^3.1",
