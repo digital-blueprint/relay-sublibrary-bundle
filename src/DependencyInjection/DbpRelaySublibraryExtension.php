@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\DependencyInjection;
 
+use Dbp\Relay\CoreBundle\Extension\ExtensionTrait;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,21 +14,18 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class DbpRelaySublibraryExtension extends ConfigurableExtension implements PrependExtensionInterface
 {
+    use ExtensionTrait;
+
     public function prepend(ContainerBuilder $container)
     {
-        $this->extendArrayParameter(
-            $container, 'dbp_api.expose_headers', [
-                'X-Analytics-Update-Date', ]
-        );
+        $this->addExposeHeader($container, 'X-Analytics-Update-Date');
     }
 
     public function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
-        $this->extendArrayParameter(
-            $container, 'api_platform.resource_class_directories', [__DIR__.'/../Entity']);
+        $this->addResourceClassDirectory($container, __DIR__.'/../Entity');
 
-        $this->extendArrayParameter(
-            $container, 'dbp_api.paths_to_hide', [
+        $pathsToHide = [
             '/sublibrary/delivery-statuses/{identifier}',
             '/sublibrary/parcel-deliveries/{identifier}',
             '/sublibrary/book-order-items/{identifier}',
@@ -35,7 +33,10 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
             '/sublibrary/sublibraries/{identifier}',
             '/sublibrary/books',
             '/sublibrary/budget-monetary-amounts/{identifier}',
-        ]);
+        ];
+        foreach ($pathsToHide as $path) {
+            $this->addPathToHide($container, $path);
+        }
 
         $loader = new YamlFileLoader(
             $container,
@@ -60,15 +61,5 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
         $definition = $container->getDefinition('Dbp\Relay\SublibraryBundle\Service\AlmaApi');
         $definition->addMethodCall('setConfig', [$mergedConfig]);
         $definition->addMethodCall('setCache', [$cacheDef]);
-    }
-
-    private function extendArrayParameter(ContainerBuilder $container, string $parameter, array $values)
-    {
-        if (!$container->hasParameter($parameter)) {
-            $container->setParameter($parameter, []);
-        }
-        $oldValues = $container->getParameter($parameter);
-        assert(is_array($oldValues));
-        $container->setParameter($parameter, array_merge($oldValues, $values));
     }
 }
