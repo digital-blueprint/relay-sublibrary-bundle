@@ -139,7 +139,7 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         return $builder;
     }
 
-    public function getPersonUserItemByAlmaUserId(string $almaUserId): ?User
+    private function getPersonUserItemByAlmaUserId(string $almaUserId): ?User
     {
         try {
             $provider = $this->getProvider();

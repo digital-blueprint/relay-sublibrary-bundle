@@ -23,19 +23,14 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
     /** @var SublibraryProviderInterface */
     private $libraryProvider;
 
-    /** @var PersonProviderInterface */
-    private $personProvider;
-
     /** @var AlmaApi */
     private $api;
 
     public function __construct(
         SublibraryProviderInterface $libraryProvider,
-        PersonProviderInterface $personProvider,
         AlmaApi $api
     ) {
         $this->libraryProvider = $libraryProvider;
-        $this->personProvider = $personProvider;
         $this->api = $api;
     }
 

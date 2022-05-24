@@ -35,6 +35,7 @@ final class BookLoanDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         assert($data instanceof BookLoan);
+
         $bookLoan = $data;
         $api = $this->api;
         $api->checkPermissions();

@@ -1315,7 +1315,6 @@ class AlmaApi implements LoggerAwareInterface
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
             $url = $this->urls->getBookLoanAnalyticsUrl($library, $resumptionToken);
 
-            dump($url);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
