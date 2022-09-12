@@ -163,6 +163,26 @@ class AlmaApi implements LoggerAwareInterface
         return $client;
     }
 
+    public function checkConnection(): void
+    {
+        $client = $this->getClient();
+        try {
+            $client->get('bibs/test');
+        } catch (RequestException $e) {
+            throw new \RuntimeException($this->getRequestExceptionMessage($e));
+        }
+    }
+
+    public function checkConnectionAnalytics(): void
+    {
+        $client = $this->getAnalyticsClient();
+        try {
+            $client->get('analytics/test');
+        } catch (RequestException $e) {
+            throw new \RuntimeException($this->getRequestExceptionMessage($e));
+        }
+    }
+
     private function getAnalyticsClient(): Client
     {
         $stack = HandlerStack::create($this->clientHandler);
