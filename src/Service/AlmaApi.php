@@ -268,7 +268,7 @@ class AlmaApi implements LoggerAwareInterface
             try {
                 $xml = new \SimpleXMLElement($content);
 
-                return Tools::filterErrorMessage($xml->errorList->error->errorMessage);
+                return Tools::filterErrorMessage((string) $xml->errorList->error->errorMessage);
             } catch (\Exception $xmlException) {
                 return Tools::filterErrorMessage($content);
             }
