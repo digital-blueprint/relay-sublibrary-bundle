@@ -1782,7 +1782,7 @@ class AlmaApi implements LoggerAwareInterface
 
             $bookOrder->setOrderStatus($values['PO Line::Status (Active)']);
             $bookOrder->setOrderNumber($poNumber);
-            $bookOrder->setReceivingNote($values['PO Line::Receiving Note']);
+            $bookOrder->setReceivingNote($values['PO Line::Receiving/Activation Note']);
 
             $poCreationDate = $values['PO Line::PO Creation Date'];
             if ($poCreationDate !== '') {
