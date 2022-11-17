@@ -1287,6 +1287,8 @@ class AlmaApi implements LoggerAwareInterface
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
+
+
             if (!isset($dataArray['anies'][0])) {
                 throw new ItemNotLoadedException(sprintf("LibraryBookOffers of library '%s' were not valid!", $libraryCode));
             }
@@ -1294,6 +1296,7 @@ class AlmaApi implements LoggerAwareInterface
             // we need to remove the encoding attribute, because the string in reality is UTF-8 encoded,
             // otherwise the XML parsing will fail
             $analyticsData = str_replace('encoding="UTF-16"', '', $dataArray['anies'][0]);
+
 
             // SimpleXMLElement shows no warnings and may just fail, so we are using simplexml_load_string
             $xml = simplexml_load_string($analyticsData);
@@ -1592,6 +1595,7 @@ class AlmaApi implements LoggerAwareInterface
         $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
         ++$resumptionData['request-counter'];
 
+
         $xml = $this->getBookOffersAnalyticsXMLByOrganization($library, $resumptionData);
 
         $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
@@ -1625,7 +1629,7 @@ class AlmaApi implements LoggerAwareInterface
             // Location Code
             $bookOffer->setLocation($values['Location::Location Code']);
             // Library Code
-            $bookOffer->setLibrary($values['Location::Library Code']);
+            $bookOffer->setLibrary($values["Location:: CASE  WHEN  SUBSTRING(Library Code FROM 0 FOR 2) = 'F9' THEN  CONCAT(Library Code, '0') ELSE Library Code END"]);
 
             $inventoryDate = $values['Physical Item Details::Inventory Date'];
             if ($inventoryDate !== '') {

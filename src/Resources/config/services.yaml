@@ -1,7 +1,7 @@
 services:
     Dbp\Relay\SublibraryBundle\Service\AlmaApi:
-        public: false
         autowire: true
+        autoconfigure: true
 
     Dbp\Relay\SublibraryBundle\Service\LDAPApi:
         autowire: true
