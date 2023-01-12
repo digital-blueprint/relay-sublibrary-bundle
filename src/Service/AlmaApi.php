@@ -309,7 +309,8 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * @throws ItemNotLoadedException
-     * @return array|object
+     *
+     * @return array|object|mixed
      */
     private function getBookOfferJsonData(string $identifier, bool $assoc = true)
     {
@@ -428,7 +429,8 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * @throws ItemNotLoadedException
-     * @return array|object
+     *
+     * @return array|object|mixed|null
      */
     public function getBookLoanJsonData(string $identifier, bool $assoc = true)
     {
