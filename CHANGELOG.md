@@ -1,3 +1,7 @@
+# v0.1.9
+
+* Fix issues with book loaning and shelving (issues appeared after January 2023 update)
+
 # v0.1.8
 
 * Fix list book order bug due to field name change
