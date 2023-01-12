@@ -428,8 +428,9 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * @throws ItemNotLoadedException
+     * @return array|object
      */
-    public function getBookLoanJsonData(string $identifier): ?array
+    public function getBookLoanJsonData(string $identifier, bool $assoc = true)
     {
         $client = $this->getClient();
         $options = [
@@ -442,7 +443,7 @@ class AlmaApi implements LoggerAwareInterface
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
             $response = $client->request('GET', $this->urls->getBookLoanUrl($identifier), $options);
 
-            $dataArray = $this->decodeResponse($response);
+            $dataArray = $this->decodeResponse($response, $assoc);
 
             return $dataArray;
         } catch (InvalidIdentifierException $e) {
@@ -1018,20 +1019,22 @@ class AlmaApi implements LoggerAwareInterface
         $this->checkReadOnlyMode();
 
         $identifier = $bookLoan->getIdentifier();
-        $jsonData = $this->getBookLoanJsonData($identifier);
+        $jsonData = $this->getBookLoanJsonData($identifier, false);
 
         // check if the current user has permissions to the book loan
         $bookOffer = $bookLoan->getObject();
         $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
-        $jsonData['loan_status'] = $bookLoan->getLoanStatus();
-        $jsonData['due_date'] = $bookLoan->getEndTime()->format('c');
+        // XXX: Since 2023-01 release it returns "ACTIVE" but only allows titlecase "Active" when writing it back
+        $jsonData->loan_status = ucwords(strtolower($bookLoan->getLoanStatus()));
+        $jsonData->due_date = $bookLoan->getEndTime()->format('c');
 
         $client = $this->getClient();
         $options = [
             'json' => $jsonData,
             'headers' => [
                 'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
             ],
         ];
 
