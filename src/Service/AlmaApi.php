@@ -260,11 +260,11 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    private function decodeResponse(ResponseInterface $response)
+    private function decodeResponse(ResponseInterface $response, bool $assoc = true)
     {
         $body = $response->getBody();
         try {
-            return Tools::decodeJSON((string) $body, true);
+            return Tools::decodeJSON((string) $body, $assoc);
         } catch (\JsonException $e) {
             throw new ItemNotLoadedException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }
@@ -309,8 +309,9 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * @throws ItemNotLoadedException
+     * @return array|object
      */
-    private function getBookOfferJsonData(string $identifier): array
+    private function getBookOfferJsonData(string $identifier, bool $assoc = true)
     {
         $client = $this->getClient();
         $options = [
@@ -328,7 +329,7 @@ class AlmaApi implements LoggerAwareInterface
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
             $response = $client->request('GET', $url, $options);
-            $dataArray = $this->decodeResponse($response);
+            $dataArray = $this->decodeResponse($response, $assoc);
 
             return $dataArray;
         } catch (RequestException $e) {
@@ -679,14 +680,16 @@ class AlmaApi implements LoggerAwareInterface
         $this->checkCurrentPersonBookOfferPermissions($bookOffer);
 
         $identifier = $bookOffer->getIdentifier();
-        $jsonData = $this->getBookOfferJsonData($identifier);
+
+        // get as object to avoid empty arrays, which are not supported
+        $jsonData = $this->getBookOfferJsonData($identifier, false);
 
         // only updating of the alternative_call_number is supported
         $locationIdentifier = $bookOffer->getLocationIdentifier();
-        $jsonData['item_data']['alternative_call_number'] = $locationIdentifier;
+        $jsonData->item_data->alternative_call_number = $locationIdentifier;
 
         // alternative_call_number_type is just needed internally for the library
-        $jsonData['item_data']['alternative_call_number_type']['value'] = $locationIdentifier !== '' ? '8' : '';
+        $jsonData->item_data->alternative_call_number_type->value = $locationIdentifier !== '' ? '8' : '';
 
         // we want to save a "modified date" to be able to sort by it in \App\Service\AlmaUrlApi::getBookOfferLocationsIdentifierUrl
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/R0VUIC9hbG1hd3MvdjEvYmlicy97bW1zX2lkfS9ob2xkaW5ncy97aG9sZGluZ19pZH0vaXRlbXM=/
@@ -698,6 +701,7 @@ class AlmaApi implements LoggerAwareInterface
             'json' => $jsonData,
             'headers' => [
                 'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
             ],
         ];
 
