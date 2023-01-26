@@ -1,6 +1,6 @@
 # Dbp Relay SubLibrary Bundle
 
-[GitLab](https://gitlab.tugraz.at/dbp/sublibrary/dbp-relay-sublibrary-bundle) |
+[GitHub](https://github.com/digital-blueprint/relay-sublibrary-bundle) |
 [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle) |
 [Frontend Application](https://gitlab.tugraz.at/dbp/sublibrary/sublibrary)
 
