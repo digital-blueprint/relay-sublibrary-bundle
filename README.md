@@ -4,7 +4,7 @@
 [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle) |
 [Frontend Application](https://gitlab.tugraz.at/dbp/sublibrary/sublibrary)
 
-DISCLAIMER: This bundle needs a specific ALMA configuration to work. Please contact [info@digital-blueprint.org](mailto:info@digital-blueprint.org) for more information.`
+DISCLAIMER: This bundle needs a specific ALMA configuration to work. Please contact [info@digital-blueprint.org](mailto:info@digital-blueprint.org) for more information.
 
 This Symfony 4.4 bundle provides API endpoints for
 
