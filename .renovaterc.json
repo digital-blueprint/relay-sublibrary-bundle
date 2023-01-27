@@ -22,6 +22,14 @@
     {
       "matchPackageNames": ["friendsofphp/php-cs-fixer"],
       "allowedVersions": "<3.5"
+    },
+    {
+      "matchPackageNames": ["vimeo/psalm"],
+      "allowedVersions": "<5"
+    },
+    {
+      "matchPackageNames": ["api-platform/core"],
+      "allowedVersions": "<2.7"
     }
   ]
 }
