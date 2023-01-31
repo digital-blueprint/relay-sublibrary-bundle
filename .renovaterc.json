@@ -30,6 +30,10 @@
     {
       "matchPackageNames": ["api-platform/core"],
       "allowedVersions": "<2.7"
+    },
+    {
+      "matchPackageNames": ["doctrine/collections"],
+      "allowedVersions": "<2",
     }
   ]
 }
