@@ -1,3 +1,6 @@
+# v0.1.11
+* Fix budget not showing properly. Caused by February 2023 update which renames fund fields.
+
 # v0.1.9
 
 * Fix issues with book loaning and shelving (issues appeared after January 2023 update)
