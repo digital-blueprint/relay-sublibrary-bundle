@@ -33,7 +33,11 @@
     },
     {
       "matchPackageNames": ["doctrine/collections"],
-      "allowedVersions": "<2",
+      "allowedVersions": "<2"
+    },
+    {
+      "matchPackageNames": ["phpunit/phpunit"],
+      "allowedVersions": "<10"
     }
   ]
 }
