@@ -1486,7 +1486,7 @@ class AlmaApi implements LoggerAwareInterface
             try {
                 $values = AlmaUtils::mapRowColumns($row, $mapping);
 
-                if ($values['Fund Ledger::Fund Ledger Code'] === $fundLedgerCode) {
+                if ($values['Funds::Fund Code'] === $fundLedgerCode) {
                     $names = self::budgetMonetaryAmountNames();
 
                     foreach (array_keys($names) as $key) {
