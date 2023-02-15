@@ -1,4 +1,9 @@
+# v0.1.12
+
+* tests: don't fail if symfony/dotenv is installed
+
 # v0.1.11
+
 * Fix budget not showing properly. Caused by February 2023 update which renames fund fields.
 
 # v0.1.9
