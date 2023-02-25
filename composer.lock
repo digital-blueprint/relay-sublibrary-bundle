@@ -8,30 +8,30 @@
     "packages": [
         {
             "name": "adldap2/adldap2",
-            "version": "v10.4.3",
+            "version": "v10.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Adldap2/Adldap2.git",
-                "reference": "a55e2c5285b9e101ed555894bd7b97b20c0c293e"
+                "reference": "e400eecb7bd7de8ee79aae320b54ad70d37f86b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/a55e2c5285b9e101ed555894bd7b97b20c0c293e",
-                "reference": "a55e2c5285b9e101ed555894bd7b97b20c0c293e",
+                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/e400eecb7bd7de8ee79aae320b54ad70d37f86b1",
+                "reference": "e400eecb7bd7de8ee79aae320b54ad70d37f86b1",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-ldap": "*",
-                "illuminate/contracts": "~5.0|~6.0|~7.0|~8.0|~9.0",
+                "illuminate/contracts": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
                 "php": ">=7.0",
-                "psr/log": "~1.0|~2.0|~3.0",
-                "psr/simple-cache": "~1.0|~2.0",
-                "tightenco/collect": "~5.0|~6.0|~7.0|~8.0"
+                "psr/log": "^1.0|^2.0|^3.0",
+                "psr/simple-cache": "^1.0|^2.0|^3.0",
+                "tightenco/collect": "^5.0|^6.0|^7.0|^8.0|^9.0"
             },
             "require-dev": {
-                "mockery/mockery": "~1.0",
-                "symfony/phpunit-bridge": "~5.2|~6.0"
+                "mockery/mockery": "^1.0",
+                "symfony/phpunit-bridge": "^5.2|^6.0"
             },
             "suggest": {
                 "ext-fileinfo": "fileinfo is required when retrieving user encoded thumbnails"
@@ -69,7 +69,7 @@
                 "issues": "https://github.com/Adldap2/Adldap2/issues",
                 "source": "https://github.com/Adldap2/Adldap2"
             },
-            "time": "2022-10-18T13:33:00+00:00"
+            "time": "2023-02-23T15:00:03+00:00"
         },
         {
             "name": "api-platform/core",
@@ -8378,16 +8378,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.18",
+            "version": "1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f2d5cf71be91172a57c649770b73c20ebcffb0bf"
+                "reference": "5419375b5891add97dc74be71e6c1c34baaddf64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f2d5cf71be91172a57c649770b73c20ebcffb0bf",
-                "reference": "f2d5cf71be91172a57c649770b73c20ebcffb0bf",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/5419375b5891add97dc74be71e6c1c34baaddf64",
+                "reference": "5419375b5891add97dc74be71e6c1c34baaddf64",
                 "shasum": ""
             },
             "require": {
@@ -8417,7 +8417,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.18"
+                "source": "https://github.com/phpstan/phpstan/tree/1.10.3"
             },
             "funding": [
                 {
@@ -8433,7 +8433,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-17T15:01:27+00:00"
+            "time": "2023-02-25T14:47:13+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
