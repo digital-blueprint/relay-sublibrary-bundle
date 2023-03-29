@@ -12,6 +12,7 @@ use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
+use Dbp\Relay\CoreBundle\LocalData\LocalData;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
@@ -49,6 +50,9 @@ use Symfony\Component\Security\Core\Security;
 class AlmaApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
+
+    private const ALMA_ID_ATTRIBUTE = 'alma-id';
+    private const TUG_FUNCTIONS_ATTRIBUTE = 'tug-functions';
 
     /** @var PersonProviderInterface */
     private $personProvider;
@@ -575,7 +579,7 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @return ArrayCollection
      *
-     * @throws ItemNotLoadedException
+     * @throws ItemNotFoundException
      */
     public function getBookOffers(array $filters): ArrayCollection
     {
@@ -615,7 +619,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @throws ItemNotLoadedException
+     * @throws ItemNotFoundException
      */
     public function getBookLoans(array $filters): ArrayCollection
     {
@@ -634,7 +638,7 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         if (!empty($borrowerId)) {
-            $person = $this->personProvider->getPerson($borrowerId);
+            $person = $this->getPerson($borrowerId);
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
 
             if ($library) {
@@ -768,8 +772,8 @@ class AlmaApi implements LoggerAwareInterface
         }
         $personId = $match[1];
 
-        $person = $this->personProvider->getPerson($personId);
-        $userId = $person->getExtraData('alma-id');
+        $person = $this->getPerson($personId);
+        $userId = $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $this->getPersonName($person)));
@@ -937,7 +941,7 @@ class AlmaApi implements LoggerAwareInterface
             $person->setIdentifier('unknown');
             $person->setGivenName($values['Borrower Details::First Name']);
             $person->setFamilyName($values['Borrower Details::Last Name']);
-            $person->setExtraData('alma-id', $values['Borrower Details::User Id']);
+            $person->setLocalDataValue(self::ALMA_ID_ATTRIBUTE, $values['Borrower Details::User Id']);
 
             $bookLoan->setBorrower($person);
 
@@ -1196,7 +1200,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         $identifier = $person->getIdentifier();
-        $userId = $person->getExtraData('alma-id');
+        $userId = $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $this->getPersonName($person)));
@@ -1239,7 +1243,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
     {
-        $person = $this->personProvider->getCurrentPerson();
+        $person = $this->getCurrentPerson();
         if (!$this->libraryProvider->isLibraryManagerByCode($person, $bookOffer->getLibrary())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
         }
@@ -1254,7 +1258,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function filterBookLoans(array $bookLoans): array
     {
-        $currentPerson = $this->personProvider->getCurrentPerson();
+        $currentPerson = $this->getCurrentPerson();
         $libraryCodes = $this->libraryProvider->getSublibraryCodesByLibraryManager($currentPerson);
 
         $filtered = [];
@@ -1985,7 +1989,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function checkCurrentPersonLibraryPermissions(Sublibrary $library)
     {
-        $person = $this->personProvider->getCurrentPerson();
+        $person = $this->getCurrentPerson();
         if (!$this->libraryProvider->isLibraryManagerById($person, $library->getIdentifier())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $library->getCode()));
         }
@@ -1993,6 +1997,17 @@ class AlmaApi implements LoggerAwareInterface
 
     public function getCurrentPerson(): ?Person
     {
-        return $this->personProvider->getCurrentPerson();
+        $options = [];
+        LocalData::requestLocalDataAttributes($options, [self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+
+        return $this->personProvider->getCurrentPerson($options);
+    }
+
+    public function getPerson(string $personIdentifier): ?Person
+    {
+        $options = [];
+        LocalData::requestLocalDataAttributes($options, [self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+
+        return $this->personProvider->getPerson($personIdentifier, $options);
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
-use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
 use Dbp\Relay\SublibraryBundle\Helpers\Tools;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
@@ -17,17 +15,9 @@ abstract class AlmaController extends AbstractController
     /** @var AlmaApi */
     protected $api;
 
-    /** @var PersonProviderInterface */
-    protected $personProvider;
-
-    /** @var SublibraryProviderInterface */
-    protected $libraryProvider;
-
-    public function __construct(AlmaApi $api, PersonProviderInterface $personProvider, SublibraryProviderInterface $libraryProvider)
+    public function __construct(AlmaApi $api)
     {
         $this->api = $api;
-        $this->personProvider = $personProvider;
-        $this->libraryProvider = $libraryProvider;
     }
 
     /**

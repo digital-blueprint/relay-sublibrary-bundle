@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
-use Dbp\Relay\BasePersonBundle\TestUtils\DummyPersonProvider;
+use Dbp\Relay\BasePersonBundle\Service\DummyPersonProvider;
 use Dbp\Relay\CoreBundle\Helpers\Tools;
 use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
@@ -36,7 +36,11 @@ class AlmaApiTest extends WebTestCase
         $client = static::createClient();
 
         $person = new Person();
-        $personProvider = new DummyPersonProvider($person);
+        $person->setIdentifier('foo');
+        $person->setGivenName('John');
+        $person->setFamilyName('Doe');
+        $personProvider = new DummyPersonProvider();
+        $personProvider->setCurrentPerson($person);
         $libraryProvider = new DummySublibraryProvider();
         $ldapApi = new LDAPApi($personProvider);
         $ldapApi->setConfig([
