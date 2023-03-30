@@ -51,8 +51,8 @@ class AlmaApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private const ALMA_ID_ATTRIBUTE = 'alma-id';
-    private const TUG_FUNCTIONS_ATTRIBUTE = 'tug-functions';
+    private const ALMA_ID_ATTRIBUTE = 'almaId';
+    private const TUG_FUNCTIONS_ATTRIBUTE = 'tugFunctions';
 
     /** @var PersonProviderInterface */
     private $personProvider;
