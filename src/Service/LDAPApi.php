@@ -14,7 +14,6 @@ use Adldap\Connections\Provider;
 use Adldap\Connections\ProviderInterface;
 use Adldap\Models\User;
 use Adldap\Query\Builder;
-use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\API\UserSessionInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
@@ -48,11 +47,6 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
     private $cacheTTL;
 
     /**
-     * @var PersonProviderInterface
-     */
-    private $personProvider;
-
-    /**
      * @var Person|null
      */
     private $currentPerson;
@@ -63,11 +57,9 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
 
     private $almaUserIdAttributeName;
 
-    public function __construct(
-        PersonProviderInterface $personProvider
-    ) {
+    public function __construct()
+    {
         $this->ad = new Adldap();
-        $this->personProvider = $personProvider;
         $this->cacheTTL = 0;
         $this->currentPerson = null;
     }
@@ -169,12 +161,11 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         }
     }
 
-    public function getPersonByAlmaUserId(string $almaUserId): ?Person
+    public function getPersonIdByAlmaUserId(string $almaUserId): string
     {
         $user = $this->getPersonUserItemByAlmaUserId($almaUserId);
-        $identifier = $user->getFirstAttribute($this->identifierAttributeName);
 
-        return $this->personProvider->getPerson($identifier);
+        return $user->getFirstAttribute($this->identifierAttributeName);
     }
 
     public static function getSubscribedServices(): array

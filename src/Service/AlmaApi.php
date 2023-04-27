@@ -51,6 +51,7 @@ class AlmaApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    private const EMAIL_ATTRIBUTE = 'email';
     private const ALMA_ID_ATTRIBUTE = 'almaId';
     private const TUG_FUNCTIONS_ATTRIBUTE = 'tugFunctions';
 
@@ -499,7 +500,8 @@ class AlmaApi implements LoggerAwareInterface
         $userId = $item['user_id'];
 
         try {
-            $person = $this->ldapApi->getPersonByAlmaUserId($userId);
+            $personId = $this->ldapApi->getPersonIdByAlmaUserId($userId);
+            $person = $this->getPerson($personId, false);
             $bookLoan->setBorrower($person);
         } catch (ItemNotFoundException $e) {
             // this happens if no person was found in LDAP by AlmaUserId, must be handled in the frontend
@@ -941,8 +943,6 @@ class AlmaApi implements LoggerAwareInterface
             $person->setIdentifier('unknown');
             $person->setGivenName($values['Borrower Details::First Name']);
             $person->setFamilyName($values['Borrower Details::Last Name']);
-            $person->setLocalDataValue(self::ALMA_ID_ATTRIBUTE, $values['Borrower Details::User Id']);
-
             $bookLoan->setBorrower($person);
 
             $collection->add($bookLoan);
@@ -1998,15 +1998,21 @@ class AlmaApi implements LoggerAwareInterface
     public function getCurrentPerson(): ?Person
     {
         $options = [];
-        LocalData::requestLocalDataAttributes($options, [self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+        LocalData::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE, self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
 
         return $this->personProvider->getCurrentPerson($options);
     }
 
-    public function getPerson(string $personIdentifier): ?Person
+    public function getPerson(string $personIdentifier, bool $addInternalAttributes = true): ?Person
     {
+        $attributes = [self::EMAIL_ATTRIBUTE];
+        if ($addInternalAttributes) {
+            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
+        }
+
         $options = [];
-        LocalData::requestLocalDataAttributes($options, [self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+        LocalData::requestLocalDataAttributes($options, $attributes);
 
         return $this->personProvider->getPerson($personIdentifier, $options);
     }

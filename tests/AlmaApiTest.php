@@ -42,7 +42,7 @@ class AlmaApiTest extends WebTestCase
         $personProvider = new DummyPersonProvider();
         $personProvider->setCurrentPerson($person);
         $libraryProvider = new DummySublibraryProvider();
-        $ldapApi = new LDAPApi($personProvider);
+        $ldapApi = new LDAPApi();
         $ldapApi->setConfig([
             'encryption' => 'simple_tls',
         ]);
