@@ -93,7 +93,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     description="A book loan in the library",
  *     normalizationContext={
  *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output"}
+ *         "groups" = {"LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output", "LocalData:output"}
  *     },
  *     denormalizationContext={
  *         "groups" = {"LibraryBookLoan:input"}
