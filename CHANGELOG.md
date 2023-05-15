@@ -1,3 +1,7 @@
+# v0.1.19
+
+* Update to api-platform 2.7
+
 # v0.1.12
 
 * tests: don't fail if symfony/dotenv is installed
