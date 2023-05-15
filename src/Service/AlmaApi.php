@@ -559,7 +559,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             $publicationYear = (int) $item['date_of_publication'];
-            $book->setDatePublished(new DateTime("${publicationYear}-01-01"));
+            $book->setDatePublished(new DateTime("{$publicationYear}-01-01"));
         } catch (\Exception $e) {
         } catch (\TypeError $e) {
             // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1660,7 +1660,7 @@ class AlmaApi implements LoggerAwareInterface
             if ($publicationDate !== '') {
                 try {
                     $publicationYear = (int) $publicationDate;
-                    $book->setDatePublished(new DateTime("${publicationYear}-01-01"));
+                    $book->setDatePublished(new DateTime("{$publicationYear}-01-01"));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
