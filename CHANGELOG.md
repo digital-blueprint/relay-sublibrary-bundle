@@ -1,3 +1,7 @@
+# v0.1.20
+
+* Use the global "cache.app" adapter for caching instead of always using the filesystem adapter
+
 # v0.1.19
 
 * Update to api-platform 2.7

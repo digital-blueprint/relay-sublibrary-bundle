@@ -2,10 +2,14 @@ services:
     Dbp\Relay\SublibraryBundle\Service\AlmaApi:
         public: false
         autowire: true
+        calls:
+            - setCache: [ '@dbp.relay.sublibrary.cache.alma_analytics' ]
 
     Dbp\Relay\SublibraryBundle\Service\LDAPApi:
         autowire: true
         autoconfigure: true
+        calls:
+            - setLDAPCache: [ '@dbp.relay.sublibrary.cache.ldap', 360 ]
 
     Dbp\Relay\SublibraryBundle\Controller\:
         resource: '../../Controller'
@@ -32,3 +36,13 @@ services:
     Dbp\Relay\SublibraryBundle\Service\HealthCheck:
         autowire: true
         autoconfigure: true
+
+    dbp.relay.sublibrary.cache.alma_analytics:
+        parent: cache.app
+        tags:
+            - { name: 'cache.pool', default_lifetime: 60 }
+
+    dbp.relay.sublibrary.cache.ldap:
+        parent: cache.app
+        tags:
+            - { name: 'cache.pool', default_lifetime: 360 }
