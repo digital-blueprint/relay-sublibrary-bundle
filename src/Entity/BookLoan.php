@@ -34,7 +34,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method" = "GET",
  *             "path" = "/sublibrary/book-offers/{identifier}/loans",
  *             "controller" = GetBookLoansByBookOffer::class,
- *             "read" = false,
+ *             "defaults" = {
+ *                 "_api_receive" = false,
+ *             },
  *             "pagination_enabled" = false,
  *             "normalization_context" = {
  *                 "jsonld_embed_context" = true,
@@ -53,8 +55,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method" = "POST",
  *             "path" = "/sublibrary/book-offers/{identifier}/loans",
  *             "controller" = PostBookLoanByBookOffer::class,
- *             "read" = false,
- *             "write" = false,
+ *             "defaults" = {
+ *                 "_api_persist" = false,
+ *                 "_api_receive" = false,
+ *             },
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
  *                 "summary" = "Post a loan for a book offer.",
