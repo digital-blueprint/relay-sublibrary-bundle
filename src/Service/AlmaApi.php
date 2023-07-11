@@ -12,7 +12,7 @@ use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
-use Dbp\Relay\CoreBundle\LocalData\LocalData;
+use Dbp\Relay\CoreBundle\Rest\Options;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
@@ -1998,7 +1998,7 @@ class AlmaApi implements LoggerAwareInterface
     public function getCurrentPerson(): ?Person
     {
         $options = [];
-        LocalData::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE, self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+        Options::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE, self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
 
         return $this->personProvider->getCurrentPerson($options);
     }
@@ -2012,7 +2012,7 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         $options = [];
-        LocalData::requestLocalDataAttributes($options, $attributes);
+        Options::requestLocalDataAttributes($options, $attributes);
 
         return $this->personProvider->getPerson($personIdentifier, $options);
     }
