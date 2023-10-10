@@ -16,6 +16,7 @@ use Dbp\Relay\CoreBundle\Rest\Options;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
+use Dbp\Relay\SublibraryBundle\Entity\BookLocation;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
 use Dbp\Relay\SublibraryBundle\Entity\BookOrderItem;
@@ -1095,16 +1096,12 @@ class AlmaApi implements LoggerAwareInterface
      *
      * TODO: We are not allowed to use the field chronology_i any more, so this function is currently broken since the results are not sorted in the way we need it
      *
-     * @param BookOffer $bookOffer
-     *
-     * @return ArrayCollection
-     *
      * @throws ItemNotLoadedException
      * @throws \League\Uri\Contracts\UriException
      */
-    public function locationIdentifiersByBookOffer(BookOffer $bookOffer): ArrayCollection
+    public function locationIdentifiersByBookOffer(BookOffer $bookOffer): array
     {
-        $collection = new ArrayCollection();
+        $bookLocations = [];
         $client = $this->getClient();
         $options = [
             'headers' => [
@@ -1117,30 +1114,26 @@ class AlmaApi implements LoggerAwareInterface
             $response = $client->request('GET', $this->urls->getBookOfferLocationsIdentifierUrl($bookOffer), $options);
 
             $dataArray = $this->decodeResponse($response);
-
-            if (!isset($dataArray['item'])) {
-                return $collection;
-            }
-
-            $results = $dataArray['item'];
-
-            array_walk($results, function (&$item) {
-                $item = isset($item['item_data']) && isset($item['item_data']['alternative_call_number']) ?
-                    $item['item_data']['alternative_call_number'] : '';
+            $results = array_map(function ($item) {
+                return $item['item_data']['alternative_call_number'] ?? null;
+            }, $dataArray['item'] ?? []);
+            $results = array_filter($results, function ($item) {
+                return $item !== null && $item !== '';
             });
 
             $results = array_unique($results);
 
             foreach ($results as $result) {
-                $collection->add($result);
+                $bookLocation = new BookLocation();
+                $bookLocation->setIdentifier($result);
+                $bookLocations[] = $bookLocation;
             }
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
-        } catch (RequestException $e) {
-        } catch (GuzzleException $e) {
+        } catch (RequestException|GuzzleException $e) {
         }
 
-        return $collection;
+        return $bookLocations;
     }
 
     /**

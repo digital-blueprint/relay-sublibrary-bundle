@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use Dbp\Relay\SublibraryBundle\Controller\GetLocationIdentifiersByBookOffer;
 use Dbp\Relay\SublibraryBundle\Controller\PostReturnByBookOffer;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -44,19 +43,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path" = "/sublibrary/book-offers/{identifier}",
  *             "openapi_context" = {
  *                 "tags" = {"Sublibrary"},
- *             },
- *         },
- *         "get_location_identifiers" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "method" = "GET",
- *             "path" = "/sublibrary/book-offers/{identifier}/location-identifiers",
- *             "controller" = GetLocationIdentifiersByBookOffer::class,
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "summary" = "Retrieves all location identifiers with in the same holding and with the same location as the book offer.",
- *                 "parameters" = {
- *                     {"name" = "identifier", "in" = "path", "description" = "Id of book offer", "required" = true, "type" = "string"}
- *                 }
  *             },
  *         },
  *         "post_return" = {

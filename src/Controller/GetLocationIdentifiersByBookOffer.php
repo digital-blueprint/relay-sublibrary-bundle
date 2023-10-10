@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Controller;
 
-use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
-use Doctrine\Common\Collections\ArrayCollection;
+use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
+use League\Uri\Contracts\UriException;
 
 class GetLocationIdentifiersByBookOffer extends AlmaController
 {
-    public function __invoke(BookOffer $data): ArrayCollection
+    /**
+     * @throws ItemNotLoadedException|UriException
+     */
+    public function __invoke(string $identifier): array
     {
         $this->api->checkPermissions();
 
-        $locationIdentifiers = $this->api->locationIdentifiersByBookOffer($data);
-
-        return $locationIdentifiers;
+        return $this->api->locationIdentifiersByBookOffer($this->api->getBookOffer($identifier));
     }
 }

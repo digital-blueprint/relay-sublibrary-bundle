@@ -32,6 +32,8 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
             '/sublibrary/sublibraries/{identifier}',
             '/sublibrary/books',
             '/sublibrary/budget-monetary-amounts/{identifier}',
+            '/sublibrary/book-locations/{identifier}',
+            '/sublibrary/book-locations',
         ];
         foreach ($pathsToHide as $path) {
             $this->addPathToHide($container, $path);
