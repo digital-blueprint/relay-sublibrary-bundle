@@ -1,3 +1,7 @@
+# v0.1.25
+
+* Adjust for Alma API changes. This fixes the loan collection endpoint.
+
 # v0.1.24
 
 * Support kevinrob/guzzle-cache-middleware v5
