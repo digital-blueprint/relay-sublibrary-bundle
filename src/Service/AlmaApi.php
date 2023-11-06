@@ -918,7 +918,7 @@ class AlmaApi implements LoggerAwareInterface
             $bookOffer->setLocationIdentifier($values['Physical Item Details::Item Call Number'] ?? '');
             // Library Code
             // TODO: is this the correct column?
-            $bookOffer->setLibrary($values['Item Location at time of loan::Library Code']);
+            $bookOffer->setLibrary($values['Item Location at Time of Loan::Library Code']);
 
             $book = new Book();
             $book->setIdentifier("{$mmsId}-{$holdingId}-{$itemId}");
