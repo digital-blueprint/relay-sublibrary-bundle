@@ -1,3 +1,7 @@
+# v0.1.24
+
+* Support kevinrob/guzzle-cache-middleware v5
+
 # v0.1.21
 
 * Fix some API performance issues with api-platform 2.7
