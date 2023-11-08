@@ -99,3 +99,45 @@ resources:
         iri: "http://schema.org/name"
       code:
         iri: "http://schema.org/identifier"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['https://schema.org/MonetaryAmount']
+    description: "A budget value of Sublibrary"
+    shortName: "LibraryBudgetMonetaryAmount"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBudgetMonetaryAmount:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmountProvider
+        uriTemplate: "/budget-monetary-amounts"
+        openapiContext:
+          tags: ["Sublibrary"]
+          parameters:
+            - name: sublibrary
+              in: query
+              description: 'Get all budget values of a sublibrary (ID of Sublibrary resource)'
+              required: true
+              type: "string"
+              example: "1190"
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmountProvider
+        uriTemplate: "/budget-monetary-amounts/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      value:
+        iri: "http://schema.org/value"
+      currency:
+        iri: "http://schema.org/currency"

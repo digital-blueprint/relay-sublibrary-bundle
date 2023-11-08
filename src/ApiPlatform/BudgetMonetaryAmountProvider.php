@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
-use Dbp\Relay\SublibraryBundle\Entity\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
-use League\Uri\Contracts\UriException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class BudgetMonetaryAmountCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BudgetMonetaryAmountProvider implements ProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
@@ -33,18 +32,14 @@ final class BudgetMonetaryAmountCollectionDataProvider implements CollectionData
         $this->api = $api;
     }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return BudgetMonetaryAmount::class === $resourceClass;
-    }
-
-    /**
-     * @throws UriException
-     */
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
+    public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
         $api = $this->api;
         $api->checkPermissions();
+
+        if (!$operation instanceof CollectionOperationInterface) {
+            return null;
+        }
 
         $filters = $context['filters'] ?? [];
 
