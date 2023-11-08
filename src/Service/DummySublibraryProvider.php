@@ -6,6 +6,7 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
+use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 
@@ -16,7 +17,7 @@ class DummySublibraryProvider implements SublibraryProviderInterface
      *
      * @throws ApiError
      */
-    public function getSublibrary(string $identifier, array $options = []): ?Sublibrary
+    public function getSublibrary(string $identifier, array $options = []): ?SublibraryInterface
     {
         return new Sublibrary();
     }

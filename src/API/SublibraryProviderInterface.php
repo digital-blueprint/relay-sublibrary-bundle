@@ -15,7 +15,7 @@ interface SublibraryProviderInterface
      *
      * @throws ApiError
      */
-    public function getSublibrary(string $identifier, array $options = []): ?Sublibrary;
+    public function getSublibrary(string $identifier, array $options = []): ?SublibraryInterface;
 
     /**
      * Returns the array of sub-library IDs the given Person is a library manager of.

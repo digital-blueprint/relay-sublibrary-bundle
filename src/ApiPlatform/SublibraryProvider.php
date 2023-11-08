@@ -10,6 +10,7 @@ use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
+use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,7 +65,11 @@ final class SublibraryProvider implements ProviderInterface
             foreach ($this->libraryProvider->getSublibraryIdsByLibraryManager($currentPerson) as $sublibraryId) {
                 $sublibrary = $this->libraryProvider->getSublibrary($sublibraryId, $options);
                 if ($sublibrary !== null) {
-                    $sublibraries[] = $sublibrary;
+                    $lib = new Sublibrary();
+                    $lib->setIdentifier($sublibrary->getIdentifier());
+                    $lib->setName($sublibrary->getName());
+                    $lib->setCode($sublibrary->getCode());
+                    $sublibraries[] = $lib;
                 }
             }
         } catch (\Exception $exc) {

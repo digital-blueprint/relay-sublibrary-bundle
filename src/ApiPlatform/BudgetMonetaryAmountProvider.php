@@ -32,6 +32,9 @@ final class BudgetMonetaryAmountProvider implements ProviderInterface
         $this->api = $api;
     }
 
+    /**
+     * @return ArrayFullPaginator|null
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
         $api = $this->api;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Entity;
 
+use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class Sublibrary
+class Sublibrary implements SublibraryInterface
 {
     /**
      * @Groups({"Sublibrary:output"})
