@@ -1,3 +1,8 @@
+# v0.1.26
+
+* Partial port to the new api-platform metadata system
+* Added a new SublibraryInterface so the connector doesn't need to depend on internal classes
+
 # v0.1.25
 
 * Adjust for Alma API changes. This fixes the loan collection endpoint.
