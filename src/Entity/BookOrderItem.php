@@ -6,6 +6,7 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

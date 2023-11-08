@@ -7,7 +7,7 @@ namespace Dbp\Relay\SublibraryBundle\Tests;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\BasePersonBundle\Service\DummyPersonProvider;
 use Dbp\Relay\CoreBundle\Helpers\Tools;
-use Dbp\Relay\SublibraryBundle\Entity\Book;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;

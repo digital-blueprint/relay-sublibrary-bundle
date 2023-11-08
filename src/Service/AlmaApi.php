@@ -14,7 +14,7 @@ use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
 use Dbp\Relay\CoreBundle\Rest\Options;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
-use Dbp\Relay\SublibraryBundle\Entity\Book;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
 use Dbp\Relay\SublibraryBundle\Entity\BookLocation;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
@@ -1829,7 +1829,7 @@ class AlmaApi implements LoggerAwareInterface
             $book->setIdentifier($values['Bibliographic Details::MMS Id']);
             $book->setTitle($values['Bibliographic Details::Title']);
             $book->setAuthor($values['Bibliographic Details::Author']);
-            $book->setISBN($values['PO Line::PO Line Identifier'] ?? '');
+            $book->setIsbn($values['PO Line::PO Line Identifier'] ?? '');
 
             $bookOrderItem = new BookOrderItem();
             $bookOrderItem->setIdentifier($identifier);

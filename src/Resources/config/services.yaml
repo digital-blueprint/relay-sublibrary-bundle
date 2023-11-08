@@ -11,6 +11,11 @@ services:
         calls:
             - setLDAPCache: [ '@dbp.relay.sublibrary.cache.ldap', 360 ]
 
+    Dbp\Relay\SublibraryBundle\ApiPlatform\:
+        resource: '../../ApiPlatform'
+        autowire: true
+        autoconfigure: true
+
     Dbp\Relay\SublibraryBundle\Controller\:
         resource: '../../Controller'
         autowire: true

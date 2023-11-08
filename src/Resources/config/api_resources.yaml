@@ -1,0 +1,41 @@
+resources:
+  Dbp\Relay\SublibraryBundle\ApiPlatform\Book:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['http://schema.org/Book']
+    description: "A book from the library"
+    shortName: "LibraryBook"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBook:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
+        uriTemplate: "/books"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
+        uriTemplate: "/books/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      title:
+        iri: "http://schema.org/name"
+      isbn:
+        iri: "http://schema.org/isbn"
+      author:
+        iri: "https://schema.org/author"
+      publisher:
+        iri: "https://schema.org/publisher"
+      datePublished:
+        iri: "https://schema.org/DateTime"
