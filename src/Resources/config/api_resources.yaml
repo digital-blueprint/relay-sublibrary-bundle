@@ -39,3 +39,63 @@ resources:
         iri: "https://schema.org/publisher"
       datePublished:
         iri: "https://schema.org/DateTime"
+
+  Dbp\Relay\SublibraryBundle\Entity\Sublibrary:
+    types: ['https://schema.org/Library']
+    description: "Library of an Organization"
+    shortName: "Sublibrary"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["Sublibrary:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\SublibraryProvider
+        uriTemplate: "/sublibraries"
+        openapiContext:
+          tags: ["Sublibrary"]
+          parameters:
+            - name: libraryManager
+              in: query
+              description: 'Get the Sublibraries the given person has library manager permissions for (ID of BasePerson resource)'
+              required: true
+              type: "string"
+              example: "woody007"
+            - name: lang
+              in: query
+              description: 'Language of result'
+              required: false
+              type: "string"
+              enum: ["de", "en"]
+              example: "de"
+
+      ApiPlatform\Metadata\Get:
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\SublibraryProvider
+        uriTemplate: "/sublibraries/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+          parameters:
+            - name: identifier
+              in: path
+              description: 'ID of Sublibrary'
+              required: true
+              type: "string"
+              example: "1190"
+            - name: lang
+              in: query
+              description: 'Language of result'
+              required: false
+              type: "string"
+              enum: ["de", "en"]
+              example: "de"
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      name:
+        iri: "http://schema.org/name"
+      code:
+        iri: "http://schema.org/identifier"
