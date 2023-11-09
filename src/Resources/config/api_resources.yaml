@@ -253,3 +253,52 @@ resources:
         iri: "http://schema.org/price"
       priceCurrency:
         iri: "http://schema.org/priceCurrency"
+
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrder:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['http://schema.org/Order']
+    description: "A book order from the library"
+    shortName: "LibraryBookOrder"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBookOrder:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderProvider
+        uriTemplate: "/book-orders"
+        openapiContext:
+          tags: ["Sublibrary"]
+          parameters:
+            - name: sublibrary
+              in: query
+              description: 'Get all book offers of a sublibrary (ID of Sublibrary resource)'
+              required: true
+              type: "string"
+              example: "1190"
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderProvider
+        uriTemplate: "/book-orders/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      orderNumber:
+        iri: "http://schema.org/orderNumber"
+      receivingNote:
+        iri: "http://schema.org/Text"
+      orderedItem:
+        iri: "http://schema.org/OrderItem"
+      orderStatus:
+        iri: "http://schema.org/Text"
+      orderDate:
+        iri: "http://schema.org/DateTime"

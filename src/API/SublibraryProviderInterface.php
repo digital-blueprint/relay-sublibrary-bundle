@@ -6,7 +6,6 @@ namespace Dbp\Relay\SublibraryBundle\API;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 
 interface SublibraryProviderInterface
 {

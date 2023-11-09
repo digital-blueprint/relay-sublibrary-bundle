@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
-use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
-final class BookOrderCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BookOrderProvider implements ProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
@@ -22,14 +22,19 @@ final class BookOrderCollectionDataProvider implements CollectionDataProviderInt
         $this->api = $api;
     }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return BookOrder::class === $resourceClass;
-    }
-
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
+    /**
+     * @return ArrayFullPaginator|BookOrder
+     */
+    public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
         $this->api->checkPermissions();
+
+        if (!$operation instanceof CollectionOperationInterface) {
+            $id = $uriVariables['identifier'];
+            assert(is_string($id));
+
+            return $this->api->getBookOrder($id);
+        }
 
         $filters = $context['filters'] ?? [];
 

@@ -2,61 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource(
- *     attributes={
- *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
- *     },
- *     collectionOperations={
- *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book-orders",
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *                 "parameters" = {
- *                     {"name" = "sublibrary", "in" = "query", "description" = "Get all book offers of a sublibrary (ID of Sublibrary resource)", "required" = true, "type" = "string", "example" = "1190"},
- *                 }
- *             }
- *         }
- *     },
- *     itemOperations={
- *         "get" = {
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "path" = "/sublibrary/book-orders/{identifier}",
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *             },
- *         }
- *     },
- *     iri="http://schema.org/Order",
- *     shortName="LibraryBookOrder",
- *     description="A book order from the library",
- *     normalizationContext={
- *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrder:output"}
- *     },
- * )
- */
 class BookOrder
 {
     /**
-     * @ApiProperty(identifier=true)
-     *
      * @var string
      */
     private $identifier;
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/orderNumber")
      *
      * @var string
      */
@@ -64,7 +23,6 @@ class BookOrder
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/Text")
      *
      * @var string
      */
@@ -72,7 +30,6 @@ class BookOrder
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/OrderItem")
      *
      * @var BookOrderItem
      */
@@ -87,7 +44,6 @@ class BookOrder
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/DateTime")
      *
      * @var DateTimeInterface
      */

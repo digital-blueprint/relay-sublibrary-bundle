@@ -19,7 +19,11 @@ class DummySublibraryProvider implements SublibraryProviderInterface
      */
     public function getSublibrary(string $identifier, array $options = []): ?SublibraryInterface
     {
-        return new Sublibrary();
+        $lib = new Sublibrary();
+        $lib->setIdentifier($identifier);
+        $lib->setCode($identifier);
+
+        return $lib;
     }
 
     /**

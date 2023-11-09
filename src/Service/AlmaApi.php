@@ -15,6 +15,7 @@ use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
 use Dbp\Relay\CoreBundle\Rest\Options;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrder;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent;
@@ -23,7 +24,6 @@ use Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery;
 use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
 use Dbp\Relay\SublibraryBundle\Entity\BookLocation;
 use Dbp\Relay\SublibraryBundle\Entity\BookOffer;
-use Dbp\Relay\SublibraryBundle\Entity\BookOrder;
 use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
@@ -1988,12 +1988,17 @@ class AlmaApi implements LoggerAwareInterface
         }
     }
 
-    public function getCurrentPerson(): ?Person
+    public function getCurrentPerson(): Person
     {
         $options = [];
         Options::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE, self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
 
-        return $this->personProvider->getCurrentPerson($options);
+        $person = $this->personProvider->getCurrentPerson($options);
+        if ($person === null) {
+            throw new AccessDeniedException('Person required');
+        }
+
+        return $person;
     }
 
     public function getPerson(string $personIdentifier, bool $addInternalAttributes = true): ?Person
