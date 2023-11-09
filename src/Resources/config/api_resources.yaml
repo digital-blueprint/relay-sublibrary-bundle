@@ -254,7 +254,6 @@ resources:
       priceCurrency:
         iri: "http://schema.org/priceCurrency"
 
-
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrder:
     security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/Order']
@@ -302,3 +301,50 @@ resources:
         iri: "http://schema.org/Text"
       orderDate:
         iri: "http://schema.org/DateTime"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\BookLocation:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['https://schema.org/location']
+    description: "The location, where a book is shelved."
+    shortName: "BookLocation"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["BookLocation:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
+        uriTemplate: "/book-locations"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
+        uriTemplate: "/book-locations/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+      get_location_identifiers:
+        class: ApiPlatform\Metadata\GetCollection
+        method: GET
+        controller: Dbp\Relay\SublibraryBundle\ApiPlatform\GetLocationIdentifiersByBookOffer
+        uriTemplate: "/book-offers/{identifier}/location-identifiers"
+        read: false
+        openapiContext:
+          tags: ["Sublibrary"]
+          summary: "Retrieves all location identifiers with in the same holding and with the same location as the book offer."
+          parameters:
+            - name: identifier
+              in: path
+              description: 'Id of book offer'
+              type: string
+              required: true
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"

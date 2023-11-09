@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
+use Dbp\Relay\SublibraryBundle\Controller\AlmaController;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use League\Uri\Contracts\UriException;
 
