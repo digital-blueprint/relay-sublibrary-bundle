@@ -329,6 +329,7 @@ resources:
           tags: ["Sublibrary"]
 
       get_location_identifiers:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         class: ApiPlatform\Metadata\GetCollection
         method: GET
         controller: Dbp\Relay\SublibraryBundle\ApiPlatform\GetLocationIdentifiersByBookOffer
