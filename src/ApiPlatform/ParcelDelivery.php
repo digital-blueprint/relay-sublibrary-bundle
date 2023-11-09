@@ -2,37 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource(
- *     attributes={
- *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
- *     },
- *     collectionOperations={},
- *     itemOperations={
- *         "get" = {
- *             "path" = "/sublibrary/parcel-deliveries/{identifier}",
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *             },
- *         }
- *     },
- *     iri="http://schema.org/ParcelDelivery",
- *     shortName="ParcelDelivery",
- *     description="A parcel delivery",
- *     normalizationContext={
- *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrder:output"}
- *     },
- * )
- */
 class ParcelDelivery
 {
     /**
@@ -42,15 +15,12 @@ class ParcelDelivery
      * We also need an `itemOperations={"get"}` or we will get an error:
      * No item route associated with the type "App\Entity\ParcelDelivery".
      *
-     * @ApiProperty(identifier=true)
-     *
      * @var string
      */
     private $identifier;
 
     /**
      * @Groups("LibraryBookOrder:output")
-     * @ApiProperty(iri="http://schema.org/DeliveryEvent")
      *
      * @var DeliveryEvent
      */

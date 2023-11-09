@@ -7,7 +7,7 @@ namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
-class EventStatusTypeProvider implements ProviderInterface
+class DummyProvider implements ProviderInterface
 {
     /**
      * @return null

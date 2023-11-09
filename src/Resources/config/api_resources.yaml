@@ -156,7 +156,7 @@ resources:
 
       ApiPlatform\Metadata\Get:
         security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusTypeProvider
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/event-status-types/{identifier}"
         openapiContext:
           tags: ["Sublibrary"]
@@ -182,7 +182,7 @@ resources:
 
       ApiPlatform\Metadata\Get:
         security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEventProvider
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/delivery-statuses/{identifier}"
         openapiContext:
           tags: ["Sublibrary"]
@@ -195,3 +195,29 @@ resources:
         iri: "http://schema.org/DateTime"
       eventStatus:
         iri: "http://schema.org/EventStatusType"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['http://schema.org/ParcelDelivery']
+    description: "A parcel delivery"
+    shortName: "ParcelDelivery"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBookOrder:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
+        uriTemplate: "/parcel-deliveries/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      deliveryStatus:
+        iri: "http://schema.org/DeliveryEvent"
