@@ -141,3 +141,29 @@ resources:
         iri: "http://schema.org/value"
       currency:
         iri: "http://schema.org/currency"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['https://schema.org/EventStatusType']
+    description: "A event status type"
+    shortName: "EventStatusType"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBookOrder:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusTypeProvider
+        uriTemplate: "/event-status-types/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      name:
+        iri: "http://schema.org/name"
