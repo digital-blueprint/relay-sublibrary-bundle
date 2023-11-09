@@ -2,38 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource(
- *     attributes={
- *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
- *     },
- *     collectionOperations={},
- *     itemOperations={
- *         "get" = {
- *             "path" = "/sublibrary/delivery-statuses/{identifier}",
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *             },
- *         }
- *     },
- *     iri="http://schema.org/DeliveryEvent",
- *     shortName="DeliveryStatus",
- *     description="A delivery status",
- *     normalizationContext={
- *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrder:output"}
- *     },
- * )
- */
 class DeliveryEvent
 {
     /**
@@ -43,22 +16,17 @@ class DeliveryEvent
      * We also need an `itemOperations={"get"}` or we will get an error:
      * No item route associated with the type "App\Entity\DeliveryStatus".
      *
-     * @ApiProperty(identifier=true)
-     *
      * @var string
      */
     private $identifier;
 
     /**
-     * @ApiProperty(iri="http://schema.org/DateTime")
-     *
      * @var DateTimeInterface
      */
     private $availableFrom;
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/EventStatusType ")
      *
      * @var EventStatusType
      */

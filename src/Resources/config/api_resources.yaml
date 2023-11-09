@@ -167,3 +167,31 @@ resources:
         iri: "http://schema.org/identifier"
       name:
         iri: "http://schema.org/name"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['http://schema.org/DeliveryEvent']
+    description: "A delivery status"
+    shortName: "DeliveryStatus"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBookOrder:output"]
+      jsonld_embed_context: true
+
+    operations:
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEventProvider
+        uriTemplate: "/delivery-statuses/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      availableFrom:
+        iri: "http://schema.org/DateTime"
+      eventStatus:
+        iri: "http://schema.org/EventStatusType"
