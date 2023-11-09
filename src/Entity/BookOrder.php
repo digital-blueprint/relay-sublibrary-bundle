@@ -7,6 +7,7 @@ namespace Dbp\Relay\SublibraryBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

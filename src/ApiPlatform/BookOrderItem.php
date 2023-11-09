@@ -2,48 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource(
- *     attributes={
- *         "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
- *     },
- *     collectionOperations={},
- *     itemOperations={
- *         "get" = {
- *             "path" = "/sublibrary/book-order-items/{identifier}",
- *             "security" = "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')",
- *             "openapi_context" = {
- *                 "tags" = {"Sublibrary"},
- *             },
- *         }
- *     },
- *     iri="http://schema.org/OrderItem",
- *     shortName="LibraryBookOrderItem",
- *     description="A book order item from the library",
- *     normalizationContext={
- *         "jsonld_embed_context" = true,
- *         "groups" = {"LibraryBookOrder:output"}
- *     },
- * )
- */
 class BookOrderItem
 {
-    /**
-     * @ApiProperty(identifier=true)
-     */
     private $identifier;
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/OrderItem")
      *
      * @var Book
      */
@@ -51,7 +19,6 @@ class BookOrderItem
 
     /**
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/ParcelDelivery")
      *
      * @var ParcelDelivery
      */
@@ -61,7 +28,6 @@ class BookOrderItem
      * A BookOrderItem usually doesn't have a price, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/price")
      */
     private $price;
 
@@ -69,7 +35,6 @@ class BookOrderItem
      * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
      *
      * @Groups({"LibraryBookOrder:output"})
-     * @ApiProperty(iri="http://schema.org/priceCurrency")
      */
     private $priceCurrency;
 
