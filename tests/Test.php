@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use Symfony\Component\HttpFoundation\Response;
 
 class Test extends ApiTestCase
