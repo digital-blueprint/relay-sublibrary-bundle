@@ -2,10 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Controller;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-class GetBookLoansByBookOffer extends AlmaController
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class GetBookLoansByBookOffer extends AbstractController
 {
+    /** @var AlmaApi */
+    protected $api;
+
+    public function __construct(AlmaApi $api)
+    {
+        $this->api = $api;
+    }
+
     public function __invoke(string $identifier): array
     {
         $this->api->checkPermissions();

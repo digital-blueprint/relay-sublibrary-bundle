@@ -440,3 +440,114 @@ resources:
         iri: "http://schema.org/availabilityStarts"
       name:
         iri: "http://schema.org/name"
+
+  Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan:
+    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+    types: ['http://schema.org/LendAction']
+    description: "A book loan in the library"
+    shortName: "LibraryBookLoan"
+    routePrefix: "/sublibrary"
+    normalizationContext:
+      groups: ["LibraryBookLoan:output", "BasePerson:output", "LibraryBookOffer:output", "LibraryBook:output", "LocalData:output"]
+      jsonld_embed_context: true
+    denormalizationContext:
+      groups: ["LibraryBookLoan:input"]
+
+    operations:
+
+      ApiPlatform\Metadata\GetCollection:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
+        uriTemplate: "/book-loans"
+        openapiContext:
+          tags: ["Sublibrary"]
+          parameters:
+            - name: borrower
+              in: query
+              description: 'Get all book loans of a borrower (ID of BasePerson resource)'
+              type: string
+              example: 'woody007'
+            - name: sublibrary
+              in: query
+              description: 'Get all book offers of a sublibrary (ID of Sublibrary resource)'
+              type: string
+              example: '1190'
+
+      ApiPlatform\Metadata\Get:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
+        uriTemplate: "/book-loans/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+      ApiPlatform\Metadata\Put:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
+        processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProcessor
+        uriTemplate: "/book-loans/{identifier}"
+        openapiContext:
+          tags: ["Sublibrary"]
+
+      get_loans_by_book_offer:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        class: ApiPlatform\Metadata\GetCollection
+        method: GET
+        controller: Dbp\Relay\SublibraryBundle\ApiPlatform\GetBookLoansByBookOffer
+        uriTemplate: "/book-offers/{identifier}/loans"
+        read: false
+        paginationEnabled: false
+        normalizationContext:
+          groups: ["LibraryBookLoan:output", "LibraryBookOffer:output", "LibraryBook:output"]
+          jsonld_embed_context: true
+        openapiContext:
+          tags: ["Sublibrary"]
+          summary: "Get the loans on a book offer."
+          parameters:
+            - name: identifier
+              in: path
+              description: 'Id of book offer'
+              type: string
+              required: true
+              example: "991293320000541-2280429390003340-2380429400003340"
+
+      post_loan_by_book_offer:
+        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
+        class: ApiPlatform\Metadata\Post
+        method: POST
+        controller: Dbp\Relay\SublibraryBundle\ApiPlatform\PostBookLoanByBookOffer
+        uriTemplate: "/book-offers/{identifier}/loans"
+        read: false
+        write: false
+        openapiContext:
+          tags: ["Sublibrary"]
+          summary: "Post a loan for a book offer."
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  example: ' {"borrower" = "/base/people/woody007", "library" = "F1490"}'
+          parameters:
+            - name: identifier
+              in: path
+              description: "Id of book offer"
+              required: true
+              type: string
+              example: "991293320000541-2280429390003340-2380429400003340"
+
+    properties:
+      identifier:
+        identifier: true
+        iri: "http://schema.org/identifier"
+      object:
+        iri: "http://schema.org/Offer"
+      borrower:
+        iri: "http://schema.org/Person"
+      startTime:
+        iri: "https://schema.org/DateTime"
+      endTime:
+        iri: "https://schema.org/DateTime"
+      returnTime:
+        iri: "https://schema.org/DateTime"
+      loanStatus:
+        iri: "http://schema.org/Text"

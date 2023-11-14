@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use Dbp\Relay\SublibraryBundle\Controller\AlmaController;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
+use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use League\Uri\Contracts\UriException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GetLocationIdentifiersByBookOffer extends AlmaController
+class GetLocationIdentifiersByBookOffer extends AbstractController
 {
+    protected $api;
+
+    public function __construct(AlmaApi $api)
+    {
+        $this->api = $api;
+    }
+
     /**
      * @throws ItemNotLoadedException|UriException
      */

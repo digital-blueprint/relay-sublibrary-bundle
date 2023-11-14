@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\DataProvider;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
-use Dbp\Relay\SublibraryBundle\Entity\BookLoan;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
-final class BookLoanCollectionDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface
+final class BookLoanProvider implements ProviderInterface
 {
     public const ITEMS_PER_PAGE = 100;
 
@@ -24,14 +24,26 @@ final class BookLoanCollectionDataProvider implements CollectionDataProviderInte
         $this->api = $api;
     }
 
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {
-        return BookLoan::class === $resourceClass;
-    }
-
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): ArrayFullPaginator
+    /**
+     * @return ArrayFullPaginator|BookLoan
+     */
+    public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
         $this->api->checkPermissions();
+
+        if (!$operation instanceof CollectionOperationInterface) {
+            $id = $uriVariables['identifier'];
+            assert(is_string($id));
+
+            $data = $this->api->getBookLoanJsonData($id);
+            $bookLoan = $this->api->bookLoanFromJsonItem($data);
+            $bookOffer = $bookLoan->getObject();
+
+            // check for the user's permissions to the book offer of the requested book loan
+            $this->api->checkCurrentPersonBookOfferPermissions($bookOffer);
+
+            return $bookLoan;
+        }
 
         $filters = $context['filters'] ?? [];
 

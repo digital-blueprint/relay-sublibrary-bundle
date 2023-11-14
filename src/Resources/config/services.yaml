@@ -16,21 +16,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Dbp\Relay\SublibraryBundle\Controller\:
-        resource: '../../Controller'
-        autowire: true
-        autoconfigure: true
-
-    Dbp\Relay\SublibraryBundle\DataPersister\:
-        resource: '../../DataPersister'
-        autowire: true
-        autoconfigure: true
-
-    Dbp\Relay\SublibraryBundle\DataProvider\:
-        resource: '../../DataProvider'
-        autowire: true
-        autoconfigure: true
-
     Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider:
         autowire: true
         autoconfigure: true
