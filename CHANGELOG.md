@@ -1,3 +1,9 @@
+# v0.1.29
+
+* Port from adldap2/adldap2 to directorytree/ldaprecord
+* Fix some regressions for "/book-offers/{identifier}/loans"
+  and "/book-offers/{identifier}/return" introduced in 0.1.27
+
 # v0.1.28
 
 * Finish api-platform metadata system porting
