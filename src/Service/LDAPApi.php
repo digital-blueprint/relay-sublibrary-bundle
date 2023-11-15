@@ -3,53 +3,36 @@
 declare(strict_types=1);
 /**
  * LDAP wrapper service.
- *
- * @see https://github.com/Adldap2/Adldap2
  */
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use Adldap\Adldap;
-use Adldap\Connections\Provider;
-use Adldap\Connections\ProviderInterface;
-use Adldap\Models\User;
-use Adldap\Query\Builder;
-use Dbp\Relay\BasePersonBundle\Entity\Person;
-use Dbp\Relay\CoreBundle\API\UserSessionInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\Tools as CoreTools;
+use LdapRecord\Auth\BindException;
+use LdapRecord\Connection;
+use LdapRecord\Container;
+use LdapRecord\Models\Entry;
+use LdapRecord\Models\Model;
+use LdapRecord\Query\Builder;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
+class LDAPApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
     // singleton to cache fetched users by alma user id
     public static $USERS_BY_ALMA_USER_ID = [];
 
-    private $PAGESIZE = 50;
-
-    /**
-     * @var Adldap
-     */
-    private $ad;
-
     private $cachePool;
 
-    private $personCache;
-
     private $cacheTTL;
-
-    /**
-     * @var Person|null
-     */
-    private $currentPerson;
 
     private $providerConfig;
 
@@ -59,9 +42,8 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
 
     public function __construct()
     {
-        $this->ad = new Adldap();
         $this->cacheTTL = 0;
-        $this->currentPerson = null;
+        $this->logger = new NullLogger();
     }
 
     public function setConfig(array $config)
@@ -85,8 +67,8 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
 
     public function checkConnection()
     {
-        $provider = $this->getProvider();
-        $builder = $this->getCachedBuilder($provider);
+        $connection = $this->getConnection();
+        $builder = $this->getCachedBuilder($connection);
         $builder->first();
     }
 
@@ -96,54 +78,37 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         $this->cacheTTL = $ttl;
     }
 
-    public function setPersonCache(?CacheItemPoolInterface $cachePool)
+    private function getConnection(): Connection
     {
-        $this->personCache = $cachePool;
-    }
-
-    private function getProvider(): ProviderInterface
-    {
-        if ($this->logger !== null) {
-            Adldap::setLogger($this->logger);
-        }
-        $ad = new Adldap();
-        $ad->addProvider($this->providerConfig);
-        $provider = $ad->connect();
-        assert($provider instanceof Provider);
+        Container::getInstance()->manager()->setLogger($this->logger);
+        $connection = new Connection($this->providerConfig);
         if ($this->cachePool !== null) {
-            $provider->setCache(new Psr16Cache($this->cachePool));
+            $connection->setCache(new Psr16Cache($this->cachePool));
         }
+        $connection->connect();
 
-        return $provider;
+        return $connection;
     }
 
-    private function getCachedBuilder(ProviderInterface $provider): Builder
+    private function getCachedBuilder(Connection $connection): Builder
     {
-        // FIXME: https://github.com/Adldap2/Adldap2/issues/786
-        // return $provider->search()->cache($until=$this->cacheTTL);
-        // We depend on the default TTL of the cache for now...
+        $until = (new \DateTimeImmutable())->add(new \DateInterval('PT'.$this->cacheTTL.'S'));
 
-        /**
-         * @var Builder $builder
-         */
-        $builder = $provider->search()->cache();
-
-        return $builder;
+        return $connection->query()->cache($until);
     }
 
-    private function getPersonUserItemByAlmaUserId(string $almaUserId): ?User
+    private function getPersonUserItemByAlmaUserId(string $almaUserId): ?Model
     {
         try {
-            $provider = $this->getProvider();
-            $builder = $this->getCachedBuilder($provider);
-
             // if we already have fetched the user by alma user id in this request we will use the cached version
             if (array_key_exists($almaUserId, self::$USERS_BY_ALMA_USER_ID)) {
                 $user = self::$USERS_BY_ALMA_USER_ID[$almaUserId];
             } else {
-                /** @var User $user */
-                $user = $builder
-                    ->where('objectClass', '=', $provider->getSchema()->person())
+                $connection = $this->getConnection();
+                $builder = $this->getCachedBuilder($connection);
+
+                /** @var Entry $user */
+                $user = $builder->model(new Entry())->where('objectClass', '=', 'person')
                     ->whereEquals($this->almaUserIdAttributeName, $almaUserId)
                     ->first();
 
@@ -155,7 +120,7 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
             }
 
             return $user;
-        } catch (\Adldap\Auth\BindException $e) {
+        } catch (BindException $e) {
             // There was an issue binding / connecting to the server.
             throw new ApiError(Response::HTTP_BAD_GATEWAY, sprintf("Person with alma user id '%s' could not be loaded! Message: %s", $almaUserId, CoreTools::filterErrorMessage($e->getMessage())));
         }
@@ -166,12 +131,5 @@ class LDAPApi implements LoggerAwareInterface, ServiceSubscriberInterface
         $user = $this->getPersonUserItemByAlmaUserId($almaUserId);
 
         return $user->getFirstAttribute($this->identifierAttributeName);
-    }
-
-    public static function getSubscribedServices(): array
-    {
-        return [
-            UserSessionInterface::class,
-        ];
     }
 }
