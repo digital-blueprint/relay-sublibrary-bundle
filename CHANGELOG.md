@@ -1,3 +1,7 @@
+# v0.1.28
+
+* Finish api-platform metadata system porting
+
 # v0.1.27
 
 * More api-platform metadata system porting
