@@ -403,6 +403,8 @@ resources:
         uriTemplate: "/book-offers/{identifier}/return"
         read: false
         write: false
+        deserialize: false
+        validate: false
         openapiContext:
           tags: ["Sublibrary"]
           summary: "Return a book offer."
@@ -518,6 +520,8 @@ resources:
         uriTemplate: "/book-offers/{identifier}/loans"
         read: false
         write: false
+        deserialize: false
+        validate: false
         openapiContext:
           tags: ["Sublibrary"]
           summary: "Post a loan for a book offer."
