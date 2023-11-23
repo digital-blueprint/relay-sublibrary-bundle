@@ -24,6 +24,7 @@ use Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery;
+use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
@@ -39,6 +40,7 @@ use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\KeyValueHttpHeader;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
+use League\Uri\Contracts\UriException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -82,9 +84,12 @@ class AlmaApi implements LoggerAwareInterface
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
+    /** @var AuthorizationService */
+    private $authorizationService;
+
     public function __construct(PersonProviderInterface $personProvider,
                                 SublibraryProviderInterface $libraryProvider,
-                                Security $security, LDAPApi $ldapApi)
+                                Security $security, LDAPApi $ldapApi, AuthorizationService $authorizationService)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
@@ -92,6 +97,7 @@ class AlmaApi implements LoggerAwareInterface
         $this->urls = new AlmaUrlApi();
         $this->libraryProvider = $libraryProvider;
         $this->ldapApi = $ldapApi;
+        $this->authorizationService = $authorizationService;
 
         $this->apiKey = '';
         $this->analyticsApiKey = '';
@@ -838,7 +844,7 @@ class AlmaApi implements LoggerAwareInterface
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function addAllBookLoansByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
@@ -966,7 +972,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function returnBookOffer(BookOffer &$bookOffer)
     {
@@ -1019,7 +1025,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function updateBookLoan(BookLoan $bookLoan)
     {
@@ -1083,10 +1089,10 @@ class AlmaApi implements LoggerAwareInterface
 
     public function checkPermissions()
     {
-        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (!$this->authorizationService->isAuthenticated()) {
             throw new AccessDeniedException();
         }
-        if (!$this->security->isGranted('ROLE_LIBRARY_MANAGER')) {
+        if (!$this->authorizationService->isLibraryManager()) {
             throw new AccessDeniedException('Only library officers can access the library api!');
         }
     }
@@ -1097,7 +1103,7 @@ class AlmaApi implements LoggerAwareInterface
      * TODO: We are not allowed to use the field chronology_i any more, so this function is currently broken since the results are not sorted in the way we need it
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function locationIdentifiersByBookOffer(BookOffer $bookOffer): array
     {
@@ -1142,7 +1148,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return array|null
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBookLoansJsonDataByBookOffer(BookOffer $bookOffer): ?array
     {
@@ -1181,7 +1187,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBookLoansJsonDataByPerson(Person $person): ?array
     {
@@ -1236,9 +1242,8 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
     {
-        $person = $this->getCurrentPerson();
-        if (!$this->libraryProvider->isLibraryManagerByCode($person, $bookOffer->getLibrary())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $bookOffer->getLibrary()));
+        if (!$this->authorizationService->isLibraryManagerByAlmaId($bookOffer->getLibrary())) {
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
 
@@ -1251,12 +1256,11 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function filterBookLoans(array $bookLoans): array
     {
-        $currentPerson = $this->getCurrentPerson();
-        $libraryCodes = $this->libraryProvider->getSublibraryCodesByLibraryManager($currentPerson);
+        $almaLibraryIds = $this->authorizationService->getAlmaLibraryIdsForCurrentUser();
 
         $filtered = [];
         foreach ($bookLoans as $bookLoan) {
-            if (in_array($bookLoan->getLibrary(), $libraryCodes, true)) {
+            if (in_array($bookLoan->getLibrary(), $almaLibraryIds, true)) {
                 $filtered[] = $bookLoan;
             }
         }
@@ -1271,7 +1275,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?SimpleXMLElement
     {
@@ -1321,7 +1325,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
     {
@@ -1372,7 +1376,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
     {
@@ -1419,7 +1423,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBudgetMonetaryAmountAnalyticsXML(): ?SimpleXMLElement
     {
@@ -1464,7 +1468,7 @@ class AlmaApi implements LoggerAwareInterface
      * @return BudgetMonetaryAmount[]
      *
      * @throws ItemNotLoadedException
-     * @throws \League\Uri\Contracts\UriException
+     * @throws UriException
      */
     public function getBudgetMonetaryAmountsByLibrary(Sublibrary $library): array
     {
@@ -1982,9 +1986,8 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function checkCurrentPersonLibraryPermissions(Sublibrary $library)
     {
-        $person = $this->getCurrentPerson();
-        if (!$this->libraryProvider->isLibraryManagerById($person, $library->getIdentifier())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $person->getIdentifier(), $library->getCode()));
+        if (!$this->authorizationService->isLibraryManagerById($library->getIdentifier())) {
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $library->getCode()));
         }
     }
 

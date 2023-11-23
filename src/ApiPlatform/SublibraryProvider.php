@@ -10,6 +10,7 @@ use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
+use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,10 +27,14 @@ final class SublibraryProvider implements ProviderInterface
     /** @var SublibraryProviderInterface */
     private $libraryProvider;
 
-    public function __construct(AlmaApi $api, SublibraryProviderInterface $libraryProvider)
+    /** @var AuthorizationService */
+    private $authorizationService;
+
+    public function __construct(AlmaApi $api, SublibraryProviderInterface $libraryProvider, AuthorizationService $authorizationService)
     {
         $this->api = $api;
         $this->libraryProvider = $libraryProvider;
+        $this->authorizationService = $authorizationService;
     }
 
     /**
@@ -62,7 +67,7 @@ final class SublibraryProvider implements ProviderInterface
 
         $sublibraries = [];
         try {
-            foreach ($this->libraryProvider->getSublibraryIdsByLibraryManager($currentPerson) as $sublibraryId) {
+            foreach ($this->authorizationService->getSublibraryIdsForCurrentUser() as $sublibraryId) {
                 $sublibrary = $this->libraryProvider->getSublibrary($sublibraryId, $options);
                 if ($sublibrary !== null) {
                     $lib = new Sublibrary();

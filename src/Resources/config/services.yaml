@@ -20,6 +20,14 @@ services:
         autowire: true
         autoconfigure: true
 
+    Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService:
+        autowire: true
+        autoconfigure: true
+
+    Dbp\Relay\SublibraryBundle\Authorization\HealthCheck:
+        autowire: true
+        autoconfigure: true
+
     Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface:
         '@Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider'
 

@@ -1,6 +1,5 @@
 resources:
   Dbp\Relay\SublibraryBundle\ApiPlatform\Book:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/Book']
     description: "A book from the library"
     shortName: "LibraryBook"
@@ -12,14 +11,12 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
         uriTemplate: "/books"
         openapiContext:
           tags: ["Sublibrary"]
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
         uriTemplate: "/books/{identifier}"
         openapiContext:
@@ -62,7 +59,6 @@ resources:
               description: 'Get the Sublibraries the given person has library manager permissions for (ID of BasePerson resource)'
               required: true
               type: "string"
-              example: "woody007"
             - name: lang
               in: query
               description: 'Language of result'
@@ -101,7 +97,6 @@ resources:
         iri: "http://schema.org/identifier"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['https://schema.org/MonetaryAmount']
     description: "A budget value of Sublibrary"
     shortName: "LibraryBudgetMonetaryAmount"
@@ -113,7 +108,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmountProvider
         uriTemplate: "/budget-monetary-amounts"
         openapiContext:
@@ -127,7 +121,6 @@ resources:
               example: "1190"
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmountProvider
         uriTemplate: "/budget-monetary-amounts/{identifier}"
         openapiContext:
@@ -143,7 +136,6 @@ resources:
         iri: "http://schema.org/currency"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['https://schema.org/EventStatusType']
     description: "A event status type"
     shortName: "EventStatusType"
@@ -155,7 +147,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/event-status-types/{identifier}"
         openapiContext:
@@ -169,7 +160,6 @@ resources:
         iri: "http://schema.org/name"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/DeliveryEvent']
     description: "A delivery status"
     shortName: "DeliveryStatus"
@@ -181,7 +171,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/delivery-statuses/{identifier}"
         openapiContext:
@@ -197,7 +186,6 @@ resources:
         iri: "http://schema.org/EventStatusType"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/ParcelDelivery']
     description: "A parcel delivery"
     shortName: "ParcelDelivery"
@@ -209,7 +197,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/parcel-deliveries/{identifier}"
         openapiContext:
@@ -223,7 +210,6 @@ resources:
         iri: "http://schema.org/DeliveryEvent"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/OrderItem']
     description: "A book order item from the library"
     shortName: "LibraryBookOrderItem"
@@ -235,7 +221,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/book-order-items/{identifier}"
         openapiContext:
@@ -255,7 +240,6 @@ resources:
         iri: "http://schema.org/priceCurrency"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrder:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/Order']
     description: "A book order from the library"
     shortName: "LibraryBookOrder"
@@ -267,7 +251,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderProvider
         uriTemplate: "/book-orders"
         openapiContext:
@@ -281,7 +264,6 @@ resources:
               example: "1190"
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderProvider
         uriTemplate: "/book-orders/{identifier}"
         openapiContext:
@@ -303,7 +285,6 @@ resources:
         iri: "http://schema.org/DateTime"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookLocation:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['https://schema.org/location']
     description: "The location, where a book is shelved."
     shortName: "BookLocation"
@@ -315,21 +296,18 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/book-locations"
         openapiContext:
           tags: ["Sublibrary"]
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
         uriTemplate: "/book-locations/{identifier}"
         openapiContext:
           tags: ["Sublibrary"]
 
       get_location_identifiers:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         class: ApiPlatform\Metadata\GetCollection
         method: GET
         controller: Dbp\Relay\SublibraryBundle\ApiPlatform\GetLocationIdentifiersByBookOffer
@@ -351,7 +329,6 @@ resources:
         iri: "http://schema.org/identifier"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/Offer']
     description: "A book to lend from the library"
     shortName: "LibraryBookOffer"
@@ -365,7 +342,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferProvider
         uriTemplate: "/book-offers"
         openapiContext:
@@ -382,7 +358,6 @@ resources:
               example: '1190'
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferProvider
         uriTemplate: "/book-offers/{identifier}"
         openapiContext:
@@ -396,7 +371,6 @@ resources:
           tags: ["Sublibrary"]
 
       post_return:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         class: ApiPlatform\Metadata\Post
         method: POST
         controller: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferPostReturn
@@ -444,7 +418,6 @@ resources:
         iri: "http://schema.org/name"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan:
-    security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
     types: ['http://schema.org/LendAction']
     description: "A book loan in the library"
     shortName: "LibraryBookLoan"
@@ -458,7 +431,6 @@ resources:
     operations:
 
       ApiPlatform\Metadata\GetCollection:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
         uriTemplate: "/book-loans"
         openapiContext:
@@ -476,14 +448,12 @@ resources:
               example: '1190'
 
       ApiPlatform\Metadata\Get:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
         uriTemplate: "/book-loans/{identifier}"
         openapiContext:
           tags: ["Sublibrary"]
 
       ApiPlatform\Metadata\Put:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
         processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProcessor
         uriTemplate: "/book-loans/{identifier}"
@@ -491,7 +461,6 @@ resources:
           tags: ["Sublibrary"]
 
       get_loans_by_book_offer:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         class: ApiPlatform\Metadata\GetCollection
         method: GET
         controller: Dbp\Relay\SublibraryBundle\ApiPlatform\GetBookLoansByBookOffer
@@ -513,7 +482,6 @@ resources:
               example: "991293320000541-2280429390003340-2380429400003340"
 
       post_loan_by_book_offer:
-        security: "is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_LIBRARY_MANAGER')"
         class: ApiPlatform\Metadata\Post
         method: POST
         controller: Dbp\Relay\SublibraryBundle\ApiPlatform\PostBookLoanByBookOffer

@@ -9,6 +9,7 @@ use Dbp\Relay\BasePersonBundle\Service\DummyPersonProvider;
 use Dbp\Relay\CoreBundle\Helpers\Tools;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
+use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
@@ -51,7 +52,8 @@ class AlmaApiTest extends WebTestCase
             $personProvider,
             $libraryProvider,
             new Security($client->getContainer()),
-            $ldapApi
+            $ldapApi,
+            new AuthorizationService()
         );
         $this->api->setApiKey('secret');
         $this->api->setAnalyticsApiKey('secret');
