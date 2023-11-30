@@ -7,13 +7,13 @@ namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 final class BookOfferProvider implements ProviderInterface
 {
-    public const ITEMS_PER_PAGE = 100;
-
+    /** @var AlmaApi */
     private $api;
 
     public function __construct(AlmaApi $api)
@@ -22,7 +22,7 @@ final class BookOfferProvider implements ProviderInterface
     }
 
     /**
-     * @return ArrayFullPaginator|BookOffer
+     * @return WholeResultPaginator|BookOffer
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
@@ -42,19 +42,9 @@ final class BookOfferProvider implements ProviderInterface
         $filters = $context['filters'] ?? [];
         $bookOffers = $api->getBookOffers($filters);
 
-        $perPage = self::ITEMS_PER_PAGE;
-        $page = 1;
-        if (isset($context['filters']['page'])) {
-            $page = (int) $context['filters']['page'];
-        }
-
-        if (isset($context['filters']['perPage'])) {
-            $perPage = (int) $context['filters']['perPage'];
-        }
-
         // TODO: do pagination via API
-        $pagination = new ArrayFullPaginator($bookOffers, $page, $perPage);
-
-        return $pagination;
+        return new WholeResultPaginator($bookOffers->toArray(),
+            Pagination::getCurrentPageNumber($filters),
+            Pagination::getMaxNumItemsPerPage($filters));
     }
 }

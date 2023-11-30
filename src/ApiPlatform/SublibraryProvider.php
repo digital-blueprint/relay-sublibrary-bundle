@@ -8,7 +8,8 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
@@ -17,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class SublibraryProvider implements ProviderInterface
 {
-    public const ITEMS_PER_PAGE = 100;
-
     private const PERSON_ID_FILTER_NAME = 'libraryManager';
 
     /** @var AlmaApi */
@@ -38,7 +37,7 @@ final class SublibraryProvider implements ProviderInterface
     }
 
     /**
-     * @return ArrayFullPaginator|null
+     * @return WholeResultPaginator|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
@@ -81,16 +80,8 @@ final class SublibraryProvider implements ProviderInterface
             throw new ApiError(Response::HTTP_INTERNAL_SERVER_ERROR, $exc->getMessage());
         }
 
-        $perPage = self::ITEMS_PER_PAGE;
-        $page = 1;
-        if (isset($filters['page'])) {
-            $page = (int) $filters['page'];
-        }
-
-        if (isset($filters['perPage'])) {
-            $perPage = (int) $filters['perPage'];
-        }
-
-        return new ArrayFullPaginator($sublibraries, $page, $perPage);
+        return new WholeResultPaginator($sublibraries,
+            Pagination::getCurrentPageNumber($filters),
+            Pagination::getMaxNumItemsPerPage($filters));
     }
 }

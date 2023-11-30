@@ -7,13 +7,12 @@ namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 final class BookOrderProvider implements ProviderInterface
 {
-    public const ITEMS_PER_PAGE = 100;
-
     /** @var AlmaApi */
     private $api;
 
@@ -23,7 +22,7 @@ final class BookOrderProvider implements ProviderInterface
     }
 
     /**
-     * @return ArrayFullPaginator|BookOrder
+     * @return WholeResultPaginator|BookOrder
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
@@ -37,19 +36,10 @@ final class BookOrderProvider implements ProviderInterface
         }
 
         $filters = $context['filters'] ?? [];
-
         $collection = $this->api->getBookOrders($filters);
 
-        $perPage = self::ITEMS_PER_PAGE;
-        $page = 1;
-        if (isset($context['filters']['page'])) {
-            $page = (int) $context['filters']['page'];
-        }
-
-        if (isset($context['filters']['perPage'])) {
-            $perPage = (int) $context['filters']['perPage'];
-        }
-
-        return new ArrayFullPaginator($collection, $page, $perPage);
+        return new WholeResultPaginator($collection->toArray(),
+            Pagination::getCurrentPageNumber($filters),
+            Pagination::getMaxNumItemsPerPage($filters));
     }
 }

@@ -8,14 +8,13 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\CoreBundle\Helpers\ArrayFullPaginator;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
 final class BookLoanProvider implements ProviderInterface
 {
-    public const ITEMS_PER_PAGE = 100;
-
     /** @var AlmaApi */
     private $api;
 
@@ -25,7 +24,7 @@ final class BookLoanProvider implements ProviderInterface
     }
 
     /**
-     * @return ArrayFullPaginator|BookLoan
+     * @return WholeResultPaginator|BookLoan
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = [])
     {
@@ -53,17 +52,9 @@ final class BookLoanProvider implements ProviderInterface
             throw new ApiError(Response::HTTP_BAD_REQUEST, $e->getMessage());
         }
 
-        $perPage = self::ITEMS_PER_PAGE;
-        $page = 1;
-        if (isset($filters['page'])) {
-            $page = (int) $filters['page'];
-        }
-
-        if (isset($filters['perPage'])) {
-            $perPage = (int) $filters['perPage'];
-        }
-
         // TODO: do pagination via API
-        return new ArrayFullPaginator($bookLoans, $page, $perPage);
+        return new WholeResultPaginator($bookLoans->toArray(),
+            Pagination::getCurrentPageNumber($filters),
+            Pagination::getMaxNumItemsPerPage($filters));
     }
 }
