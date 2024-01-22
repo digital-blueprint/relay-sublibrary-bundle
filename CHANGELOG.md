@@ -1,3 +1,7 @@
+# v0.2.2
+
+* Drop support for PHP 7.3
+
 # v0.1.29
 
 * Port from adldap2/adldap2 to directorytree/ldaprecord
