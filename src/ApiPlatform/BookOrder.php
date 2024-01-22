@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 class BookOrder
@@ -45,7 +44,7 @@ class BookOrder
     /**
      * @Groups({"LibraryBookOrder:output"})
      *
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $orderDate;
 
@@ -109,12 +108,12 @@ class BookOrder
         return $this;
     }
 
-    public function getOrderDate(): ?DateTimeInterface
+    public function getOrderDate(): ?\DateTimeInterface
     {
         return $this->orderDate;
     }
 
-    public function setOrderDate(DateTimeInterface $orderDate): self
+    public function setOrderDate(\DateTimeInterface $orderDate): self
     {
         $this->orderDate = $orderDate;
 

@@ -249,7 +249,7 @@ class AlmaUrlApi
     {
         $libraryCode = $library->getCode();
         $limit = 1000;
-//        $limit = 25;
+        //        $limit = 25;
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
 
@@ -272,10 +272,10 @@ class AlmaUrlApi
     public function getBookLoanAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
     {
         $limit = 1000;
-//        $limit = 25;
+        //        $limit = 25;
         $libraryCode = $library->getCode();
         $filterExpression = '"Item Location at time of loan"."Library Code"';
-//        $filterExpression = '"Physical Items"."Library Unit"."Library Code"';
+        //        $filterExpression = '"Physical Items"."Library Unit"."Library Code"';
 
         // language=XML
         $filter = '<sawx:expr xsi:type="sawx:logical" op="and"
@@ -315,7 +315,7 @@ class AlmaUrlApi
         $libraryCode = $library->getCode();
         $libraryCode = $libraryCode.'MON';
         $limit = 1000;
-//        $limit = 25;
+        //        $limit = 25;
 
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
 

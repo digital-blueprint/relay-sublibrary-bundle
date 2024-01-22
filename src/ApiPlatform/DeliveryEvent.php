@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 class DeliveryEvent
@@ -21,7 +20,7 @@ class DeliveryEvent
     private $identifier;
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $availableFrom;
 
@@ -44,12 +43,12 @@ class DeliveryEvent
         return $this->identifier;
     }
 
-    public function getAvailableFrom(): ?DateTimeInterface
+    public function getAvailableFrom(): ?\DateTimeInterface
     {
         return $this->availableFrom;
     }
 
-    public function setAvailableFrom(DateTimeInterface $availableFrom): self
+    public function setAvailableFrom(\DateTimeInterface $availableFrom): self
     {
         $this->availableFrom = $availableFrom;
 

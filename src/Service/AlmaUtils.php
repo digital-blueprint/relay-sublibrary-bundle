@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use SimpleXMLElement;
-
 class AlmaUtils
 {
     /**
      * A mapping or null if non exists.
      */
-    public static function getColumnMapping(SimpleXMLElement $xml): array
+    public static function getColumnMapping(\SimpleXMLElement $xml): array
     {
         $namespaces = $xml->getNamespaces(true);
         if (!key_exists('xsd', $namespaces)) {
@@ -41,7 +39,7 @@ class AlmaUtils
     /**
      * Returns a array mapping column headers to values (both are strings).
      */
-    public static function mapRowColumns(SimpleXMLElement $row, array $mapping): array
+    public static function mapRowColumns(\SimpleXMLElement $row, array $mapping): array
     {
         $values = [];
         foreach ($mapping as $key => $columnKey) {

@@ -18,30 +18,35 @@ class BookLoan
 
     /**
      * @var BookOffer
+     *
      * @Groups({"LibraryBookLoan:output"})
      */
     private $object;
 
     /**
      * @var Person
+     *
      * @Groups({"LibraryBookLoan:output"})
      */
     private $borrower;
 
     /**
      * @var \DateTimeInterface
+     *
      * @Groups({"LibraryBookLoan:output"})
      */
     private $startTime;
 
     /**
      * @var \DateTimeInterface
+     *
      * @Groups({"LibraryBookLoan:output", "LibraryBookLoan:input"})
      */
     private $endTime;
 
     /**
      * @var \DateTimeInterface
+     *
      * @Groups({"LibraryBookLoan:output"})
      */
     private $returnTime;

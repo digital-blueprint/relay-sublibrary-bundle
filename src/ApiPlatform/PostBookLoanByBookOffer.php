@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use DateTime;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
 use Dbp\Relay\SublibraryBundle\Helpers\Tools;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
@@ -33,7 +32,7 @@ class PostBookLoanByBookOffer extends AbstractController
         // so we need to update it afterwards
         if (isset($bodyData['endTime'])) {
             try {
-                $endTime = new DateTime($bodyData['endTime']);
+                $endTime = new \DateTime($bodyData['endTime']);
                 $bookLoan->setEndTime($endTime);
                 $this->api->updateBookLoan($bookLoan);
             } catch (\Exception $e) {

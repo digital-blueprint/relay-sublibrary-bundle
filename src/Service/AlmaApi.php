@@ -88,8 +88,8 @@ class AlmaApi implements LoggerAwareInterface
     private $authorizationService;
 
     public function __construct(PersonProviderInterface $personProvider,
-                                SublibraryProviderInterface $libraryProvider,
-                                Security $security, LDAPApi $ldapApi, AuthorizationService $authorizationService)
+        SublibraryProviderInterface $libraryProvider,
+        Security $security, LDAPApi $ldapApi, AuthorizationService $authorizationService)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
@@ -320,9 +320,9 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @throws ItemNotLoadedException
-     *
      * @return array|object|mixed
+     *
+     * @throws ItemNotLoadedException
      */
     private function getBookOfferJsonData(string $identifier, bool $assoc = true)
     {
@@ -440,9 +440,9 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @throws ItemNotLoadedException
-     *
      * @return array|object|mixed|null
+     *
+     * @throws ItemNotLoadedException
      */
     public function getBookLoanJsonData(string $identifier, bool $assoc = true)
     {
@@ -495,8 +495,8 @@ class AlmaApi implements LoggerAwareInterface
         $bookLoan->setIdentifier("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}-{$item['loan_id']}");
 
         try {
-            $bookLoan->setStartTime(new DateTime($item['loan_date']));
-            $bookLoan->setEndTime(new DateTime($item['due_date']));
+            $bookLoan->setStartTime(new \DateTime($item['loan_date']));
+            $bookLoan->setEndTime(new \DateTime($item['due_date']));
         } catch (\Exception $e) {
         } catch (\TypeError $e) {
             // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -540,7 +540,7 @@ class AlmaApi implements LoggerAwareInterface
         $bookOffer->setDescription($itemData['description'] ?? '');
 
         try {
-            $bookOffer->setAvailabilityStarts(new DateTime($itemData['inventory_date']));
+            $bookOffer->setAvailabilityStarts(new \DateTime($itemData['inventory_date']));
         } catch (\Exception $e) {
         } catch (\TypeError $e) {
             // We needed a 2nd check, see https://gitlab.tugraz.at/dbp/middleware/api/-/issues/66
@@ -566,7 +566,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             $publicationYear = (int) $item['date_of_publication'];
-            $book->setDatePublished(new DateTime("{$publicationYear}-01-01"));
+            $book->setDatePublished(new \DateTime("{$publicationYear}-01-01"));
         } catch (\Exception $e) {
         } catch (\TypeError $e) {
             // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -744,7 +744,7 @@ class AlmaApi implements LoggerAwareInterface
 
     private function getPersonName(Person $person): string
     {
-        return $person->getGivenName() ?? ''.' '.$person->getFamilyName() ?? '';
+        return $person->getGivenName() ?? ' '.$person->getFamilyName() ?? '';
     }
 
     /**
@@ -865,7 +865,7 @@ class AlmaApi implements LoggerAwareInterface
         $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
-        /** @var SimpleXMLElement $row */
+        /** @var \SimpleXMLElement $row */
         foreach ($rows as $row) {
             $values = AlmaUtils::mapRowColumns($row, $mapping);
             $mmsId = $values['Bibliographic Details::MMS Id'];
@@ -885,7 +885,7 @@ class AlmaApi implements LoggerAwareInterface
             $loanTime = $values['Loan Date::Loan Time'];
             if ($loanDate !== '' && $loanTime !== '') {
                 try {
-                    $bookLoan->setStartTime(new DateTime($loanDate.' '.$loanTime));
+                    $bookLoan->setStartTime(new \DateTime($loanDate.' '.$loanTime));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -897,7 +897,7 @@ class AlmaApi implements LoggerAwareInterface
             $dueDateTime = $values['Loan Details::Due DateTime'];
             if ($dueDate !== '' && $dueDateTime !== '') {
                 try {
-                    $bookLoan->setEndTime(new DateTime($dueDate.' '.$dueDateTime));
+                    $bookLoan->setEndTime(new \DateTime($dueDate.' '.$dueDateTime));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -910,7 +910,7 @@ class AlmaApi implements LoggerAwareInterface
 
             if ($returnDate !== '' && $returnTime !== '') {
                 try {
-                    $bookLoan->setReturnTime(new DateTime($returnDate.' '.$returnTime));
+                    $bookLoan->setReturnTime(new \DateTime($returnDate.' '.$returnTime));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1272,12 +1272,12 @@ class AlmaApi implements LoggerAwareInterface
      * @param Sublibrary $sublibrary
      * @param array $resumptionData
      *
-     * @return SimpleXMLElement|null
+     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1322,12 +1322,12 @@ class AlmaApi implements LoggerAwareInterface
      * @param Sublibrary $library
      * @param array $resumptionData
      *
-     * @return SimpleXMLElement|null
+     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
+    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1373,12 +1373,12 @@ class AlmaApi implements LoggerAwareInterface
      * @param Sublibrary $library
      * @param array $resumptionData
      *
-     * @return SimpleXMLElement|null
+     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1420,12 +1420,12 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @return SimpleXMLElement|null
+     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBudgetMonetaryAmountAnalyticsXML(): ?SimpleXMLElement
+    public function getBudgetMonetaryAmountAnalyticsXML(): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1526,7 +1526,7 @@ class AlmaApi implements LoggerAwareInterface
         $organizationBudget->setIdentifier($library->getCode().'-'.$name);
         $organizationBudget->setName($name);
         // careful with decimal numbers and float :/
-        $organizationBudget->setValue(((float) $values[$key]));
+        $organizationBudget->setValue((float) $values[$key]);
         $organizationBudget->setCurrency('EUR');
 
         return $organizationBudget;
@@ -1556,7 +1556,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    public function getAnalyticsUpdatesAnalyticsXML(): ?SimpleXMLElement
+    public function getAnalyticsUpdatesAnalyticsXML(): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsUpdatesClient();
         $options = [
@@ -1615,7 +1615,7 @@ class AlmaApi implements LoggerAwareInterface
         $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
 
-        /** @var SimpleXMLElement $row */
+        /** @var \SimpleXMLElement $row */
         foreach ($rows as $row) {
             $values = AlmaUtils::mapRowColumns($row, $mapping);
             $mmsId = $values['Bibliographic Details::MMS Id'];
@@ -1640,7 +1640,7 @@ class AlmaApi implements LoggerAwareInterface
             $inventoryDate = $values['Physical Item Details::Inventory Date'];
             if ($inventoryDate !== '') {
                 try {
-                    $bookOffer->setAvailabilityStarts(new DateTime($inventoryDate));
+                    $bookOffer->setAvailabilityStarts(new \DateTime($inventoryDate));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1657,7 +1657,7 @@ class AlmaApi implements LoggerAwareInterface
             if ($publicationDate !== '') {
                 try {
                     $publicationYear = (int) $publicationDate;
-                    $book->setDatePublished(new DateTime("{$publicationYear}-01-01"));
+                    $book->setDatePublished(new \DateTime("{$publicationYear}-01-01"));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1767,7 +1767,7 @@ class AlmaApi implements LoggerAwareInterface
         // TODO: Figure out what's wrong with the Analytics
         $alreadySeen = [];
 
-        /** @var SimpleXMLElement $row */
+        /** @var \SimpleXMLElement $row */
         foreach ($rows as $row) {
             $values = AlmaUtils::mapRowColumns($row, $mapping);
 
@@ -1777,9 +1777,9 @@ class AlmaApi implements LoggerAwareInterface
             }
 
             // FIXME
-//            if (key_exists($poNumber, $alreadySeen)) {
-//                continue;
-//            }
+            //            if (key_exists($poNumber, $alreadySeen)) {
+            //                continue;
+            //            }
             $alreadySeen[$poNumber] = true;
 
             $bookOrder = new BookOrder();
@@ -1798,7 +1798,7 @@ class AlmaApi implements LoggerAwareInterface
             if ($poCreationDate !== '') {
                 try {
                     // PO Creation Date
-                    $bookOrder->setOrderDate(new DateTime($poCreationDate));
+                    $bookOrder->setOrderDate(new \DateTime($poCreationDate));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1818,7 +1818,7 @@ class AlmaApi implements LoggerAwareInterface
             if ($claimingDate !== '') {
                 try {
                     // Claiming Date
-                    $deliveryEvent->setAvailableFrom(new DateTime($claimingDate));
+                    $deliveryEvent->setAvailableFrom(new \DateTime($claimingDate));
                 } catch (\Exception $e) {
                 } catch (\TypeError $e) {
                     // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
@@ -1877,7 +1877,7 @@ class AlmaApi implements LoggerAwareInterface
             return $this->getFallbackAnalyticsUpdatesHash();
         }
 
-        /** @var SimpleXMLElement $data */
+        /** @var \SimpleXMLElement $data */
         $data = $rows[0];
 
         return $this->analyticsUpdatesHash = sha1($data->asXML());
@@ -1902,7 +1902,7 @@ class AlmaApi implements LoggerAwareInterface
             return null;
         }
 
-        /** @var SimpleXMLElement $row */
+        /** @var \SimpleXMLElement $row */
         $row = $rows[0];
 
         try {
@@ -1917,7 +1917,7 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * Returns the datetime when the Analytics where last updated.
      *
-     * @return DateTime|null
+     * @return \DateTime|null
      */
     public function getAnalyticsUpdateDate()
     {
@@ -1930,7 +1930,7 @@ class AlmaApi implements LoggerAwareInterface
         $dateString = $values['Institution::Data Updated As Of'].' '.$values['Institution::Institution Timezone'];
 
         try {
-            $datetime = new DateTime($dateString);
+            $datetime = new \DateTime($dateString);
         } catch (\Exception $e) {
             return null;
         } catch (\TypeError $e) {
@@ -1949,7 +1949,7 @@ class AlmaApi implements LoggerAwareInterface
         $datetime = $this->getAnalyticsUpdateDate();
 
         if ($datetime !== null) {
-            header('X-Analytics-Update-Date: '.$datetime->format(DateTime::ATOM));
+            header('X-Analytics-Update-Date: '.$datetime->format(\DateTime::ATOM));
         }
     }
 
