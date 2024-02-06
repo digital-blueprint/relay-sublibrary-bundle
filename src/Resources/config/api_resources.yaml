@@ -384,7 +384,7 @@ resources:
           summary: "Return a book offer."
           requestBody:
             content:
-              application/json:
+              application/ld+json:
                 schema:
                   type: "object"
                   example: '{}'
@@ -495,10 +495,12 @@ resources:
           summary: "Post a loan for a book offer."
           requestBody:
             content:
-              application/json:
+              application/ld+json:
                 schema:
                   type: "object"
-                  example: ' {"borrower" = "/base/people/woody007", "library" = "F1490"}'
+                  example:
+                    borrower: "/base/people/woody007"
+                    library: "F1490"
           parameters:
             - name: identifier
               in: path
