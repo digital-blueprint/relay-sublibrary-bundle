@@ -40,7 +40,7 @@
         "symfony/phpunit-bridge": "^5.4.36",
         "symfony/security-bundle": "^5.4.36",
         "symfony/twig-bundle": "^5.4.36",
-        "vimeo/psalm": "^4.30",
+        "vimeo/psalm": "^5.22.2",
         "symfony/error-handler":"^5.4.36",
         "symfony/monolog-bridge":"^5.4.35"
     },

@@ -15,6 +15,9 @@ use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @implements ProviderInterface<BudgetMonetaryAmount>
+ */
 final class BudgetMonetaryAmountProvider implements ProviderInterface
 {
     /** @var SublibraryProviderInterface */

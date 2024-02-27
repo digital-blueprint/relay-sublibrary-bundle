@@ -13,6 +13,9 @@ use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @implements ProviderInterface<BookLoan>
+ */
 final class BookLoanProvider implements ProviderInterface
 {
     /** @var AlmaApi */

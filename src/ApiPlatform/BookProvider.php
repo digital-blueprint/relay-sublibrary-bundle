@@ -9,6 +9,9 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
+/**
+ * @implements ProviderInterface<Book>
+ */
 final class BookProvider implements ProviderInterface
 {
     private $api;

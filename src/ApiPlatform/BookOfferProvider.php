@@ -11,6 +11,9 @@ use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
+/**
+ * @implements ProviderInterface<BookOffer>
+ */
 final class BookOfferProvider implements ProviderInterface
 {
     /** @var AlmaApi */

@@ -16,6 +16,9 @@ use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @implements ProviderInterface<Sublibrary>
+ */
 final class SublibraryProvider implements ProviderInterface
 {
     private const PERSON_ID_FILTER_NAME = 'libraryManager';

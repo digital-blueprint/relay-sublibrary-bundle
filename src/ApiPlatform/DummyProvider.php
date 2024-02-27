@@ -9,6 +9,9 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
+/**
+ * @implements ProviderInterface<object>
+ */
 class DummyProvider implements ProviderInterface
 {
     /** @var AlmaApi */
