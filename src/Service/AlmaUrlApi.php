@@ -14,8 +14,6 @@ class AlmaUrlApi
     /**
      * Returns [mmsId, holdingId, itemPid].
      *
-     * @param string $identifier
-     *
      * @return string[]
      *
      * @throws InvalidIdentifierException
@@ -33,8 +31,6 @@ class AlmaUrlApi
     /**
      * Returns [mmsId, holdingId, itemPid, loanId].
      *
-     * @param string $identifier
-     *
      * @return string[]
      *
      * @throws InvalidIdentifierException
@@ -50,10 +46,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     *
-     * @return string
-     *
      * @throws UriException
      */
     public function getBookUrl(string $identifier): string
@@ -66,11 +58,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     * @param string $userId
-     *
-     * @return string
-     *
      * @throws InvalidIdentifierException
      * @throws UriException
      */
@@ -89,10 +76,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     *
-     * @return string
-     *
      * @throws InvalidIdentifierException
      * @throws UriException
      */
@@ -110,10 +93,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     *
-     * @return string
-     *
      * @throws InvalidIdentifierException
      * @throws UriException
      */
@@ -132,10 +111,7 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
      * @param string $library "F" + number of institution (e.g. F1390)
-     *
-     * @return string
      *
      * @throws InvalidIdentifierException
      * @throws UriException
@@ -155,10 +131,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $identifier
-     *
-     * @return string
-     *
      * @throws InvalidIdentifierException
      * @throws UriException
      */
@@ -176,12 +148,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $userId
-     * @param int $limit
-     * @param int $offset
-     *
-     * @return string
-     *
      * @throws UriException
      */
     public function getLoansByUserIdUrl(string $userId, int $limit = 100, int $offset = 0): string
@@ -197,10 +163,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $barcode
-     *
-     * @return string
-     *
      * @throws UriException
      */
     public function getBarcodeBookOfferUrl(string $barcode): string
@@ -213,10 +175,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @param BookOffer $bookOffer
-     *
-     * @return string
-     *
      * @throws InvalidIdentifierException
      * @throws UriException
      */
@@ -238,10 +196,7 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Sublibrary $library
      * @param string $resumptionToken
-     *
-     * @return string
      *
      * @throws UriException
      */
@@ -262,10 +217,7 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Sublibrary $library
      * @param string $resumptionToken
-     *
-     * @return string
      *
      * @throws UriException
      */
@@ -303,10 +255,7 @@ class AlmaUrlApi
     }
 
     /**
-     * @param Sublibrary $library
      * @param string $resumptionToken
-     *
-     * @return string
      *
      * @throws UriException
      */
@@ -328,8 +277,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @return string
-     *
      * @throws UriException
      */
     public function getBudgetMonetaryAmountAnalyticsUrl(): string
@@ -344,8 +291,6 @@ class AlmaUrlApi
     }
 
     /**
-     * @return string
-     *
      * @throws UriException
      */
     public function getAnalyticsUpdatesAnalyticsUrl(): string

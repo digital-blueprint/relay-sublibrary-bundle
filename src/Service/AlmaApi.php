@@ -144,8 +144,6 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * Replace the guzzle client handler for testing.
-     *
-     * @param object $handler
      */
     public function setClientHandler(?object $handler)
     {
@@ -483,10 +481,6 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * see: https://developers.exlibrisgroup.com/console/?url=/wp-content/uploads/alma/openapi/bibs.json#/Catalog/get/almaws/v1/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}.
      *
-     * @param array $item
-     *
-     * @return BookLoan
-     *
      * @throws ItemNotLoadedException
      */
     public function bookLoanFromJsonItem(array $item): BookLoan
@@ -586,8 +580,6 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @return ArrayCollection
-     *
      * @throws ItemNotFoundException
      */
     public function getBookOffers(array $filters): ArrayCollection
@@ -839,8 +831,6 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Sublibrary $library
-     * @param ArrayCollection $collection
      * @param array $resumptionData
      *
      * @throws ItemNotLoadedException
@@ -849,18 +839,18 @@ class AlmaApi implements LoggerAwareInterface
     public function addAllBookLoansByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
-        $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
+        $resumptionData['request-counter'] ??= 0;
         ++$resumptionData['request-counter'];
 
         $xml = $this->getBookLoanAnalyticsXMLByOrganization($library, $resumptionData);
 
-        $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
+        $resumptionData['mapping'] ??= AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
         if (empty($mapping)) {
             throw new \RuntimeException('Missing mapping');
         }
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
-        $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
+        $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
@@ -968,8 +958,6 @@ class AlmaApi implements LoggerAwareInterface
      * Posts a book offer return (sign-in) in Alma
      * See: https://developers.exlibrisgroup.com/alma/apis/docs/bibs/UE9TVCAvYWxtYXdzL3YxL2JpYnMve21tc19pZH0vaG9sZGluZ3Mve2hvbGRpbmdfaWR9L2l0ZW1zL3tpdGVtX3BpZH0=/.
      *
-     * @param BookOffer $bookOffer
-     *
      * @throws ItemNotLoadedException
      * @throws ItemNotStoredException
      * @throws UriException
@@ -1018,8 +1006,6 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * Updates a loan in Alma.
-     *
-     * @param BookLoan $bookLoan
      *
      * @return BookLoan
      *
@@ -1143,10 +1129,6 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param BookOffer $bookOffer
-     *
-     * @return array|null
-     *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
@@ -1180,10 +1162,6 @@ class AlmaApi implements LoggerAwareInterface
 
     /**
      * Gets all book loans for a person.
-     *
-     * @param Person $person
-     *
-     * @return array|null
      *
      * @throws ItemNotLoadedException
      * @throws ItemNotUsableException
@@ -1236,8 +1214,6 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * Checks if the current user has permissions to a book offer with a certain library.
      *
-     * @param BookOffer $bookOffer
-     *
      * @throws AccessDeniedException
      */
     public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
@@ -1269,10 +1245,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Sublibrary $sublibrary
      * @param array $resumptionData
-     *
-     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
@@ -1319,10 +1292,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Sublibrary $library
      * @param array $resumptionData
-     *
-     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
@@ -1370,10 +1340,7 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @param Sublibrary $library
      * @param array $resumptionData
-     *
-     * @return \SimpleXMLElement|null
      *
      * @throws ItemNotLoadedException
      * @throws UriException
@@ -1420,8 +1387,6 @@ class AlmaApi implements LoggerAwareInterface
     }
 
     /**
-     * @return \SimpleXMLElement|null
-     *
      * @throws ItemNotLoadedException
      * @throws UriException
      */
@@ -1463,8 +1428,6 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * Returns the BudgetMonetaryAmounts for a Sublibrary.
      *
-     * @param Sublibrary $library
-     *
      * @return BudgetMonetaryAmount[]
      *
      * @throws ItemNotLoadedException
@@ -1503,13 +1466,6 @@ class AlmaApi implements LoggerAwareInterface
         return $organizationBudgetList;
     }
 
-    /**
-     * @param array $values
-     * @param string $key
-     * @param Sublibrary $library
-     *
-     * @return BudgetMonetaryAmount|null
-     */
     private static function budgetMonetaryAmountFromAnalyticsRow(
         array $values,
         string $key,
@@ -1532,12 +1488,6 @@ class AlmaApi implements LoggerAwareInterface
         return $organizationBudget;
     }
 
-    /**
-     * @param array $organizationBudgetList
-     * @param array $values
-     * @param string $key
-     * @param Sublibrary $library
-     */
     private static function addBudgetMonetaryAmountToList(
         array &$organizationBudgetList,
         array $values,
@@ -1599,18 +1549,18 @@ class AlmaApi implements LoggerAwareInterface
     public function addAllBookOffersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
-        $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
+        $resumptionData['request-counter'] ??= 0;
         ++$resumptionData['request-counter'];
 
         $xml = $this->getBookOffersAnalyticsXMLByOrganization($library, $resumptionData);
 
-        $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
+        $resumptionData['mapping'] ??= AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
         if (empty($mapping)) {
             throw new \RuntimeException('Missing mapping');
         }
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
-        $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
+        $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');
@@ -1678,11 +1628,6 @@ class AlmaApi implements LoggerAwareInterface
         }
     }
 
-    /**
-     * @param string $id
-     *
-     * @return BookOrder
-     */
     public function getBookOrder(string $id): BookOrder
     {
         $matches = [];
@@ -1746,18 +1691,18 @@ class AlmaApi implements LoggerAwareInterface
     public function addAllBookOrdersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
-        $resumptionData['request-counter'] = $resumptionData['request-counter'] ?? 0;
+        $resumptionData['request-counter'] ??= 0;
         ++$resumptionData['request-counter'];
 
         $xml = $this->getBookOrdersAnalyticsXMLByOrganization($library, $resumptionData);
 
-        $resumptionData['mapping'] = $resumptionData['mapping'] ?? AlmaUtils::getColumnMapping($xml);
+        $resumptionData['mapping'] ??= AlmaUtils::getColumnMapping($xml);
         $mapping = $resumptionData['mapping'];
         if (empty($mapping)) {
             throw new \RuntimeException('Missing mapping');
         }
         // we only get a ResumptionToken at the first request, but we need to add the token to every subsequent request
-        $resumptionData['token'] = $resumptionData['token'] ?? (string) $xml->ResumptionToken;
+        $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
         $rows = $xml->xpath('ResultXml/rowset/Row');

@@ -84,8 +84,6 @@ class BookOrderItem
 
     /**
      * @param mixed $price
-     *
-     * @return BookOrderItem
      */
     public function setPrice($price): self
     {
@@ -99,9 +97,6 @@ class BookOrderItem
         return $this->priceCurrency;
     }
 
-    /**
-     * @return BookOrderItem
-     */
     public function setPriceCurrency(string $priceCurrency): self
     {
         $this->priceCurrency = $priceCurrency;

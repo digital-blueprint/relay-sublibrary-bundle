@@ -114,17 +114,11 @@ class BookOffer
         return "{$this->book->getTitle()} ({$author})";
     }
 
-    /**
-     * @return string
-     */
     public function getLocationIdentifier(): ?string
     {
         return $this->locationIdentifier;
     }
 
-    /**
-     * @return BookOffer
-     */
     public function setLocationIdentifier(string $locationIdentifier): self
     {
         $this->locationIdentifier = $locationIdentifier;
@@ -134,17 +128,12 @@ class BookOffer
 
     /**
      * returns the library code of this book offer.
-     *
-     * @return string
      */
     public function getLibrary(): ?string
     {
         return $this->library;
     }
 
-    /**
-     * @return BookOffer
-     */
     public function setLibrary(string $library): self
     {
         $this->library = $library;
@@ -152,17 +141,11 @@ class BookOffer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): ?string
     {
         return $this->location;
     }
 
-    /**
-     * @return BookOffer
-     */
     public function setLocation(string $location): self
     {
         $this->location = $location;
@@ -182,17 +165,11 @@ class BookOffer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @return BookOffer
-     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
