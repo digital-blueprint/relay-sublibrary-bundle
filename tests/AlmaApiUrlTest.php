@@ -88,9 +88,10 @@ class AlmaApiUrlTest extends WebTestCase
     public function testGetBookOfferLocationsIdentifierUrl()
     {
         $offer = new BookOffer();
+        $offer->setLibrary('123');
         $offer->setIdentifier('foo-ba?r-baz');
         $this->assertEquals(
-            'bibs/foo/holdings/ba%3Fr/items?order_by=chron_i&limit=100',
+            'bibs/foo/holdings/ba%3Fr/items?current_library=123&order_by=chron_i&limit=100',
             $this->urls->getBookOfferLocationsIdentifierUrl($offer));
 
         $offer->setIdentifier('bla');
