@@ -15,6 +15,18 @@
     {
       "matchPackagePrefixes": ["symfony/"],
       "allowedVersions": "<6"
+    },
+    {
+      "matchPackageNames": ["api-platform/core"],
+      "allowedVersions": "<3"
+    },
+    {
+      "matchPackageNames": ["phpunit/phpunit"],
+      "allowedVersions": "<10"
+    },
+    {
+      "matchPackageNames": ["directorytree/ldaprecord"],
+      "allowedVersions": "<3"
     }
   ]
 }
