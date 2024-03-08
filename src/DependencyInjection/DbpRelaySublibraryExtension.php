@@ -18,12 +18,12 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
 {
     use ExtensionTrait;
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $this->addExposeHeader($container, 'X-Analytics-Update-Date');
     }
 
-    public function loadInternal(array $mergedConfig, ContainerBuilder $container)
+    public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
     {
         $this->addResourceClassDirectory($container, __DIR__.'/../Entity');
 
