@@ -363,7 +363,7 @@ resources:
         openapiContext:
           tags: ["Sublibrary"]
 
-      ApiPlatform\Metadata\Put:
+      ApiPlatform\Metadata\Patch:
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferProvider
         processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferProcessor
         uriTemplate: "/book-offers/{identifier}"
@@ -453,7 +453,7 @@ resources:
         openapiContext:
           tags: ["Sublibrary"]
 
-      ApiPlatform\Metadata\Put:
+      ApiPlatform\Metadata\Patch:
         provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProvider
         processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProcessor
         uriTemplate: "/book-loans/{identifier}"

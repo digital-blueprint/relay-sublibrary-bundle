@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
@@ -36,7 +36,7 @@ final class BookLoanProcessor implements ProcessorInterface
         assert($data instanceof BookLoan);
         $bookLoan = $data;
 
-        if ($operation instanceof Put) {
+        if ($operation instanceof Patch) {
             $api->updateBookLoan($bookLoan);
         }
 

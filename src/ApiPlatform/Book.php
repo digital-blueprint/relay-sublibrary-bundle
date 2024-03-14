@@ -103,12 +103,12 @@ class Book
         $this->publisher = $publisher;
     }
 
-    public function getDatePublished(): ?\DateTimeInterface
+    public function getDatePublished(): ?DateTimeInterface
     {
         return $this->datePublished;
     }
 
-    public function setDatePublished(\DateTimeInterface $datePublished): void
+    public function setDatePublished(DateTimeInterface $datePublished): void
     {
         $this->datePublished = $datePublished;
     }
