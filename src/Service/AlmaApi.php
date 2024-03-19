@@ -1250,7 +1250,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1297,7 +1297,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
+    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1345,7 +1345,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?SimpleXMLElement
+    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1390,7 +1390,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBudgetMonetaryAmountAnalyticsXML(): ?SimpleXMLElement
+    public function getBudgetMonetaryAmountAnalyticsXML(): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1506,7 +1506,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    public function getAnalyticsUpdatesAnalyticsXML(): ?SimpleXMLElement
+    public function getAnalyticsUpdatesAnalyticsXML(): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsUpdatesClient();
         $options = [
