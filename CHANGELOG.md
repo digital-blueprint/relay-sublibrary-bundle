@@ -1,3 +1,11 @@
+# 0.3.1
+
+* Fix the accepted content type for the new PATCH method for compatibility with the upcoming ApiPlatform upgrade
+
+# 0.3.0
+
+* Replace PUT with PATCH for upcoming ApiPlatform upgrade and standard compliant Http PUT
+
 # v0.2.4
 
 * Add support for Symfony 6
