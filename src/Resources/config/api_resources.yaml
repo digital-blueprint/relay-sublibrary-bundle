@@ -460,7 +460,7 @@ resources:
         processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoanProcessor
         uriTemplate: "/book-loans/{identifier}"
         inputFormats:
-          json: [ 'application/merge-patch+json' ]
+          jsonld: ['application/merge-patch+json']
         openapiContext:
           tags: ["Sublibrary"]
 
