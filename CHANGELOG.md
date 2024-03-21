@@ -1,3 +1,7 @@
+# 0.3.2
+
+* Work around regression in 0.3.1 which break some fields in nested entities in the book loan endpoints
+
 # 0.3.1
 
 * Fix the accepted content type for the new PATCH method for compatibility with the upcoming ApiPlatform upgrade
