@@ -484,8 +484,10 @@ class AlmaApi implements LoggerAwareInterface
         try {
             $options = [];
             // filter: get person(s) whose Alma user ID matches the ID of the loan
-            $filter = FilterTreeBuilder::create()->equals('localData.almaId', $item['user_id'])->createFilter();
-            $persons = $this->personProvider->getPersons(1, 1, Options::setFilter($options, $filter));
+            $filter = FilterTreeBuilder::create()->equals('localData.'.self::ALMA_ID_ATTRIBUTE, $item['user_id'])->createFilter();
+            Options::setFilter($options, $filter);
+            Options::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE]);
+            $persons = $this->personProvider->getPersons(1, 1, $options);
             if (count($persons) > 0) {
                 $bookLoan->setBorrower($persons[0]);
             }
