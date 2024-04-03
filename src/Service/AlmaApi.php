@@ -7,12 +7,12 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use DateTime;
 use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
 use Dbp\Relay\CoreBundle\Rest\Options;
+use Dbp\Relay\CoreBundle\Rest\Query\Filter\FilterTreeBuilder;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan;
@@ -45,10 +45,9 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use SimpleXMLElement;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Security;
 
 class AlmaApi implements LoggerAwareInterface
 {
@@ -58,51 +57,35 @@ class AlmaApi implements LoggerAwareInterface
     private const ALMA_ID_ATTRIBUTE = 'almaId';
     private const TUG_FUNCTIONS_ATTRIBUTE = 'tugFunctions';
 
-    /** @var PersonProviderInterface */
-    private $personProvider;
-
-    /** @var Security */
-    private $security;
-
-    /** @var SublibraryProviderInterface */
-    private $libraryProvider;
-
-    private $clientHandler;
-    private $apiKey;
-    private $analyticsApiKey;
-    private $apiUrl;
-    private $readonly;
-    private $urls;
-    private $analyticsUpdatesHash = '';
-    private $ldapApi;
-
-    private $cachePool;
-
     // 30h caching for Analytics, they will expire when there is a new Analytics Update
     private const ANALYTICS_CACHE_TTL = 108000;
 
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    /** @var AuthorizationService */
-    private $authorizationService;
+    private PersonProviderInterface $personProvider;
+    private Security $security;
+    private SublibraryProviderInterface $libraryProvider;
+    private ?CacheItemPoolInterface $cachePool = null;
+    private AuthorizationService $authorizationService;
+
+    private ?object $clientHandler = null;
+    private string $apiKey = '';
+    private string $analyticsApiKey = '';
+    private string $apiUrl = '';
+    private bool $readonly = false;
+    private AlmaUrlApi $almaUrlApi;
+    private string $analyticsUpdatesHash = '';
 
     public function __construct(PersonProviderInterface $personProvider,
         SublibraryProviderInterface $libraryProvider,
-        Security $security, LDAPApi $ldapApi, AuthorizationService $authorizationService)
+        Security $security, AuthorizationService $authorizationService)
     {
         $this->security = $security;
         $this->personProvider = $personProvider;
-        $this->clientHandler = null;
-        $this->urls = new AlmaUrlApi();
+        $this->almaUrlApi = new AlmaUrlApi();
         $this->libraryProvider = $libraryProvider;
-        $this->ldapApi = $ldapApi;
         $this->authorizationService = $authorizationService;
-
-        $this->apiKey = '';
-        $this->analyticsApiKey = '';
-        $this->apiUrl = '';
-        $this->readonly = false;
     }
 
     public function setConfig(array $config)
@@ -332,7 +315,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         try {
-            $url = $this->urls->getBookOfferUrl($identifier);
+            $url = $this->almaUrlApi->getBookOfferUrl($identifier);
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
@@ -370,7 +353,7 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        $url = $this->urls->getBarcodeBookOfferUrl($barcode);
+        $url = $this->almaUrlApi->getBarcodeBookOfferUrl($barcode);
 
         try {
             $response = $client->request('GET', $url, $options);
@@ -409,7 +392,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('GET', $this->urls->getBookUrl($identifier), $options);
+            $response = $client->request('GET', $this->almaUrlApi->getBookUrl($identifier), $options);
 
             $dataArray = $this->decodeResponse($response);
 
@@ -453,7 +436,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('GET', $this->urls->getBookLoanUrl($identifier), $options);
+            $response = $client->request('GET', $this->almaUrlApi->getBookLoanUrl($identifier), $options);
 
             $dataArray = $this->decodeResponse($response, $assoc);
 
@@ -498,14 +481,16 @@ class AlmaApi implements LoggerAwareInterface
 
         $bookLoan->setLoanStatus($item['loan_status']);
 
-        $userId = $item['user_id'];
-
         try {
-            $personId = $this->ldapApi->getPersonIdByAlmaUserId($userId);
-            $person = $this->getPerson($personId, false);
-            $bookLoan->setBorrower($person);
-        } catch (ItemNotFoundException $e) {
-            // this happens if no person was found in LDAP by AlmaUserId, must be handled in the frontend
+            $options = [];
+            // filter: get person(s) whose Alma user ID matches the ID of the loan
+            $filter = FilterTreeBuilder::create()->equals('localData.almaId', $item['user_id'])->createFilter();
+            $persons = $this->personProvider->getPersons(1, 1, Options::setFilter($options, $filter));
+            if (count($persons) > 0) {
+                $bookLoan->setBorrower($persons[0]);
+            }
+        } catch (\Exception $e) {
+            // must be handled in the frontend
             // catching the exception has the advantage that we can return the book even if no person was found
         }
 
@@ -715,7 +700,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('PUT', $this->urls->getBookOfferUrl($identifier), $options);
+            $response = $client->request('PUT', $this->almaUrlApi->getBookOfferUrl($identifier), $options);
 
             $data = $this->decodeResponse($response);
             $bookOffer = $this->bookOfferFromJsonItem($data);
@@ -792,7 +777,7 @@ class AlmaApi implements LoggerAwareInterface
             $identifier = $bookOffer->getIdentifier();
 
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('POST', $this->urls->getBookLoanPostUrl($identifier, $userId), $options);
+            $response = $client->request('POST', $this->almaUrlApi->getBookLoanPostUrl($identifier, $userId), $options);
 
             $data = $this->decodeResponse($response);
             $bookLoan = $this->bookLoanFromJsonItem($data);
@@ -981,7 +966,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $client->request('POST', $this->urls->getReturnBookOfferUrl($identifier, $libraryCode), $options);
+            $client->request('POST', $this->almaUrlApi->getReturnBookOfferUrl($identifier, $libraryCode), $options);
 
             $this->log("Book offer <{$identifier}> ({$bookOffer->getName()}) was returned", ['library' => $libraryCode]);
         } catch (InvalidIdentifierException $e) {
@@ -1039,7 +1024,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('PUT', $this->urls->getBookLoanUrl($identifier), $options);
+            $response = $client->request('PUT', $this->almaUrlApi->getBookLoanUrl($identifier), $options);
 
             $data = $this->decodeResponse($response);
             $bookLoan = $this->bookLoanFromJsonItem($data);
@@ -1103,7 +1088,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('GET', $this->urls->getBookOfferLocationsIdentifierUrl($bookOffer), $options);
+            $response = $client->request('GET', $this->almaUrlApi->getBookOfferLocationsIdentifierUrl($bookOffer), $options);
 
             $dataArray = $this->decodeResponse($response);
             $results = array_map(function ($item) {
@@ -1145,7 +1130,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $response = $client->request('GET', $this->urls->getBookOfferLoansUrl($identifier), $options);
+            $response = $client->request('GET', $this->almaUrlApi->getBookOfferLoansUrl($identifier), $options);
             $dataArray = $this->decodeResponse($response);
 
             return $dataArray['item_loan'] ?? [];
@@ -1192,7 +1177,7 @@ class AlmaApi implements LoggerAwareInterface
             // do as many requests as necessary to get all loans by the user
             do {
                 // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-                $response = $client->request('GET', $this->urls->getLoansByUserIdUrl($userId, $limit, $offset), $options);
+                $response = $client->request('GET', $this->almaUrlApi->getLoansByUserIdUrl($userId, $limit, $offset), $options);
                 $dataArray = $this->decodeResponse($response);
                 $totalCount = (int) ($dataArray['total_record_count'] ?? 0);
                 $resultList = array_merge($resultList, $dataArray['item_loan'] ?? []);
@@ -1266,7 +1251,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookOfferAnalyticsUrl($sublibrary, $resumptionToken);
+            $url = $this->almaUrlApi->getBookOfferAnalyticsUrl($sublibrary, $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
@@ -1313,7 +1298,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookLoanAnalyticsUrl($library, $resumptionToken);
+            $url = $this->almaUrlApi->getBookLoanAnalyticsUrl($library, $resumptionToken);
 
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
@@ -1362,7 +1347,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBookOrderAnalyticsUrl($library, $resumptionToken);
+            $url = $this->almaUrlApi->getBookOrderAnalyticsUrl($library, $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
@@ -1402,7 +1387,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getBudgetMonetaryAmountAnalyticsUrl();
+            $url = $this->almaUrlApi->getBudgetMonetaryAmountAnalyticsUrl();
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
@@ -1517,7 +1502,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->urls->getAnalyticsUpdatesAnalyticsUrl();
+            $url = $this->almaUrlApi->getAnalyticsUpdatesAnalyticsUrl();
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 

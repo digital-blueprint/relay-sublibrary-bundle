@@ -5,12 +5,6 @@ services:
         calls:
             - setCache: [ '@dbp.relay.sublibrary.cache.alma_analytics' ]
 
-    Dbp\Relay\SublibraryBundle\Service\LDAPApi:
-        autowire: true
-        autoconfigure: true
-        calls:
-            - setLDAPCache: [ '@dbp.relay.sublibrary.cache.ldap', 360 ]
-
     Dbp\Relay\SublibraryBundle\ApiPlatform\:
         resource: '../../ApiPlatform'
         autowire: true
@@ -39,8 +33,3 @@ services:
         parent: cache.app
         tags:
             - { name: 'cache.pool', default_lifetime: 60 }
-
-    dbp.relay.sublibrary.cache.ldap:
-        parent: cache.app
-        tags:
-            - { name: 'cache.pool', default_lifetime: 360 }

@@ -48,12 +48,6 @@ class Kernel extends BaseKernel
             'secret' => '',
         ]);
 
-        $container->extension('dbp_relay_sublibrary', [
-            'ldap' => [
-                'encryption' => 'simple_tls',
-            ],
-        ]);
-
         $container->extension('api_platform', [
             'metadata_backward_compatibility_layer' => false,
         ]);

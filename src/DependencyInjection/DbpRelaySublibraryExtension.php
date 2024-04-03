@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\DependencyInjection;
 use Dbp\Relay\CoreBundle\Extension\ExtensionTrait;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
-use Dbp\Relay\SublibraryBundle\Service\LDAPApi;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -47,9 +46,6 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yaml');
-
-        $definition = $container->getDefinition(LDAPApi::class);
-        $definition->addMethodCall('setConfig', [$mergedConfig['ldap'] ?? []]);
 
         $definition = $container->getDefinition(AlmaApi::class);
         $definition->addMethodCall('setConfig', [$mergedConfig]);

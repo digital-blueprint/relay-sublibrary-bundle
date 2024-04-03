@@ -12,6 +12,9 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    public const LDAP_CONNECTION_ATTRIBUTE = 'connection';
+    public const LDAP_ALMA_USER_ID_ATTRIBUTE_ATTRIBUTE = 'alma_user_id_attribute';
+
     public const ROLE_LIBRARY_MANAGER = 'ROLE_LIBRARY_MANAGER';
     public const SUBLIBRARY_IDS = 'SUBLIBRARY_IDS';
     public const ALMA_LIBRARY_IDS = 'ALMA_LIBRARY_IDS';
@@ -32,25 +35,6 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
 
-        $ldapBuilder = new TreeBuilder('ldap');
-        $ldapNode = $ldapBuilder->getRootNode()
-            ->children()
-            ->scalarNode('host')->end()
-            ->scalarNode('base_dn')->end()
-            ->scalarNode('username')->end()
-            ->scalarNode('password')->end()
-            ->scalarNode('encryption')->end()
-            ->end();
-
-        $attributesBuilder = new TreeBuilder('attributes');
-        $attributesNode = $attributesBuilder->getRootNode()
-            ->children()
-            ->scalarNode('identifier')->end()
-            ->scalarNode('alma_user_id')->end()
-            ->end();
-        $ldapNode->append($attributesNode);
-
-        $rootNode->append($ldapNode);
         $rootNode->append($this->getAuthorizationNode());
 
         return $treeBuilder;

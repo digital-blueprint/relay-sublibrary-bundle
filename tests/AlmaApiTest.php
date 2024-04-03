@@ -13,7 +13,6 @@ use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
-use Dbp\Relay\SublibraryBundle\Service\LDAPApi;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -21,7 +20,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class AlmaApiTest extends WebTestCase
 {
@@ -43,16 +42,11 @@ class AlmaApiTest extends WebTestCase
         $personProvider = new DummyPersonProvider();
         $personProvider->setCurrentPerson($person);
         $libraryProvider = new DummySublibraryProvider();
-        $ldapApi = new LDAPApi();
-        $ldapApi->setConfig([
-            'encryption' => 'simple_tls',
-        ]);
 
         $this->api = new AlmaApi(
             $personProvider,
             $libraryProvider,
             new Security($client->getContainer()),
-            $ldapApi,
             new AuthorizationService()
         );
         $this->api->setApiKey('secret');

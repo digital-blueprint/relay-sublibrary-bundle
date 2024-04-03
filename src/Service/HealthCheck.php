@@ -10,13 +10,11 @@ use Dbp\Relay\CoreBundle\HealthCheck\CheckResult;
 
 class HealthCheck implements CheckInterface
 {
-    private $api;
-    private $ldap;
+    private AlmaApi $api;
 
-    public function __construct(AlmaApi $api, LDAPApi $ldap)
+    public function __construct(AlmaApi $api)
     {
         $this->api = $api;
-        $this->ldap = $ldap;
     }
 
     public function getName(): string
@@ -44,7 +42,6 @@ class HealthCheck implements CheckInterface
         $results = [];
         $results[] = $this->checkMethod('Check if we can connect to the Alma "bibs" API', [$this->api, 'checkConnection']);
         $results[] = $this->checkMethod('Check if we can connect to the Alma "analytics" API', [$this->api, 'checkConnectionAnalytics']);
-        $results[] = $this->checkMethod('Check if we can connect to the LDAP server', [$this->ldap, 'checkConnection']);
 
         return $results;
     }
