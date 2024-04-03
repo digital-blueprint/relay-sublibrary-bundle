@@ -1,3 +1,5 @@
+* Drop support for Symfony 5
+
 # 0.3.2
 
 * Work around regression in 0.3.1 which break some fields in nested entities in the book loan endpoints
