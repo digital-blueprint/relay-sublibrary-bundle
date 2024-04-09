@@ -368,7 +368,7 @@ resources:
         processor: Dbp\Relay\SublibraryBundle\ApiPlatform\BookOfferProcessor
         uriTemplate: "/book-offers/{identifier}"
         inputFormats:
-          json: [ 'application/merge-patch+json' ]
+          jsonld: [ 'application/merge-patch+json' ]
         openapiContext:
           tags: ["Sublibrary"]
 
