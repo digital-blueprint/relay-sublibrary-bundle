@@ -12,9 +12,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public const LDAP_CONNECTION_ATTRIBUTE = 'connection';
-    public const LDAP_ALMA_USER_ID_ATTRIBUTE_ATTRIBUTE = 'alma_user_id_attribute';
-
     public const ROLE_LIBRARY_MANAGER = 'ROLE_LIBRARY_MANAGER';
     public const SUBLIBRARY_IDS = 'SUBLIBRARY_IDS';
     public const ALMA_LIBRARY_IDS = 'ALMA_LIBRARY_IDS';

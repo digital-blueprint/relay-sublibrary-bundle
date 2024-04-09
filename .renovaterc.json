@@ -23,10 +23,6 @@
     {
       "matchPackageNames": ["phpunit/phpunit"],
       "allowedVersions": "<10"
-    },
-    {
-      "matchPackageNames": ["directorytree/ldaprecord"],
-      "allowedVersions": "<3"
     }
   ]
 }

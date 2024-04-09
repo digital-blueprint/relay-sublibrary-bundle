@@ -26,7 +26,6 @@ There is a corresponding frontend application that uses this API at [Sublibrary 
 
 - API Gateway with openAPI/Swagger
 - Alma backend access with special configuration (for analytics)
-- LDAP server to fetch the Alma User ID
 
 ## Bundle installation
 
@@ -63,15 +62,6 @@ dbp_relay_sublibrary:
   api_key: '%env(ALMA_API_KEY)%'
   analytics_api_key: '%env(ALMA_ANALYTICS_API_KEY)%'
   readonly: '%env(bool:ALMA_READONLY)%'
-  ldap:
-    host: '%env(LDAP_HOST)%'
-    base_dn: '%env(LDAP_BASE_DN)%'
-    username: '%env(LDAP_USER)%'
-    password: '%env(LDAP_PASS)%'
-    encryption: 'simple_tls'
-    attributes:
-      identifier: '%env(LDAP_ATTRIBUTE_IDENTIFIER)%'
-      alma_user_id: '%env(LDAP_ATTRIBUTE_ALMA_USER_ID)%'
 ```
 
 Your `.env` file should then contain the following environment variables you need to configure the bundle:
@@ -82,12 +72,6 @@ ALMA_API_URL=https://api-eu.hosted.exlibrisgroup.com/almaws/v1
 ALMA_API_KEY=
 ALMA_ANALYTICS_API_KEY=
 ALMA_READONLY=
-LDAP_HOST=directory.yourdomain.at
-LDAP_BASE_DN=o=dbp
-LDAP_USER=user
-LDAP_PASS=pass
-LDAP_ATTRIBUTE_IDENTIFIER=cn
-LDAP_ATTRIBUTE_ALMA_USER_ID=CO-ALMA-PATRON-ID
 ###< dbp/relay-sublibrary-bundle ###
 ```
 
