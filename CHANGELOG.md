@@ -1,3 +1,7 @@
+# 0.4.3
+
+* Add support for doctrine/collections v2
+
 # 0.4.2
 
 * Same workaround as 0.3.2 but for book offers
