@@ -1,3 +1,9 @@
+# 0.4.2
+
+* Same workaround as 0.3.2 but for book offers
+
+# 0.4.0
+
 * Drop support for Symfony 5
 
 # 0.3.2
