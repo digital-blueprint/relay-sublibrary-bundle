@@ -1,3 +1,7 @@
+# 0.4.4
+
+* Add support for api-platform 3.2
+
 # 0.4.3
 
 * Add support for doctrine/collections v2
