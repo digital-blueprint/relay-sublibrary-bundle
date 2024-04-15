@@ -29,7 +29,7 @@ final class BookLoanProvider implements ProviderInterface
     /**
      * @return WholeResultPaginator|BookLoan
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = [])
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $this->api->checkPermissions();
 

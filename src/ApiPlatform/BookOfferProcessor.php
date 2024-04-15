@@ -9,6 +9,9 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
+/**
+ * @implements ProcessorInterface<BookOffer,mixed>
+ */
 final class BookOfferProcessor implements ProcessorInterface
 {
     private $api;
