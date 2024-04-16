@@ -10,7 +10,7 @@ use ApiPlatform\State\ProcessorInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
 /**
- * @implements ProcessorInterface<BookLoan,mixed>
+ * @psalm-suppress MissingTemplateParam
  */
 final class BookLoanProcessor implements ProcessorInterface
 {
