@@ -15,42 +15,37 @@ class Book
     private $identifier;
 
     /**
-     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBook:output', 'LibraryBookOrder:output'])]
     private $title;
 
     /**
-     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBook:output', 'LibraryBookOrder:output'])]
     private $isbn;
 
     /**
-     * @Groups({"LibraryBook:output", "LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBook:output', 'LibraryBookOrder:output'])]
     private $author;
 
     /**
      * Note that we are using a string here.
      *
-     * @Groups({"LibraryBook:output"})
-     *
      * @var string;
      */
+    #[Groups(['LibraryBook:output'])]
     private $publisher;
 
     /**
      * Note that Alma only has the year stored.
      *
-     * @Groups({"LibraryBook:output"})
-     *
      * @var DateTimeInterface;
      */
+    #[Groups(['LibraryBook:output'])]
     private $datePublished;
 
     public function setIdentifier(string $identifier): void

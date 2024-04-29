@@ -9,60 +9,51 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class BookOffer
 {
     /**
-     * @Groups({"LibraryBookOffer:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output'])]
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOffer:output"})
-     *
      * @var Book
      */
+    #[Groups(['LibraryBookOffer:output'])]
     private $book;
 
     /**
-     * @Groups({"LibraryBookOffer:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output'])]
     private $barcode;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     private $locationIdentifier;
 
     /**
      * e.g. "F4480" organization code (orgUnitCode)
      * TODO: in theory we could use a "http://schema.org/offeredBy", but we would need the orgUnitID for that, which Alma wouldn't provide.
      *
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     private $library;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     private $location;
 
     /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     private $description;
 
-    /**
-     * @Groups({"LibraryBookOffer:output", "LibraryBookOffer:input"})
-     */
+    #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     private $availabilityStarts;
 
     public function setIdentifier(string $identifier): self
@@ -101,9 +92,7 @@ class BookOffer
         return $this;
     }
 
-    /**
-     * @Groups({"LibraryBookOffer:output"})
-     */
+    #[Groups(['LibraryBookOffer:output'])]
     public function getName(): ?string
     {
         $author = $this->book->getAuthor();

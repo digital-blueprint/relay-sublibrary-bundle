@@ -20,10 +20,9 @@ class EventStatusType
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $name;
 
     public function setIdentifier(string $identifier): self

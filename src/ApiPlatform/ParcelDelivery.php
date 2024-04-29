@@ -20,10 +20,9 @@ class ParcelDelivery
     private $identifier;
 
     /**
-     * @Groups("LibraryBookOrder:output")
-     *
      * @var DeliveryEvent
      */
+    #[Groups('LibraryBookOrder:output')]
     private $deliveryStatus;
 
     public function setIdentifier(string $identifier): self

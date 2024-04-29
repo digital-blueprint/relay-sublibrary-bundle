@@ -14,24 +14,21 @@ class BudgetMonetaryAmount
     private $identifier;
 
     /**
-     * @Groups({"LibraryBudgetMonetaryAmount:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBudgetMonetaryAmount:output'])]
     private $name;
 
     /**
-     * @Groups({"LibraryBudgetMonetaryAmount:output"})
-     *
      * @var float
      */
+    #[Groups(['LibraryBudgetMonetaryAmount:output'])]
     private $value;
 
     /**
-     * @Groups({"LibraryBudgetMonetaryAmount:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBudgetMonetaryAmount:output'])]
     private $currency;
 
     public function setIdentifier(string $identifier): self

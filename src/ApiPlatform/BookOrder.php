@@ -14,38 +14,33 @@ class BookOrder
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderNumber;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $receivingNote;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var BookOrderItem
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderedItem;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderStatus;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var \DateTimeInterface
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderDate;
 
     public function setIdentifier(string $identifier): self

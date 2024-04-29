@@ -9,10 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class BookLocation
 {
     /**
-     * @Groups({"BookLocation:output"})
-     *
      * @var string
      */
+    #[Groups(['BookLocation:output'])]
     private $identifier;
 
     public function getIdentifier(): string

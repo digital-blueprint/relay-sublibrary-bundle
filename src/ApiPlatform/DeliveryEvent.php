@@ -25,10 +25,9 @@ class DeliveryEvent
     private $availableFrom;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var EventStatusType
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $eventStatus;
 
     public function setIdentifier(string $identifier): self

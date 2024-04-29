@@ -10,50 +10,42 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class BookLoan
 {
     /**
-     * @Groups({"LibraryBookLoan:output"})
-     *
      * @var string
      */
+    #[Groups(['LibraryBookLoan:output'])]
     private $identifier;
 
     /**
      * @var BookOffer
-     *
-     * @Groups({"LibraryBookLoan:output"})
      */
+    #[Groups(['LibraryBookLoan:output'])]
     private $object;
 
     /**
      * @var Person
-     *
-     * @Groups({"LibraryBookLoan:output"})
      */
+    #[Groups(['LibraryBookLoan:output'])]
     private $borrower;
 
     /**
      * @var \DateTimeInterface
-     *
-     * @Groups({"LibraryBookLoan:output"})
      */
+    #[Groups(['LibraryBookLoan:output'])]
     private $startTime;
 
     /**
      * @var \DateTimeInterface
-     *
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoan:input"})
      */
+    #[Groups(['LibraryBookLoan:output', 'LibraryBookLoan:input'])]
     private $endTime;
 
     /**
      * @var \DateTimeInterface
-     *
-     * @Groups({"LibraryBookLoan:output"})
      */
+    #[Groups(['LibraryBookLoan:output'])]
     private $returnTime;
 
-    /**
-     * @Groups({"LibraryBookLoan:output", "LibraryBookLoan:input"})
-     */
+    #[Groups(['LibraryBookLoan:output', 'LibraryBookLoan:input'])]
     private $loanStatus;
 
     public function setIdentifier(string $identifier): self

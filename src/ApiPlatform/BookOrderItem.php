@@ -11,31 +11,27 @@ class BookOrderItem
     private $identifier;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var Book
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderedItem;
 
     /**
-     * @Groups({"LibraryBookOrder:output"})
-     *
      * @var ParcelDelivery
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $orderDelivery;
 
     /**
      * A BookOrderItem usually doesn't have a price, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
-     *
-     * @Groups({"LibraryBookOrder:output"})
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $price;
 
     /**
      * A BookOrderItem usually doesn't have a priceCurrency, but we are assigning one, so we don't need to add another BookOffer layer to our book loan list.
-     *
-     * @Groups({"LibraryBookOrder:output"})
      */
+    #[Groups(['LibraryBookOrder:output'])]
     private $priceCurrency;
 
     public function setIdentifier(string $identifier): self

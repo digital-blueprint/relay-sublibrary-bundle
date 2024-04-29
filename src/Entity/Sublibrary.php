@@ -10,24 +10,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Sublibrary implements SublibraryInterface
 {
     /**
-     * @Groups({"Sublibrary:output"})
-     *
      * @var string
      */
+    #[Groups(['Sublibrary:output'])]
     private $identifier;
 
     /**
-     * @Groups({"Sublibrary:output"})
-     *
      * @var string
      */
+    #[Groups(['Sublibrary:output'])]
     private $name;
 
     /**
-     * @Groups({"Sublibrary:output"})
-     *
      * @var string
      */
+    #[Groups(['Sublibrary:output'])]
     private $code;
 
     public function setIdentifier(string $identifier)
