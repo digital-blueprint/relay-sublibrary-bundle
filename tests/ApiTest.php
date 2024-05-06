@@ -19,7 +19,8 @@ class ApiTest extends ApiTestCase
             $path = str_replace('.{_format}', '', $path);
             foreach ($route->getMethods() as $method) {
                 $client = self::createClient();
-                $response = $client->request($method, $path.'?sublibrary=1234');
+                $contentType = ($method === 'PATCH') ? 'application/merge-patch+json' : 'application/ld+json';
+                $response = $client->request($method, $path.'?sublibrary=1234', ['headers' => ['Content-Type' => $contentType]]);
                 $this->assertContains($response->getStatusCode(), [401, 404], $path);
             }
         }
