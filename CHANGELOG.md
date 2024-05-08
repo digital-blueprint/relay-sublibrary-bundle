@@ -1,28 +1,30 @@
-# 0.4.4
+# Changelog
+
+## v0.4.4
 
 * Add support for api-platform 3.2
 
-# 0.4.3
+## v0.4.3
 
 * Add support for doctrine/collections v2
 
-# 0.4.2
+## v0.4.2
 
 * Same workaround as 0.3.2 but for book offers
 
-# 0.4.0
+## v0.4.0
 
 * Drop support for Symfony 5
 
-# 0.3.2
+## v0.3.2
 
 * Work around regression in 0.3.1 which break some fields in nested entities in the book loan endpoints
 
-# 0.3.1
+## v0.3.1
 
 * Fix the accepted content type for the new PATCH method for compatibility with the upcoming ApiPlatform upgrade
 
-# 0.3.0
+## v0.3.0
 
 * Replace PUT with PATCH for upcoming ApiPlatform upgrade and standard compliant Http PUT
 
