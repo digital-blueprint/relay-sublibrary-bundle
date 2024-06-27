@@ -472,6 +472,7 @@ class AlmaApi implements LoggerAwareInterface
             // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
         }
 
+        $bookLoan->setLibrary($item['library']['value']);
         $bookLoan->setLoanStatus($item['loan_status']);
 
         $person = $this->almaPersonProvider->getPersonForAlmaId($item['user_id'], false);

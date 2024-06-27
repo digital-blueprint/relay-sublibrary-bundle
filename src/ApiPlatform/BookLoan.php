@@ -48,6 +48,8 @@ class BookLoan
     #[Groups(['LibraryBookLoan:output', 'LibraryBookLoan:input'])]
     private $loanStatus;
 
+    private ?string $library;
+
     public function setIdentifier(string $identifier): self
     {
         $this->identifier = $identifier;
@@ -132,11 +134,13 @@ class BookLoan
         return $this;
     }
 
-    /*
-     * returns the library code of this book loans book offer.
-     */
+    public function setLibrary(string $library): void
+    {
+        $this->library = $library;
+    }
+
     public function getLibrary(): ?string
     {
-        return $this->object ? $this->object->getLibrary() : null;
+        return $this->library;
     }
 }
