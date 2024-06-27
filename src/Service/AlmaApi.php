@@ -461,32 +461,54 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function bookLoanFromJsonItem(array $item): BookLoan
     {
-        $bookLoan = new BookLoan();
-        $bookLoan->setIdentifier("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}-{$item['loan_id']}");
+        return $this->bookLoansFromJsonItems([$item])[0];
+    }
 
-        try {
-            $bookLoan->setStartTime(new \DateTime($item['loan_date']));
-            $bookLoan->setEndTime(new \DateTime($item['due_date']));
-        } catch (\Exception $e) {
-        } catch (\TypeError $e) {
-            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
+    /**
+     * Similar to bookLoanFromJsonItem() but faster for many items.
+     *
+     * @return BookLoan[]
+     */
+    public function bookLoansFromJsonItems(array $items): array
+    {
+        $bookLoans = [];
+        $personCache = [];
+
+        foreach ($items as $item) {
+            $bookLoan = new BookLoan();
+            $bookLoan->setIdentifier("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}-{$item['loan_id']}");
+
+            try {
+                $bookLoan->setStartTime(new \DateTime($item['loan_date']));
+                $bookLoan->setEndTime(new \DateTime($item['due_date']));
+            } catch (\Exception $e) {
+            } catch (\TypeError $e) {
+                // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
+            }
+
+            $bookLoan->setLibrary($item['library']['value']);
+            $bookLoan->setLoanStatus($item['loan_status']);
+
+            $almaId = $item['user_id'];
+            if (!isset($personCache[$almaId])) {
+                $personCache[$almaId] = $this->almaPersonProvider->getPersonForAlmaId($item['user_id'], false);
+            }
+            $person = $personCache[$almaId];
+
+            // must be handled in the frontend
+            // Returning without a person has the advantage that we can return the book even if no person was found at least
+            if ($person !== null) {
+                $bookLoan->setBorrower($person);
+            }
+
+            // we need to fetch the book offer for the loan because the loan data provided by Alma doesn't contain all information we need
+            $bookOffer = $this->getBookOffer("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}");
+            $bookLoan->setObject($bookOffer);
+
+            $bookLoans[] = $bookLoan;
         }
 
-        $bookLoan->setLibrary($item['library']['value']);
-        $bookLoan->setLoanStatus($item['loan_status']);
-
-        $person = $this->almaPersonProvider->getPersonForAlmaId($item['user_id'], false);
-        // must be handled in the frontend
-        // Returning without a person has the advantage that we can return the book even if no person was found at least
-        if ($person !== null) {
-            $bookLoan->setBorrower($person);
-        }
-
-        // we need to fetch the book offer for the loan because the loan data provided by Alma doesn't contain all information we need
-        $bookOffer = $this->getBookOffer("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}");
-        $bookLoan->setObject($bookOffer);
-
-        return $bookLoan;
+        return $bookLoans;
     }
 
     /**
@@ -618,7 +640,7 @@ class AlmaApi implements LoggerAwareInterface
             }
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
 
-            $bookLoans = [];
+            $bookLoansDataFiltered = [];
             foreach ($bookLoansData as $bookLoanData) {
                 // calling bookLoanFromJsonItem() is expensive, so try to bail out before
                 $libraryCode = $bookLoanData['library']['value'];
@@ -629,9 +651,10 @@ class AlmaApi implements LoggerAwareInterface
                 if (!$this->authorizationService->isLibraryManagerByAlmaId($libraryCode)) {
                     continue;
                 }
-                $bookLoans[] = $this->bookLoanFromJsonItem($bookLoanData);
+                $bookLoansDataFiltered[] = $bookLoanData;
             }
 
+            $bookLoans = $this->bookLoansFromJsonItems($bookLoansDataFiltered);
             $collection = new ArrayCollection($bookLoans);
         } elseif ($library) {
             $this->setAnalyticsUpdateDateHeader();
