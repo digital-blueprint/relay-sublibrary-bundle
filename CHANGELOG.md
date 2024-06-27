@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.8
+
+* Fix `/sublibrary/book-loans` only returning up to 100 loans, 0.4.7 regression
+* Speed up `/sublibrary/book-loans` a bit more in case all loans are for the same user
+
 ## v0.4.7
 
 * Stop depending on the "tugFunctions" local person data attribute
