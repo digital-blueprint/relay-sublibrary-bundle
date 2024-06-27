@@ -625,11 +625,13 @@ class AlmaApi implements LoggerAwareInterface
                 if ($library !== null && $libraryCode !== $library->getCode()) {
                     continue;
                 }
+                // only return the ones the user has permissions to
+                if (!$this->authorizationService->isLibraryManagerByAlmaId($libraryCode)) {
+                    continue;
+                }
                 $bookLoans[] = $this->bookLoanFromJsonItem($bookLoanData);
             }
 
-            // only return the ones the user has permissions to
-            $bookLoans = $this->filterBookLoans($bookLoans);
             $collection = new ArrayCollection($bookLoans);
         } elseif ($library) {
             $this->setAnalyticsUpdateDateHeader();
@@ -1203,27 +1205,6 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         return $person;
-    }
-
-    /**
-     * Return book loans where the user has permissions.
-     *
-     * @param BookLoan[] $bookLoans
-     *
-     * @return BookLoan[]
-     */
-    public function filterBookLoans(array $bookLoans): array
-    {
-        $almaLibraryIds = $this->authorizationService->getAlmaLibraryIdsForCurrentUser();
-
-        $filtered = [];
-        foreach ($bookLoans as $bookLoan) {
-            if (in_array($bookLoan->getLibrary(), $almaLibraryIds, true)) {
-                $filtered[] = $bookLoan;
-            }
-        }
-
-        return $filtered;
     }
 
     /**
