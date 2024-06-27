@@ -71,7 +71,7 @@ class AlmaApiUrlTest extends WebTestCase
     public function testGetLoansByUserIdUrl()
     {
         $this->assertEquals(
-            'users/bla%3F/loans?limit=1000&offset=0',
+            'users/bla%3F/loans?limit=100&offset=0',
             $this->urls->getLoansByUserIdUrl('bla?'));
         $this->assertEquals(
             'users/bla%3F/loans?limit=20&offset=0',

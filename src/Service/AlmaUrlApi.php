@@ -150,8 +150,12 @@ class AlmaUrlApi
     /**
      * @throws UriException
      */
-    public function getLoansByUserIdUrl(string $userId, int $limit = 1000, int $offset = 0): string
+    public function getLoansByUserIdUrl(string $userId, int $limit = 100, int $offset = 0): string
     {
+        if ($limit < 0 || $limit > 100) {
+            throw new \RuntimeException('Valid values are 0-100');
+        }
+
         // see: https://developers.exlibrisgroup.com/alma/apis/docs/users/R0VUIC9hbG1hd3MvdjEvdXNlcnMve3VzZXJfaWR9L2xvYW5z/
         $uriTemplate = new UriTemplate('users/{userId}/loans{?limit,offset}');
 
