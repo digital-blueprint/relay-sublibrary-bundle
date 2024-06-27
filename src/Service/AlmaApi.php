@@ -1173,7 +1173,7 @@ class AlmaApi implements LoggerAwareInterface
         try {
             $resultList = [];
             $loopCount = 0;
-            $limit = 100;
+            $limit = 1000;
             $offset = 0;
 
             // do as many requests as necessary to get all loans by the user
