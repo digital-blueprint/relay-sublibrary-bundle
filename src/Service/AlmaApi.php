@@ -617,7 +617,7 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         if (!empty($borrowerId)) {
-            $person = $this->getPerson($borrowerId);
+            $person = $this->getPerson($borrowerId, true);
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
 
             if ($library) {
@@ -751,7 +751,7 @@ class AlmaApi implements LoggerAwareInterface
         }
         $personId = $match[1];
 
-        $person = $this->getPerson($personId);
+        $person = $this->getPerson($personId, true);
         $userId = $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
 
         if ($userId === null || $userId === '') {
@@ -1953,7 +1953,7 @@ class AlmaApi implements LoggerAwareInterface
         return null;
     }
 
-    public function getPerson(string $personIdentifier, bool $addInternalAttributes = true): ?Person
+    public function getPerson(string $personIdentifier, bool $addInternalAttributes): ?Person
     {
         $attributes = [self::EMAIL_ATTRIBUTE];
         if ($addInternalAttributes) {
