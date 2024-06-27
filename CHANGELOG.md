@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.7
+
+* Stop depending on the "tugFunctions" local person data attribute
+* Speed up the `/sublibrary/book-loans` endpoint a bit in case a user has many loans
+
 ## v0.4.6
 
 * Port to PHPUnit 10
