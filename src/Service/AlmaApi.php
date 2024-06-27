@@ -7,12 +7,9 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use Dbp\Relay\BasePersonBundle\API\PersonProviderInterface;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
-use Dbp\Relay\CoreBundle\Rest\Options;
-use Dbp\Relay\CoreBundle\Rest\Query\Filter\FilterTreeBuilder;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan;
@@ -53,16 +50,12 @@ class AlmaApi implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private const EMAIL_ATTRIBUTE = 'email';
-    private const ALMA_ID_ATTRIBUTE = 'almaId';
-
     // 30h caching for Analytics, they will expire when there is a new Analytics Update
     private const ANALYTICS_CACHE_TTL = 108000;
 
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    private PersonProviderInterface $personProvider;
     private Security $security;
     private SublibraryProviderInterface $libraryProvider;
     private ?CacheItemPoolInterface $cachePool = null;
@@ -75,16 +68,17 @@ class AlmaApi implements LoggerAwareInterface
     private bool $readonly = false;
     private AlmaUrlApi $almaUrlApi;
     private string $analyticsUpdatesHash = '';
+    private AlmaPersonProvider $almaPersonProvider;
 
-    public function __construct(PersonProviderInterface $personProvider,
+    public function __construct(AlmaPersonProvider $almaPersonProvider,
         SublibraryProviderInterface $libraryProvider,
         Security $security, AuthorizationService $authorizationService)
     {
         $this->security = $security;
-        $this->personProvider = $personProvider;
         $this->almaUrlApi = new AlmaUrlApi();
         $this->libraryProvider = $libraryProvider;
         $this->authorizationService = $authorizationService;
+        $this->almaPersonProvider = $almaPersonProvider;
     }
 
     public function setConfig(array $config)
@@ -480,7 +474,7 @@ class AlmaApi implements LoggerAwareInterface
 
         $bookLoan->setLoanStatus($item['loan_status']);
 
-        $person = $this->getPersonForAlmaId($item['user_id'], false);
+        $person = $this->almaPersonProvider->getPersonForAlmaId($item['user_id'], false);
         // must be handled in the frontend
         // Returning without a person has the advantage that we can return the book even if no person was found at least
         if ($person !== null) {
@@ -617,7 +611,10 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         if (!empty($borrowerId)) {
-            $person = $this->getPerson($borrowerId, true);
+            $person = $this->almaPersonProvider->getPerson($borrowerId, true);
+            if ($person === null) {
+                throw new ItemNotFoundException('borrower not found');
+            }
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
 
             if ($library) {
@@ -751,8 +748,11 @@ class AlmaApi implements LoggerAwareInterface
         }
         $personId = $match[1];
 
-        $person = $this->getPerson($personId, true);
-        $userId = $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
+        $person = $this->almaPersonProvider->getPerson($personId, true);
+        if ($person === null) {
+            throw new ItemNotFoundException('person not found');
+        }
+        $userId = $this->almaPersonProvider->getAlmaId($person);
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $this->getPersonName($person)));
@@ -1155,7 +1155,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         $identifier = $person->getIdentifier();
-        $userId = $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
+        $userId = $this->almaPersonProvider->getAlmaId($person);
 
         if ($userId === null || $userId === '') {
             throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $this->getPersonName($person)));
@@ -1199,6 +1199,16 @@ class AlmaApi implements LoggerAwareInterface
         if (!$this->authorizationService->isLibraryManagerByAlmaId($bookOffer->getLibrary())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $bookOffer->getLibrary()));
         }
+    }
+
+    public function getCurrentPerson(bool $addInternalAttributes): Person
+    {
+        $person = $this->almaPersonProvider->getCurrentPerson($addInternalAttributes);
+        if ($person === null) {
+            throw new AccessDeniedException('Person required');
+        }
+
+        return $person;
     }
 
     /**
@@ -1912,57 +1922,5 @@ class AlmaApi implements LoggerAwareInterface
         if (!$this->authorizationService->isLibraryManagerById($library->getIdentifier())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $library->getCode()));
         }
-    }
-
-    public function getCurrentPerson(bool $addInternalAttributes): Person
-    {
-        $options = [];
-        $attributes = [self::EMAIL_ATTRIBUTE];
-        if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
-        }
-
-        Options::requestLocalDataAttributes($options, $attributes);
-
-        $person = $this->personProvider->getCurrentPerson($options);
-        if ($person === null) {
-            throw new AccessDeniedException('Person required');
-        }
-
-        return $person;
-    }
-
-    public function getPersonForAlmaId(string $almaId, bool $addInternalAttributes): ?Person
-    {
-        $options = [];
-        // filter: get person(s) whose Alma user ID matches the ID
-        $filter = FilterTreeBuilder::create()->equals('localData.'.self::ALMA_ID_ATTRIBUTE, $almaId)->createFilter();
-        Options::setFilter($options, $filter);
-
-        $attributes = [self::EMAIL_ATTRIBUTE];
-        if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
-        }
-
-        Options::requestLocalDataAttributes($options, $attributes);
-        $persons = $this->personProvider->getPersons(1, 1, $options);
-        if (count($persons) > 0) {
-            return $persons[0];
-        }
-
-        return null;
-    }
-
-    public function getPerson(string $personIdentifier, bool $addInternalAttributes): ?Person
-    {
-        $attributes = [self::EMAIL_ATTRIBUTE];
-        if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
-        }
-
-        $options = [];
-        Options::requestLocalDataAttributes($options, $attributes);
-
-        return $this->personProvider->getPerson($personIdentifier, $options);
     }
 }

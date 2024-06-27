@@ -5,6 +5,10 @@ services:
         calls:
             - setCache: [ '@dbp.relay.sublibrary.cache.alma_analytics' ]
 
+    Dbp\Relay\SublibraryBundle\Service\AlmaPersonProvider:
+        autowire: true
+        autoconfigure: true
+
     Dbp\Relay\SublibraryBundle\ApiPlatform\:
         resource: '../../ApiPlatform'
         autowire: true

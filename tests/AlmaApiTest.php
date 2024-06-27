@@ -12,6 +12,7 @@ use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Service\AlmaPersonProvider;
 use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -44,7 +45,7 @@ class AlmaApiTest extends WebTestCase
         $libraryProvider = new DummySublibraryProvider();
 
         $this->api = new AlmaApi(
-            $personProvider,
+            new AlmaPersonProvider($personProvider),
             $libraryProvider,
             new Security($client->getContainer()),
             new AuthorizationService()
