@@ -481,19 +481,11 @@ class AlmaApi implements LoggerAwareInterface
 
         $bookLoan->setLoanStatus($item['loan_status']);
 
-        try {
-            $options = [];
-            // filter: get person(s) whose Alma user ID matches the ID of the loan
-            $filter = FilterTreeBuilder::create()->equals('localData.'.self::ALMA_ID_ATTRIBUTE, $item['user_id'])->createFilter();
-            Options::setFilter($options, $filter);
-            Options::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE]);
-            $persons = $this->personProvider->getPersons(1, 1, $options);
-            if (count($persons) > 0) {
-                $bookLoan->setBorrower($persons[0]);
-            }
-        } catch (\Exception $e) {
-            // must be handled in the frontend
-            // catching the exception has the advantage that we can return the book even if no person was found
+        $person = $this->getPersonForAlmaId($item['user_id'], false);
+        // must be handled in the frontend
+        // Returning without a person has the advantage that we can return the book even if no person was found at least
+        if ($person !== null) {
+            $bookLoan->setBorrower($person);
         }
 
         // we need to fetch the book offer for the loan because the loan data provided by Alma doesn't contain all information we need
@@ -1934,6 +1926,28 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         return $person;
+    }
+
+    public function getPersonForAlmaId(string $almaId, bool $addInternalAttributes): ?Person
+    {
+        $options = [];
+        // filter: get person(s) whose Alma user ID matches the ID
+        $filter = FilterTreeBuilder::create()->equals('localData.'.self::ALMA_ID_ATTRIBUTE, $almaId)->createFilter();
+        Options::setFilter($options, $filter);
+
+        $attributes = [self::EMAIL_ATTRIBUTE];
+        if ($addInternalAttributes) {
+            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
+        }
+
+        Options::requestLocalDataAttributes($options, $attributes);
+        $persons = $this->personProvider->getPersons(1, 1, $options);
+        if (count($persons) > 0) {
+            return $persons[0];
+        }
+
+        return null;
     }
 
     public function getPerson(string $personIdentifier, bool $addInternalAttributes = true): ?Person
