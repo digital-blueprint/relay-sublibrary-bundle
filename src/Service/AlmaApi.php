@@ -619,10 +619,12 @@ class AlmaApi implements LoggerAwareInterface
 
             $bookLoans = [];
             foreach ($bookLoansData as $bookLoanData) {
-                $bookLoan = $this->bookLoanFromJsonItem($bookLoanData);
-                if ($library === null || $library->getCode() === $bookLoan->getLibrary()) {
-                    $bookLoans[] = $bookLoan;
+                // calling bookLoanFromJsonItem() is expensive, so try to bail out before
+                $libraryCode = $bookLoanData['library']['value'];
+                if ($library !== null && $libraryCode !== $library->getCode()) {
+                    continue;
                 }
+                $bookLoans[] = $this->bookLoanFromJsonItem($bookLoanData);
             }
 
             // only return the ones the user has permissions to
