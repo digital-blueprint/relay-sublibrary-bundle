@@ -57,7 +57,7 @@ final class SublibraryProvider implements ProviderInterface
             throw new ApiError(Response::HTTP_BAD_REQUEST, "parameter '".self::PERSON_ID_FILTER_NAME."' is mandatory.");
         }
 
-        $currentPerson = $this->api->getCurrentPerson();
+        $currentPerson = $this->api->getCurrentPerson(false);
 
         // users are only allowed to fetch this for themselves
         if ($personId !== $currentPerson->getIdentifier()) {

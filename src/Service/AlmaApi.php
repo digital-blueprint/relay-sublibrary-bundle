@@ -1198,7 +1198,7 @@ class AlmaApi implements LoggerAwareInterface
     public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
     {
         if (!$this->authorizationService->isLibraryManagerByAlmaId($bookOffer->getLibrary())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $bookOffer->getLibrary()));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
 
@@ -1911,14 +1911,20 @@ class AlmaApi implements LoggerAwareInterface
     public function checkCurrentPersonLibraryPermissions(Sublibrary $library)
     {
         if (!$this->authorizationService->isLibraryManagerById($library->getIdentifier())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $library->getCode()));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $library->getCode()));
         }
     }
 
-    public function getCurrentPerson(): Person
+    public function getCurrentPerson(bool $addInternalAttributes): Person
     {
         $options = [];
-        Options::requestLocalDataAttributes($options, [self::EMAIL_ATTRIBUTE, self::ALMA_ID_ATTRIBUTE, self::TUG_FUNCTIONS_ATTRIBUTE]);
+        $attributes = [self::EMAIL_ATTRIBUTE];
+        if ($addInternalAttributes) {
+            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
+        }
+
+        Options::requestLocalDataAttributes($options, $attributes);
 
         $person = $this->personProvider->getCurrentPerson($options);
         if ($person === null) {
