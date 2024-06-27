@@ -55,7 +55,6 @@ class AlmaApi implements LoggerAwareInterface
 
     private const EMAIL_ATTRIBUTE = 'email';
     private const ALMA_ID_ATTRIBUTE = 'almaId';
-    private const TUG_FUNCTIONS_ATTRIBUTE = 'tugFunctions';
 
     // 30h caching for Analytics, they will expire when there is a new Analytics Update
     private const ANALYTICS_CACHE_TTL = 108000;
@@ -1921,7 +1920,6 @@ class AlmaApi implements LoggerAwareInterface
         $attributes = [self::EMAIL_ATTRIBUTE];
         if ($addInternalAttributes) {
             $attributes[] = self::ALMA_ID_ATTRIBUTE;
-            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
         }
 
         Options::requestLocalDataAttributes($options, $attributes);
@@ -1944,7 +1942,6 @@ class AlmaApi implements LoggerAwareInterface
         $attributes = [self::EMAIL_ATTRIBUTE];
         if ($addInternalAttributes) {
             $attributes[] = self::ALMA_ID_ATTRIBUTE;
-            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
         }
 
         Options::requestLocalDataAttributes($options, $attributes);
@@ -1961,7 +1958,6 @@ class AlmaApi implements LoggerAwareInterface
         $attributes = [self::EMAIL_ATTRIBUTE];
         if ($addInternalAttributes) {
             $attributes[] = self::ALMA_ID_ATTRIBUTE;
-            $attributes[] = self::TUG_FUNCTIONS_ATTRIBUTE;
         }
 
         $options = [];
