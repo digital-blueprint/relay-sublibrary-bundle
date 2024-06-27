@@ -617,21 +617,12 @@ class AlmaApi implements LoggerAwareInterface
             }
             $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
 
-            if ($library) {
-                // TODO: this leads to up to date results,
-                //       while searching for an organization only leads to "old" results
-                //       -- how to deal with this?
-                //       throw new \Exception('search for name and organization at the same time is forbidden');
-                $bookLoansData = array_filter($bookLoansData, function ($item) use ($library) {
-                    $bookLoan = $this->bookLoanFromJsonItem($item);
-
-                    return $library->getCode() === $bookLoan->getLibrary();
-                });
-            }
-
             $bookLoans = [];
             foreach ($bookLoansData as $bookLoanData) {
-                $bookLoans[] = $this->bookLoanFromJsonItem($bookLoanData);
+                $bookLoan = $this->bookLoanFromJsonItem($bookLoanData);
+                if ($library === null || $library->getCode() === $bookLoan->getLibrary()) {
+                    $bookLoans[] = $bookLoan;
+                }
             }
 
             // only return the ones the user has permissions to
