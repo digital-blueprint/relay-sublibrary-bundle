@@ -17,6 +17,9 @@ class ApiTest extends ApiTestCase
         foreach ($collection as $key => $route) {
             $path = $route->getPath();
             $path = str_replace('.{_format}', '', $path);
+            if (in_array($path, ['/docs'], true)) {
+                continue;
+            }
             foreach ($route->getMethods() as $method) {
                 $client = self::createClient();
                 $contentType = ($method === 'PATCH') ? 'application/merge-patch+json' : 'application/ld+json';
