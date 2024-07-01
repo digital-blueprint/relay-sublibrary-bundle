@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.9
+
+* Fix tests with api-platform 3.3.7
+
 ## v0.4.8
 
 * Fix `/sublibrary/book-loans` only returning up to 100 loans, 0.4.7 regression
