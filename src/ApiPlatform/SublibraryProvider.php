@@ -39,9 +39,6 @@ final class SublibraryProvider implements ProviderInterface
         $this->authorizationService = $authorizationService;
     }
 
-    /**
-     * @return WholeResultPaginator|null
-     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $this->api->checkPermissions();
@@ -57,7 +54,7 @@ final class SublibraryProvider implements ProviderInterface
             throw new ApiError(Response::HTTP_BAD_REQUEST, "parameter '".self::PERSON_ID_FILTER_NAME."' is mandatory.");
         }
 
-        $currentPerson = $this->api->getCurrentPerson(false);
+        $currentPerson = $this->api->getCurrentPerson();
 
         // users are only allowed to fetch this for themselves
         if ($personId !== $currentPerson->getIdentifier()) {

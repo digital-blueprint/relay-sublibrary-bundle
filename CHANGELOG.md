@@ -39,6 +39,13 @@
 ## v0.4.0
 
 * Drop support for Symfony 5
+# Unreleased
+
+# 0.3.3
+
+* Drop support for Symfony 5
+* Add support for ApiPlatform 3.2
+* Update usage of DummyPersonProvider
 
 ## v0.3.2
 

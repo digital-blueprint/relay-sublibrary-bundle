@@ -41,7 +41,8 @@ class AlmaApiTest extends WebTestCase
         $person->setGivenName('John');
         $person->setFamilyName('Doe');
         $personProvider = new DummyPersonProvider();
-        $personProvider->setCurrentPerson($person);
+        $personProvider->addPerson('foo', 'John', 'Doe');
+        $personProvider->setCurrentPersonIdentifier('foo');
         $libraryProvider = new DummySublibraryProvider();
 
         $this->api = new AlmaApi(

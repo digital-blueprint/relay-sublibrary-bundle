@@ -22,9 +22,6 @@ class DummyProvider implements ProviderInterface
         $this->api = $api;
     }
 
-    /**
-     * @return array|null
-     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $this->api->checkPermissions();
