@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e7243053e02837fbd79e5da2f03fe57",
+    "content-hash": "912dce73b0cdf283cc8d18da90a60c8e",
     "packages": [
         {
             "name": "api-platform/core",
@@ -196,21 +196,21 @@
         },
         {
             "name": "dbp/relay-base-person-bundle",
-            "version": "v0.2.31",
+            "version": "v0.2.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-base-person-bundle.git",
-                "reference": "4f5812af9997609ef7cf65408be347f8eeffaeb5"
+                "reference": "9f00b3bc3c8bb75a66aca0fe448d8424ec49cc5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/4f5812af9997609ef7cf65408be347f8eeffaeb5",
-                "reference": "4f5812af9997609ef7cf65408be347f8eeffaeb5",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/9f00b3bc3c8bb75a66aca0fe448d8424ec49cc5f",
+                "reference": "9f00b3bc3c8bb75a66aca0fe448d8424ec49cc5f",
                 "shasum": ""
             },
             "require": {
                 "api-platform/core": "^2.7.11 || ^3.2",
-                "dbp/relay-core-bundle": "^0.1.171",
+                "dbp/relay-core-bundle": "^0.1.181",
                 "ext-json": "*",
                 "php": ">=8.1",
                 "symfony/config": "^5.4 || ^6.4",
@@ -244,9 +244,9 @@
             ],
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-base-person-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.31"
+                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.33"
             },
-            "time": "2024-07-10T14:12:10+00:00"
+            "time": "2024-09-11T08:27:02+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",
@@ -10296,5 +10296,5 @@
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.2.0"
 }
