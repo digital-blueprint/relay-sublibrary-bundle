@@ -283,16 +283,16 @@
         },
         {
             "name": "dbp/relay-core-bundle",
-            "version": "v0.1.186",
+            "version": "v0.1.189",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-core-bundle.git",
-                "reference": "b92f0b35fa1899fe59ab85ba32a99bbaa6b07277"
+                "reference": "70842174be78bc18635741cb4616012f25cd48d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/b92f0b35fa1899fe59ab85ba32a99bbaa6b07277",
-                "reference": "b92f0b35fa1899fe59ab85ba32a99bbaa6b07277",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/70842174be78bc18635741cb4616012f25cd48d2",
+                "reference": "70842174be78bc18635741cb4616012f25cd48d2",
                 "shasum": ""
             },
             "require": {
@@ -342,10 +342,8 @@
             },
             "conflict": {
                 "api-platform/core": "2.7.17",
-                "carbonphp/carbon-doctrine-types": ">=3",
                 "dbp/relay-auth-bundle": "*",
                 "dbp/relay-core-connector-oidc-bundle": "<=0.1.33",
-                "doctrine/dbal": ">=4",
                 "symfony/amqp-messenger": ">=6.0 <6.4",
                 "symfony/property-info": ">=6.0 <6.4",
                 "symfony/twig-bridge": ">=6.0 <6.4",
@@ -380,9 +378,9 @@
             "description": "The core bundle of the Relay API gateway",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-core-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.186"
+                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.189"
             },
-            "time": "2024-10-10T14:39:46+00:00"
+            "time": "2024-10-17T13:12:35+00:00"
         },
         {
             "name": "doctrine/collections",
