@@ -850,7 +850,7 @@ class AlmaApi implements LoggerAwareInterface
         $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         /** @var \SimpleXMLElement $row */
         foreach ($rows as $row) {
@@ -1425,7 +1425,7 @@ class AlmaApi implements LoggerAwareInterface
         $mapping = AlmaUtils::getColumnMapping($xml);
         $libraryCode = $library->getCode();
         $fundLedgerCode = $libraryCode.'MON';
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         if (count($rows) === 0) {
             return [];
@@ -1549,7 +1549,7 @@ class AlmaApi implements LoggerAwareInterface
         $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         /** @var \SimpleXMLElement $row */
         foreach ($rows as $row) {
@@ -1691,7 +1691,7 @@ class AlmaApi implements LoggerAwareInterface
         $resumptionData['token'] ??= (string) $xml->ResumptionToken;
 
         $isFinished = ((string) $xml->IsFinished) !== 'false';
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         // FIXME: We get duplicated entries where Invoice Line-Currency/Invoice-Currency/Invoice Line Total Price
         // are missing. Since we don't use them right now just ignore those duplicates.
@@ -1802,7 +1802,7 @@ class AlmaApi implements LoggerAwareInterface
             return $this->getFallbackAnalyticsUpdatesHash();
         }
 
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         if (count($rows) === 0) {
             return $this->getFallbackAnalyticsUpdatesHash();
@@ -1827,7 +1827,7 @@ class AlmaApi implements LoggerAwareInterface
             return null;
         }
 
-        $rows = $xml->xpath('ResultXml/rowset/Row');
+        $rows = AlmaUtils::getRows($xml);
 
         if (count($rows) === 0) {
             return null;

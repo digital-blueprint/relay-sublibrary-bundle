@@ -44,4 +44,32 @@ class AlmaUtilsTest extends WebTestCase
         $this->assertEquals($mapped['::0'], '');
         $this->assertEquals($mapped['Bibliographic Details::Author'], 'Zwerger, Klaus');
     }
+
+    public function testGetRows()
+    {
+        $data = '<QueryResult>
+  <ResumptionToken>foobar</ResumptionToken>
+  <IsFinished>true</IsFinished>
+  <ResultXml>
+    <rowset xmlns="urn:schemas-microsoft-com:xml-analysis:rowset">
+      <Row>
+        <Column0>0</Column0>
+        <Column1>Something</Column1>
+        <Column2>F00042FOR</Column2>
+        <Column3>Test</Column3>
+        <Column4>1</Column4>
+        <Column5>0</Column5>
+        <Column6>1</Column6>
+        <Column7>1</Column7>
+        <Column8>0</Column8>
+      </Row>
+    </rowset>
+  </ResultXml>
+</QueryResult>';
+
+        $xml = simplexml_load_string($data);
+        $rows = AlmaUtils::getRows($xml);
+        $this->assertCount(1, $rows);
+        $this->assertSame('Test', (string) $rows[0]->Column3);
+    }
 }
