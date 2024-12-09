@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Add support for kevinrob/guzzle-cache-middleware v6
+
 ## 0.4.11
 
 * Fix various APIs returning empty results after the Alma 2024-11 release and the API changes it brought.
