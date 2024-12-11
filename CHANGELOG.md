@@ -2,7 +2,11 @@
 
 ## Unreleased
 
+# 0.4.12
+
 * Add support for kevinrob/guzzle-cache-middleware v6
+* Port to phpstan v2
+* Test with PHP 8.4
 
 ## 0.4.11
 
