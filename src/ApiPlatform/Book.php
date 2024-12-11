@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
-use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 class Book
@@ -43,7 +42,7 @@ class Book
     /**
      * Note that Alma only has the year stored.
      *
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     #[Groups(['LibraryBook:output'])]
     private $datePublished;
