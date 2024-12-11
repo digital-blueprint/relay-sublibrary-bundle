@@ -35,7 +35,7 @@ class Book
     /**
      * Note that we are using a string here.
      *
-     * @var string;
+     * @var string
      */
     #[Groups(['LibraryBook:output'])]
     private $publisher;
@@ -43,7 +43,7 @@ class Book
     /**
      * Note that Alma only has the year stored.
      *
-     * @var DateTimeInterface;
+     * @var DateTimeInterface
      */
     #[Groups(['LibraryBook:output'])]
     private $datePublished;
