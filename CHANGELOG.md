@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+# 0.4.13
+
+* alma: adjust column name after book order analytics report changes
+* Drop psalm support
+
 # 0.4.12
 
 * Add support for kevinrob/guzzle-cache-middleware v6
