@@ -38,7 +38,6 @@
         "symfony/monolog-bundle": "^3.10",
         "symfony/phpunit-bridge": "^7.0.4",
         "symfony/twig-bundle": "^6.4",
-        "vimeo/psalm": "^5.22.2",
         "symfony/error-handler":"^6.4",
         "symfony/monolog-bridge":"^6.4"
     },
@@ -71,13 +70,9 @@
         "phpstan": [
             "@php vendor/bin/phpstan analyze --ansi"
         ],
-        "psalm": [
-            "@php vendor/bin/psalm"
-        ],
         "lint": [
             "@composer run cs",
-            "@composer run phpstan",
-            "@composer run psalm"
+            "@composer run phpstan"
         ],
         "cs-fix": [
             "@php vendor/bin/php-cs-fixer --ansi fix"

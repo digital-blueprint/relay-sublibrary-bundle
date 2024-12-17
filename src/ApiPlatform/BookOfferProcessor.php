@@ -9,9 +9,6 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 
-/**
- * @psalm-suppress MissingTemplateParam
- */
 final class BookOfferProcessor implements ProcessorInterface
 {
     private $api;
