@@ -1,11 +1,13 @@
 {
   "extends": [
-    "config:base",
+    "config:recommended",
     "group:allNonMajor",
     "schedule:weekends",
     ":automergePatch"
   ],
-  "ignorePresets": [":prHourlyLimit2"],
+  "ignorePresets": [
+    ":prHourlyLimit2"
+  ],
   "rangeStrategy": "update-lockfile",
   "lockFileMaintenance": {
     "enabled": true
@@ -13,7 +15,9 @@
   "constraintsFiltering": "strict",
   "packageRules": [
     {
-      "matchPackageNames": ["api-platform/core"],
+      "matchPackageNames": [
+        "api-platform/core"
+      ],
       "allowedVersions": "<4"
     }
   ]
