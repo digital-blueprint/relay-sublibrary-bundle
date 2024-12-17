@@ -1770,7 +1770,7 @@ class AlmaApi implements LoggerAwareInterface
             $bookOrderItem->setIdentifier($identifier);
             $bookOrderItem->setOrderDelivery($parcelDelivery);
             $bookOrderItem->setOrderedItem($book);
-            $bookOrderItem->setPrice((float) $values['PO Line:: CASE  WHEN Invoice Status = \'No invoice\' AND Status = \'CLOSED\' THEN 0 ELSE  IFNULL(Invoice Line Total Price, PO Line Total Price) END']);
+            $bookOrderItem->setPrice((float) $values['PO Line:: CASE  WHEN Invoice Status = \'No invoice\' AND Status = \'CLOSED\' THEN 0 ELSE  SUM(Source Amount) END']);
             $bookOrderItem->setPriceCurrency($values['Fund Transactions:: CASE  WHEN Invoice Line Total Price IS NULL  THEN Currency ELSE Invoice Line-Currency END']);
 
             $bookOrder->setOrderedItem($bookOrderItem);
