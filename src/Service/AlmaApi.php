@@ -552,14 +552,7 @@ class AlmaApi implements LoggerAwareInterface
         $book->setTitle($item['title'] ?? 'Unknown title');
         $book->setAuthor($item['author'] ?? '');
         $book->setPublisher($item['publisher_const'] ?? '');
-
-        try {
-            $publicationYear = (int) $item['date_of_publication'];
-            $book->setDatePublished(new \DateTime("{$publicationYear}-01-01"));
-        } catch (\Exception $e) {
-        } catch (\TypeError $e) {
-            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
-        }
+        $book->setDatePublished($item['date_of_publication'] ?? null);
 
         return $book;
     }
@@ -1588,17 +1581,7 @@ class AlmaApi implements LoggerAwareInterface
             $book->setTitle($values['Bibliographic Details::Title']);
             $book->setAuthor($values['Bibliographic Details::Author']);
             $book->setPublisher($values['Bibliographic Details::Publisher']);
-
-            $publicationDate = $values['Bibliographic Details::Publication Date'];
-            if ($publicationDate !== '') {
-                try {
-                    $publicationYear = (int) $publicationDate;
-                    $book->setDatePublished(new \DateTime("{$publicationYear}-01-01"));
-                } catch (\Exception $e) {
-                } catch (\TypeError $e) {
-                    // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
-                }
-            }
+            $book->setDatePublished($values['Bibliographic Details::Publication Date']);
 
             $bookOffer->setBook($book);
 

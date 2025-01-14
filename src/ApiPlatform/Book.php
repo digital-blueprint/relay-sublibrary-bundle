@@ -42,7 +42,7 @@ class Book
     /**
      * Note that Alma only has the year stored.
      *
-     * @var \DateTimeInterface
+     * @var ?string
      */
     #[Groups(['LibraryBook:output'])]
     private $datePublished;
@@ -97,12 +97,12 @@ class Book
         $this->publisher = $publisher;
     }
 
-    public function getDatePublished(): ?\DateTimeInterface
+    public function getDatePublished(): ?string
     {
         return $this->datePublished;
     }
 
-    public function setDatePublished(\DateTimeInterface $datePublished): void
+    public function setDatePublished(?string $datePublished): void
     {
         $this->datePublished = $datePublished;
     }

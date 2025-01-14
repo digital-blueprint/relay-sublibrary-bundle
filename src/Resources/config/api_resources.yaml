@@ -34,8 +34,6 @@ resources:
         iri: "https://schema.org/author"
       publisher:
         iri: "https://schema.org/publisher"
-      datePublished:
-        iri: "https://schema.org/DateTime"
 
   Dbp\Relay\SublibraryBundle\Entity\Sublibrary:
     types: ['https://schema.org/Library']

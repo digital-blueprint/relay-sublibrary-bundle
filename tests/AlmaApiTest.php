@@ -115,6 +115,7 @@ class AlmaApiTest extends WebTestCase
         $this->assertEquals($book->getTitle(), 'Arch+ Zeitschrift für Architektur und Urbanismus');
         $this->assertEquals($book->getIdentifier(), '990002338910204517');
         $this->assertEquals($book->getAuthor(), '');
+        $this->assertSame('1968-', $book->getDatePublished());
     }
 
     public function testGetBookOfferInvalID()
