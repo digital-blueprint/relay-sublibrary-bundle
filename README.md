@@ -8,7 +8,7 @@
 
 DISCLAIMER: This bundle needs a specific ALMA configuration to work. Please contact [info@digital-blueprint.org](mailto:info@digital-blueprint.org) for more information.
 
-This Symfony 4.4 bundle provides API endpoints for
+This bundle provides API endpoints for
 
 - assigning a call number to a book
 - borrowing a book from the sublibrary
@@ -34,19 +34,6 @@ You can install the bundle directly from [packagist.org](https://packagist.org/p
 ```bash
 composer require dbp/relay-sublibrary-bundle
 ```
-
-## Integration into the API Server
-
-* Add the necessary bundles to your `config/bundles.php`:
-
-```php
-...
-Dbp\Relay\SublibraryBundle\DbpRelaySublibraryBundle::class => ['all' => true],
-Dbp\Relay\CoreBundle\DbpRelayCoreBundle::class => ['all' => true],
-];
-```
-
-* Run `composer install` to clear caches
 
 ## Configuration
 
