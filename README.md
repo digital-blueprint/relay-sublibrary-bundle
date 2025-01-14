@@ -2,7 +2,7 @@
 
 [GitHub](https://github.com/digital-blueprint/relay-sublibrary-bundle) |
 [Packagist](https://packagist.org/packages/dbp/relay-sublibrary-bundle) |
-[Frontend Application](https://gitlab.tugraz.at/dbp/sublibrary/sublibrary)
+[Frontend Application](https://github.com/digital-blueprint/sublibrary-app)
 
 [![Test](https://github.com/digital-blueprint/relay-sublibrary-bundle/actions/workflows/test.yml/badge.svg)](https://github.com/digital-blueprint/relay-sublibrary-bundle/actions/workflows/test.yml)
 
@@ -20,7 +20,7 @@ This Symfony 4.4 bundle provides API endpoints for
 
 for the API-Gateway.
 
-There is a corresponding frontend application that uses this API at [Sublibrary Frontend Application](https://gitlab.tugraz.at/dbp/sublibrary/sublibrary).
+There is a corresponding frontend application that uses this API at [Sublibrary Frontend Application](https://github.com/digital-blueprint/sublibrary-app).
 
 ## Prerequisites
 
@@ -75,7 +75,7 @@ ALMA_READONLY=
 ###< dbp/relay-sublibrary-bundle ###
 ```
 
-If you were using the [DBP API Server Template](https://gitlab.tugraz.at/dbp/relay/dbp-relay-server-template)
+If you were using the [DBP API Server Template](https://github.com/digital-blueprint/relay-server-template)
 as template for your Symfony application, then the configuration files should have already been generated for you.
 
 For more info on bundle configuration see <https://symfony.com/doc/current/bundles/configuration.html>.
