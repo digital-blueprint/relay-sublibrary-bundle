@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+# 0.4.14
+
+* Book: datePublished is now a freeform text instead of a ISO date time string
+
 # 0.4.13
 
 * alma: adjust column name after book order analytics report changes
