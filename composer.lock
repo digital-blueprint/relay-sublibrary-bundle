@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v3.4.14",
+            "version": "v3.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "9b073807219eb474e743f82aca64c1b089c6b03d"
+                "reference": "64c6e1092cf988ba619907b3e4cce8a229ce4fae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/9b073807219eb474e743f82aca64c1b089c6b03d",
-                "reference": "9b073807219eb474e743f82aca64c1b089c6b03d",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/64c6e1092cf988ba619907b3e4cce8a229ce4fae",
+                "reference": "64c6e1092cf988ba619907b3e4cce8a229ce4fae",
                 "shasum": ""
             },
             "require": {
@@ -223,9 +223,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v3.4.14"
+                "source": "https://github.com/api-platform/core/tree/v3.4.16"
             },
-            "time": "2025-01-10T14:33:49+00:00"
+            "time": "2025-01-17T14:17:26+00:00"
         },
         {
             "name": "dbp/relay-base-person-bundle",
