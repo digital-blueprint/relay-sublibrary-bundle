@@ -48,5 +48,11 @@ class Kernel extends BaseKernel
             'secret' => '',
             'annotations' => false,
         ]);
+
+        $container->extension('dbp_relay_sublibrary', [
+            'api_url' => '',
+            'api_key' => '',
+            'analytics_api_key' => '',
+        ]);
     }
 }
