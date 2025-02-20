@@ -62,31 +62,20 @@ class AlmaApi implements LoggerAwareInterface
     private AuthorizationService $authorizationService;
 
     private ?object $clientHandler = null;
-    private string $apiKey = '';
-    private string $analyticsApiKey = '';
-    private string $apiUrl = '';
-    private bool $readonly = false;
     private AlmaUrlApi $almaUrlApi;
     private string $analyticsUpdatesHash = '';
     private AlmaPersonProvider $almaPersonProvider;
 
     public function __construct(AlmaPersonProvider $almaPersonProvider,
         SublibraryProviderInterface $libraryProvider,
-        Security $security, AuthorizationService $authorizationService)
+        Security $security, AuthorizationService $authorizationService,
+        private ConfigurationService $config)
     {
         $this->security = $security;
-        $this->almaUrlApi = new AlmaUrlApi();
+        $this->almaUrlApi = new AlmaUrlApi($config);
         $this->libraryProvider = $libraryProvider;
         $this->authorizationService = $authorizationService;
         $this->almaPersonProvider = $almaPersonProvider;
-    }
-
-    public function setConfig(array $config)
-    {
-        $this->apiKey = $config['api_key'] ?? '';
-        $this->analyticsApiKey = $config['analytics_api_key'] ?? $this->apiKey;
-        $this->apiUrl = $config['api_url'] ?? '';
-        $this->readonly = $config['readonly'];
     }
 
     public function setCache(?CacheItemPoolInterface $cachePool)
@@ -108,16 +97,6 @@ class AlmaApi implements LoggerAwareInterface
         ];
     }
 
-    public function setApiKey(string $key)
-    {
-        $this->apiKey = $key;
-    }
-
-    public function setAnalyticsApiKey(string $key)
-    {
-        $this->analyticsApiKey = $key;
-    }
-
     /**
      * Replace the guzzle client handler for testing.
      */
@@ -129,7 +108,7 @@ class AlmaApi implements LoggerAwareInterface
     private function getClient(): Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $this->apiUrl;
+        $base_uri = $this->config->getApiUrl();
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
@@ -138,7 +117,7 @@ class AlmaApi implements LoggerAwareInterface
         $client_options = [
             'base_uri' => $base_uri,
             'handler' => $stack,
-            'headers' => ['Authorization' => 'apikey '.$this->apiKey],
+            'headers' => ['Authorization' => 'apikey '.$this->config->getApiKey()],
         ];
 
         if ($this->logger !== null) {
@@ -173,7 +152,7 @@ class AlmaApi implements LoggerAwareInterface
     private function getAnalyticsClient(): Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $this->apiUrl;
+        $base_uri = $this->config->getApiUrl();
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
@@ -182,7 +161,7 @@ class AlmaApi implements LoggerAwareInterface
         $client_options = [
             'base_uri' => $base_uri,
             'handler' => $stack,
-            'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
+            'headers' => ['Authorization' => 'apikey '.$this->config->getAnalyticsApiKey()],
         ];
 
         if ($this->logger !== null) {
@@ -210,7 +189,7 @@ class AlmaApi implements LoggerAwareInterface
     private function getAnalyticsUpdatesClient(): Client
     {
         $stack = HandlerStack::create($this->clientHandler);
-        $base_uri = $this->apiUrl;
+        $base_uri = $this->config->getApiUrl();
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
@@ -219,7 +198,7 @@ class AlmaApi implements LoggerAwareInterface
         $client_options = [
             'base_uri' => $base_uri,
             'handler' => $stack,
-            'headers' => ['Authorization' => 'apikey '.$this->analyticsApiKey],
+            'headers' => ['Authorization' => 'apikey '.$this->config->getAnalyticsApiKey()],
         ];
 
         if ($this->logger !== null) {
@@ -1886,14 +1865,9 @@ class AlmaApi implements LoggerAwareInterface
         }
     }
 
-    private function isReadOnlyMode(): bool
-    {
-        return $this->readonly;
-    }
-
     private function checkReadOnlyMode()
     {
-        if ($this->isReadOnlyMode()) {
+        if ($this->config->isReadOnly()) {
             throw new AccessDeniedException(sprintf('The Alma API currently is in read-only mode!'));
         }
     }

@@ -6,6 +6,7 @@ namespace Dbp\Relay\SublibraryBundle\Tests;
 
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
 use Dbp\Relay\SublibraryBundle\Service\AlmaUrlApi;
+use Dbp\Relay\SublibraryBundle\Service\ConfigurationService;
 use Dbp\Relay\SublibraryBundle\Service\InvalidIdentifierException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -16,7 +17,8 @@ class AlmaApiUrlTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->urls = new AlmaUrlApi();
+        $config = new ConfigurationService();
+        $this->urls = new AlmaUrlApi($config);
     }
 
     public function testGetBookUrl()

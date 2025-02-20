@@ -6,7 +6,7 @@ namespace Dbp\Relay\SublibraryBundle\DependencyInjection;
 
 use Dbp\Relay\CoreBundle\Extension\ExtensionTrait;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
-use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Service\ConfigurationService;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -47,10 +47,10 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
         );
         $loader->load('services.yaml');
 
-        $definition = $container->getDefinition(AlmaApi::class);
+        $definition = $container->getDefinition(AuthorizationService::class);
         $definition->addMethodCall('setConfig', [$mergedConfig]);
 
-        $definition = $container->getDefinition(AuthorizationService::class);
+        $definition = $container->getDefinition(ConfigurationService::class);
         $definition->addMethodCall('setConfig', [$mergedConfig]);
     }
 }

@@ -13,6 +13,7 @@ use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\SublibraryBundle\Service\AlmaPersonProvider;
+use Dbp\Relay\SublibraryBundle\Service\ConfigurationService;
 use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -45,14 +46,19 @@ class AlmaApiTest extends WebTestCase
         $personProvider->setCurrentPersonIdentifier('foo');
         $libraryProvider = new DummySublibraryProvider();
 
+        $config = new ConfigurationService();
+        $config->setConfig([
+            'api_url' => '',
+            'api_key' => 'secret',
+            'analytics_api_key' => 'secret',
+        ]);
         $this->api = new AlmaApi(
             new AlmaPersonProvider($personProvider),
             $libraryProvider,
             new Security($client->getContainer()),
-            new AuthorizationService()
+            new AuthorizationService(),
+            $config
         );
-        $this->api->setApiKey('secret');
-        $this->api->setAnalyticsApiKey('secret');
         $this->mockResponses([]);
     }
 

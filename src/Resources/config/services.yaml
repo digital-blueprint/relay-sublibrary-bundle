@@ -9,6 +9,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    Dbp\Relay\SublibraryBundle\Service\ConfigurationService:
+        autowire: true
+        autoconfigure: true
+
     Dbp\Relay\SublibraryBundle\ApiPlatform\:
         resource: '../../ApiPlatform'
         autowire: true

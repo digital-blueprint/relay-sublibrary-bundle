@@ -11,6 +11,10 @@ use League\Uri\UriTemplate;
 
 class AlmaUrlApi
 {
+    public function __construct(private ConfigurationService $config)
+    {
+    }
+
     /**
      * Returns [mmsId, holdingId, itemPid].
      *
@@ -213,7 +217,7 @@ class AlmaUrlApi
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
 
         return (string) $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Bestand-Institute-pbeke',
+            'path' => $this->config->getAnalyticsReportPath('book_offer'),
             'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Location"."Library Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$libraryCode.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
@@ -251,7 +255,7 @@ class AlmaUrlApi
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
 
         return (string) $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Ausleihen-Institute-pbeke',
+            'path' => $this->config->getAnalyticsReportPath('book_loan'),
             'filter' => $filter,
             'limit' => $limit,
             'token' => $resumptionToken,
@@ -273,7 +277,7 @@ class AlmaUrlApi
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&filter={filter}&col_names=true&limit={limit}&token={token}');
 
         return (string) $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF_6c',
+            'path' => $this->config->getAnalyticsReportPath('book_order'),
             'filter' => '<sawx:expr xsi:type="sawx:comparison" op="equal" xmlns:saw="com.siebel.analytics.web/report/v1.1" xmlns:sawx="com.siebel.analytics.web/expression/v1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"><sawx:expr xsi:type="sawx:sqlExpression">"Fund Ledger"."Fund Ledger Code"</sawx:expr><sawx:expr xsi:type="xsd:string"><![CDATA['.$libraryCode.']]></sawx:expr></sawx:expr>',
             'limit' => $limit,
             'token' => $resumptionToken,
@@ -289,7 +293,7 @@ class AlmaUrlApi
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&col_names=true&limit={limit}');
 
         return (string) $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Funds-List-SF_2',
+            'path' => $this->config->getAnalyticsReportPath('budget'),
             'limit' => $limit,
         ]);
     }
@@ -302,7 +306,7 @@ class AlmaUrlApi
         $uriTemplate = new UriTemplate('analytics/reports?path={path}&col_names=true');
 
         return (string) $uriTemplate->expand([
-            'path' => '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Analytics-Updates',
+            'path' => $this->config->getAnalyticsReportPath('update_check'),
         ]);
     }
 }
