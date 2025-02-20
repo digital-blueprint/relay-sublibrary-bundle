@@ -1,5 +1,6 @@
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
     inferPrivatePropertyTypeFromConstructor: true
@@ -9,6 +10,3 @@ parameters:
         - tests
     excludePaths:
         - tests/bootstrap.php
-    ignoreErrors:
-        - message: '#.*NodeDefinition::children.*#'
-          path: ./src/DependencyInjection
