@@ -133,6 +133,7 @@ class AlmaApi implements LoggerAwareInterface
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
+        $base_uri .= 'almaws/v1/';
 
         $client_options = [
             'base_uri' => $base_uri,
@@ -176,6 +177,7 @@ class AlmaApi implements LoggerAwareInterface
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
+        $base_uri .= 'almaws/v1/';
 
         $client_options = [
             'base_uri' => $base_uri,
@@ -212,6 +214,7 @@ class AlmaApi implements LoggerAwareInterface
         if (substr($base_uri, -1) !== '/') {
             $base_uri .= '/';
         }
+        $base_uri .= 'almaws/v1/';
 
         $client_options = [
             'base_uri' => $base_uri,

@@ -55,7 +55,7 @@ Your `.env` file should then contain the following environment variables you nee
 
 ```dotenv
 ###> dbp/relay-sublibrary-bundle ###
-ALMA_API_URL=https://api-eu.hosted.exlibrisgroup.com/almaws/v1
+ALMA_API_URL=https://api-eu.hosted.exlibrisgroup.com
 ALMA_API_KEY=
 ALMA_ANALYTICS_API_KEY=
 ALMA_READONLY=
