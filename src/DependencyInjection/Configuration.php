@@ -40,7 +40,7 @@ class Configuration implements ConfigurationInterface
     private function getAuthorizationNode(): NodeDefinition
     {
         return AuthorizationConfigDefinition::create()
-            ->addPolicy(self::ROLE_LIBRARY_MANAGER, 'false', 'Returns true if the user is allowed to use the dispatch API.')
+            ->addRole(self::ROLE_LIBRARY_MANAGER, 'false', 'Returns true if the user is allowed to use the dispatch API.')
             ->addAttribute(self::SUBLIBRARY_IDS, '[]', 'Returns the list of sublibrary IDs the user has manager rights in')
             ->addAttribute(self::ALMA_LIBRARY_IDS, '[]', 'Returns the list of Alma library IDs the user has manager rights in')
             ->getNodeDefinition();

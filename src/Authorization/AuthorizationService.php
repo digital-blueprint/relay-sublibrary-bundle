@@ -11,7 +11,7 @@ class AuthorizationService extends AbstractAuthorizationService
 {
     public function isLibraryManager(): bool
     {
-        return $this->isGranted(Configuration::ROLE_LIBRARY_MANAGER);
+        return $this->isGrantedRole(Configuration::ROLE_LIBRARY_MANAGER);
     }
 
     public function isLibraryManagerById(string $libraryId): bool
