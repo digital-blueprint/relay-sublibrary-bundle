@@ -34,7 +34,7 @@ class ConfigurationService
      */
     public function getAnalyticsApiKey(): string
     {
-        return $this->config['analytics_api_key'];
+        return $this->config['analytics_api_key'] ?? $this->getApiKey();
     }
 
     public function isReadOnly(): bool

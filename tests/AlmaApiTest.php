@@ -50,7 +50,6 @@ class AlmaApiTest extends WebTestCase
         $config->setConfig([
             'api_url' => '',
             'api_key' => 'secret',
-            'analytics_api_key' => 'secret',
         ]);
         $this->api = new AlmaApi(
             new AlmaPersonProvider($personProvider),
