@@ -24,8 +24,6 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
 
     public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
     {
-        $this->addResourceClassDirectory($container, __DIR__.'/../Entity');
-
         $pathsToHide = [
             '/sublibrary/delivery-statuses/{identifier}',
             '/sublibrary/parcel-deliveries/{identifier}',

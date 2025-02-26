@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Entity;
+namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
 use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Symfony\Component\Serializer\Annotation\Groups;

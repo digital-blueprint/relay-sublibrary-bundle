@@ -7,7 +7,7 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
-use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary;
 
 class DummySublibraryProvider implements SublibraryProviderInterface
 {

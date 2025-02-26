@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
-use Dbp\Relay\SublibraryBundle\Entity\Sublibrary;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 
