@@ -51,7 +51,7 @@ class PostBookLoanByBookOffer extends AbstractController
     {
         $content = (string) $request->getContent();
         try {
-            return Tools::decodeJSON($content, true);
+            return json_decode($content, true, flags: JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new ItemNotStoredException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }

@@ -232,7 +232,7 @@ class AlmaApi implements LoggerAwareInterface
     {
         $body = $response->getBody();
         try {
-            return Tools::decodeJSON((string) $body, $assoc);
+            return json_decode((string) $body, $assoc, flags: JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new ItemNotLoadedException(sprintf('Invalid json: %s', Tools::filterErrorMessage($e->getMessage())));
         }
@@ -264,7 +264,7 @@ class AlmaApi implements LoggerAwareInterface
 
         // try to handle json errors
         try {
-            $decoded = Tools::decodeJSON((string) $body, true);
+            $decoded = json_decode((string) $body, true, flags: JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             return Tools::filterErrorMessage($e->getMessage());
         }
