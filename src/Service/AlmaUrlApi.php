@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
+use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 
@@ -208,7 +208,7 @@ class AlmaUrlApi
      *
      * @throws UriException
      */
-    public function getBookOfferAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
+    public function getBookOfferAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
     {
         $libraryCode = $library->getCode();
         $limit = 1000;
@@ -229,7 +229,7 @@ class AlmaUrlApi
      *
      * @throws UriException
      */
-    public function getBookLoanAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
+    public function getBookLoanAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
     {
         $limit = 1000;
         //        $limit = 25;
@@ -267,7 +267,7 @@ class AlmaUrlApi
      *
      * @throws UriException
      */
-    public function getBookOrderAnalyticsUrl(Sublibrary $library, $resumptionToken = ''): string
+    public function getBookOrderAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
     {
         $libraryCode = $library->getCode();
         $libraryCode = $libraryCode.'MON';

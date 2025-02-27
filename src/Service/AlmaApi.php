@@ -10,6 +10,7 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
+use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan;
@@ -21,7 +22,6 @@ use Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
@@ -805,7 +805,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function addAllBookLoansByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookLoansByLibraryToCollection(SublibraryInterface $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] ??= 0;
@@ -1208,7 +1208,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOffersAnalyticsXMLByOrganization(Sublibrary $sublibrary, $resumptionData = []): ?\SimpleXMLElement
+    public function getBookOffersAnalyticsXMLByOrganization(SublibraryInterface $sublibrary, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1255,7 +1255,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookLoanAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
+    public function getBookLoanAnalyticsXMLByOrganization(SublibraryInterface $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1303,7 +1303,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBookOrdersAnalyticsXMLByOrganization(Sublibrary $library, $resumptionData = []): ?\SimpleXMLElement
+    public function getBookOrdersAnalyticsXMLByOrganization(SublibraryInterface $library, $resumptionData = []): ?\SimpleXMLElement
     {
         $client = $this->getAnalyticsClient();
         $options = [
@@ -1391,7 +1391,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotLoadedException
      * @throws UriException
      */
-    public function getBudgetMonetaryAmountsByLibrary(Sublibrary $library): array
+    public function getBudgetMonetaryAmountsByLibrary(SublibraryInterface $library): array
     {
         $xml = $this->getBudgetMonetaryAmountAnalyticsXML();
         $mapping = AlmaUtils::getColumnMapping($xml);
@@ -1427,7 +1427,7 @@ class AlmaApi implements LoggerAwareInterface
     private static function budgetMonetaryAmountFromAnalyticsRow(
         array $values,
         string $key,
-        Sublibrary $library
+        SublibraryInterface $library
     ): ?BudgetMonetaryAmount {
         $names = self::budgetMonetaryAmountNames();
 
@@ -1450,7 +1450,7 @@ class AlmaApi implements LoggerAwareInterface
         array &$organizationBudgetList,
         array $values,
         string $key,
-        Sublibrary $library
+        SublibraryInterface $library
     ) {
         $budgetMonetaryAmount = self::budgetMonetaryAmountFromAnalyticsRow($values, $key, $library);
 
@@ -1504,7 +1504,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    public function addAllBookOffersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookOffersByLibraryToCollection(SublibraryInterface $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] ??= 0;
@@ -1636,7 +1636,7 @@ class AlmaApi implements LoggerAwareInterface
      *
      * @throws ItemNotLoadedException
      */
-    public function addAllBookOrdersByLibraryToCollection(Sublibrary $library, ArrayCollection &$collection, $resumptionData = [])
+    public function addAllBookOrdersByLibraryToCollection(SublibraryInterface $library, ArrayCollection &$collection, $resumptionData = [])
     {
         // we need to set a request counter for caching (otherwise the requests would all be the same)
         $resumptionData['request-counter'] ??= 0;
@@ -1872,7 +1872,7 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @throws AccessDeniedException
      */
-    public function checkCurrentPersonLibraryPermissions(Sublibrary $library)
+    public function checkCurrentPersonLibraryPermissions(SublibraryInterface $library)
     {
         if (!$this->authorizationService->isLibraryManagerById($library->getIdentifier())) {
             throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $library->getCode()));
