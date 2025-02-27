@@ -22,7 +22,6 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class AlmaApiTest extends WebTestCase
 {
@@ -35,8 +34,6 @@ class AlmaApiTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $client = static::createClient();
-
         $person = new Person();
         $person->setIdentifier('foo');
         $person->setGivenName('John');
@@ -54,7 +51,6 @@ class AlmaApiTest extends WebTestCase
         $this->api = new AlmaApi(
             new AlmaPersonProvider($personProvider),
             $libraryProvider,
-            new Security($client->getContainer()),
             new AuthorizationService(),
             $config
         );

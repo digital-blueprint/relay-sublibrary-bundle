@@ -42,7 +42,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -56,7 +55,6 @@ class AlmaApi implements LoggerAwareInterface
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
-    private Security $security;
     private SublibraryProviderInterface $libraryProvider;
     private ?CacheItemPoolInterface $cachePool = null;
     private AuthorizationService $authorizationService;
@@ -68,10 +66,9 @@ class AlmaApi implements LoggerAwareInterface
 
     public function __construct(AlmaPersonProvider $almaPersonProvider,
         SublibraryProviderInterface $libraryProvider,
-        Security $security, AuthorizationService $authorizationService,
+        AuthorizationService $authorizationService,
         private ConfigurationService $config)
     {
-        $this->security = $security;
         $this->almaUrlApi = new AlmaUrlApi($config);
         $this->libraryProvider = $libraryProvider;
         $this->authorizationService = $authorizationService;
