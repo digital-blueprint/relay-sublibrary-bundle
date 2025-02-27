@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
-use Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary;
 
 class DummySublibraryProvider implements SublibraryProviderInterface
 {
@@ -18,9 +17,10 @@ class DummySublibraryProvider implements SublibraryProviderInterface
      */
     public function getSublibrary(string $identifier, array $options = []): ?SublibraryInterface
     {
-        $lib = new Sublibrary();
+        $lib = new DummySublibrary();
         $lib->setIdentifier($identifier);
         $lib->setCode($identifier);
+        $lib->setName($identifier);
 
         return $lib;
     }
