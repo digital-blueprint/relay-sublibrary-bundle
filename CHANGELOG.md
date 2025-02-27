@@ -2,16 +2,25 @@
 
 ## Unreleased
 
-# 0.4.14
+## 0.5.0
+
+* (breaking) In the bundle config authorization.policies is replaced with
+  authorization.roles
+* (breaking) In the bundle config the "api_url" now only takes the API base URL, so the trailing "/almaws/v1" has to be removed.
+* (breaking) "SublibraryBundle\Entity\Sublibrary" is no longer public, use SublibraryInterface instead
+* New bundle config section "analytics_reports" for configuring the analytics reports to be used internally.
+* Drop support for api-platform 3.2
+
+## 0.4.14
 
 * Book: datePublished is now a freeform text instead of a ISO date time string
 
-# 0.4.13
+## 0.4.13
 
 * alma: adjust column name after book order analytics report changes
 * Drop psalm support
 
-# 0.4.12
+## 0.4.12
 
 * Add support for kevinrob/guzzle-cache-middleware v6
 * Port to phpstan v2
