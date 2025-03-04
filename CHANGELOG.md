@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.5.1
+
+* Fix various type error regressions introduced with 0.5.0
+
 ## 0.5.0
 
 * (breaking) In the bundle config authorization.policies is replaced with
