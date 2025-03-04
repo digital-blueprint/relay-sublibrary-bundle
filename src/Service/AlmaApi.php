@@ -9,7 +9,6 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\CoreBundle\Helpers\GuzzleTools;
 use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
@@ -118,7 +117,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         if ($this->logger !== null) {
-            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+            $stack->push(Tools::createLoggerMiddleware($this->logger));
         }
 
         $client = new Client($client_options);
@@ -162,7 +161,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         if ($this->logger !== null) {
-            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+            $stack->push(Tools::createLoggerMiddleware($this->logger));
         }
 
         if ($this->cachePool !== null) {
@@ -199,7 +198,7 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         if ($this->logger !== null) {
-            $stack->push(GuzzleTools::createLoggerMiddleware($this->logger));
+            $stack->push(Tools::createLoggerMiddleware($this->logger));
         }
 
         if ($this->cachePool !== null) {
