@@ -48,7 +48,7 @@ class BookLoan
     #[Groups(['LibraryBookLoan:output', 'LibraryBookLoan:input'])]
     private $loanStatus;
 
-    private ?string $library;
+    private ?string $library = null;
 
     public function setIdentifier(string $identifier): self
     {

@@ -27,7 +27,7 @@ final class BookOfferProvider implements ProviderInterface
     /**
      * @return WholeResultPaginator|BookOffer
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object
     {
         $api = $this->api;
         $api->checkPermissions();

@@ -38,7 +38,7 @@ final class SublibraryProvider implements ProviderInterface
         $this->authorizationService = $authorizationService;
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?object
     {
         $this->api->checkPermissions();
 

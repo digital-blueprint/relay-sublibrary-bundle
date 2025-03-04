@@ -377,10 +377,8 @@ class AlmaApi implements LoggerAwareInterface
                 switch ($errorCode) {
                     case 401683:
                         throw new ItemNotFoundException(sprintf("LibraryBook with id '%s' could not be found!", $identifier));
-                        break;
                     case 402203:
                         throw new ItemNotFoundException(sprintf("LibraryBook with id '%s' could not be found! Id is not valid.", $identifier));
-                        break;
                 }
             }
 
@@ -702,7 +700,10 @@ class AlmaApi implements LoggerAwareInterface
 
     private function getPersonName(Person $person): string
     {
-        return $person->getGivenName() ?? ' '.$person->getFamilyName() ?? '';
+        $givenName = $person->getGivenName() ?? '';
+        $familyName = $person->getFamilyName() ?? '';
+
+        return "{$givenName} {$familyName}";
     }
 
     /**
@@ -1031,7 +1032,6 @@ class AlmaApi implements LoggerAwareInterface
                 switch ($errorCode) {
                     case 401681:
                         throw new ItemNotStoredException(sprintf("LibraryBookLoan with id '%s' could not be stored! End time may not be in the past!", $identifier));
-                        break;
                 }
             }
 
@@ -1820,14 +1820,16 @@ class AlmaApi implements LoggerAwareInterface
             return null;
         }
 
-        $dateString = $values['Institution::Data Updated As Of'].' '.$values['Institution::Institution Timezone'];
+        $dateString = $values['Institution::Data Updated As Of'] ?? null;
+        $tzString = $values['Institution::Institution Timezone'] ?? null;
+
+        if ($dateString === null || $tzString === null) {
+            return null;
+        }
 
         try {
-            $datetime = new \DateTime($dateString);
+            $datetime = new \DateTime($dateString, new \DateTimeZone($tzString));
         } catch (\Exception $e) {
-            return null;
-        } catch (\TypeError $e) {
-            // TypeError is no sub-class of Exception! See https://www.php.net/manual/en/class.typeerror.php
             return null;
         }
 

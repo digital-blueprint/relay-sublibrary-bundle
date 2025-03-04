@@ -22,9 +22,9 @@ final class BookProvider implements ProviderInterface
     }
 
     /**
-     * @return Book|iterable<Book>|null
+     * @return Book|iterable<Book>
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array
     {
         $api = $this->api;
         $api->checkPermissions();

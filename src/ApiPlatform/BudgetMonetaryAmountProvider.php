@@ -34,7 +34,7 @@ final class BudgetMonetaryAmountProvider implements ProviderInterface
         $this->api = $api;
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?object
     {
         $api = $this->api;
         $api->checkPermissions();

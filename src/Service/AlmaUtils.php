@@ -53,9 +53,7 @@ class AlmaUtils
     {
         // Around 2024-11 they added namespaces to rowset, so match by tag name only to support both versions
         $res = $queryResult->xpath('ResultXml//*[local-name()="Row"]');
-        if ($res === null || $res === false) {
-            throw new \RuntimeException('Broken Alma response');
-        }
+        assert(is_array($res));
 
         return $res;
     }
