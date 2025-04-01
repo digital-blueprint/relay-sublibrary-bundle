@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.2
+
+* Drop support for PHP 8.1
+* Drop support for api-paltform 3.3
+* config: Add new optional entries for configuring the person local data attribute names
+
 ## 0.5.1
 
 * Fix various type error regressions introduced with 0.5.0
