@@ -11,22 +11,28 @@ use Dbp\Relay\CoreBundle\Rest\Query\Filter\FilterTreeBuilder;
 
 class AlmaPersonProvider
 {
-    private const EMAIL_ATTRIBUTE = 'email';
-    private const ALMA_ID_ATTRIBUTE = 'almaId';
-
     private PersonProviderInterface $personProvider;
+    private string $emailAttribute;
+    private string $almaIdAttribute;
 
     public function __construct(PersonProviderInterface $personProvider)
     {
         $this->personProvider = $personProvider;
     }
 
+    public function setConfig(array $config): void
+    {
+        $personLocalDataAttributes = $config['person_local_data_attributes'];
+        $this->emailAttribute = $personLocalDataAttributes['email'];
+        $this->almaIdAttribute = $personLocalDataAttributes['alma_id'];
+    }
+
     public function getCurrentPerson(bool $addInternalAttributes): ?Person
     {
         $options = [];
-        $attributes = [self::EMAIL_ATTRIBUTE];
+        $attributes = [$this->emailAttribute];
         if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = $this->almaIdAttribute;
         }
 
         Options::requestLocalDataAttributes($options, $attributes);
@@ -38,12 +44,12 @@ class AlmaPersonProvider
     {
         $options = [];
         // filter: get person(s) whose Alma user ID matches the ID
-        $filter = FilterTreeBuilder::create()->equals('localData.'.self::ALMA_ID_ATTRIBUTE, $almaId)->createFilter();
+        $filter = FilterTreeBuilder::create()->equals('localData.'.$this->almaIdAttribute, $almaId)->createFilter();
         Options::setFilter($options, $filter);
 
-        $attributes = [self::EMAIL_ATTRIBUTE];
+        $attributes = [$this->emailAttribute];
         if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = $this->almaIdAttribute;
         }
 
         Options::requestLocalDataAttributes($options, $attributes);
@@ -57,9 +63,9 @@ class AlmaPersonProvider
 
     public function getPerson(string $personIdentifier, bool $addInternalAttributes): ?Person
     {
-        $attributes = [self::EMAIL_ATTRIBUTE];
+        $attributes = [$this->emailAttribute];
         if ($addInternalAttributes) {
-            $attributes[] = self::ALMA_ID_ATTRIBUTE;
+            $attributes[] = $this->almaIdAttribute;
         }
 
         $options = [];
@@ -70,6 +76,6 @@ class AlmaPersonProvider
 
     public function getAlmaId(Person $person): ?string
     {
-        return $person->getLocalDataValue(self::ALMA_ID_ATTRIBUTE);
+        return $person->getLocalDataValue($this->almaIdAttribute);
     }
 }
