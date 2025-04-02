@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.3
+
+* Drop support for the library connector and depend on the base organization
+  directly instead. All the features of the base organization connector have
+  been merged into this bundle.
+
 ## 0.5.2
 
 * Drop support for PHP 8.1
