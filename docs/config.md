@@ -18,6 +18,9 @@ dbp_relay_sublibrary:
     email:                email
     # The person local data attribute to request for the person ALMA ID
     alma_id:              almaId
+  organization_local_data_attributes:
+    # The organization local data attribute that contains the library code
+    code:                 code
   # The full paths to the used analytics reports
   analytics_reports:
     # Full path to the report containing information about all book offers

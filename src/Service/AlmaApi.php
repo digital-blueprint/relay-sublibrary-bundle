@@ -9,8 +9,6 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
-use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLocation;
@@ -27,6 +25,8 @@ use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotStoredException;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotUsableException;
 use Dbp\Relay\SublibraryBundle\Helpers\Tools;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryInterface;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

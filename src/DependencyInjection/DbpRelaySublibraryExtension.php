@@ -8,6 +8,7 @@ use Dbp\Relay\CoreBundle\Extension\ExtensionTrait;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Service\AlmaPersonProvider;
 use Dbp\Relay\SublibraryBundle\Service\ConfigurationService;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -53,6 +54,9 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
         $definition->addMethodCall('setConfig', [$mergedConfig]);
 
         $definition = $container->getDefinition(AlmaPersonProvider::class);
+        $definition->addMethodCall('setConfig', [$mergedConfig]);
+
+        $definition = $container->getDefinition(SublibraryProvider::class);
         $definition->addMethodCall('setConfig', [$mergedConfig]);
     }
 }

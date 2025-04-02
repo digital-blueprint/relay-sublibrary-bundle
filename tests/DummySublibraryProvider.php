@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
 use Dbp\Relay\CoreBundle\Exception\ApiError;
-use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
-use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryInterface;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryProviderInterface;
 
 class DummySublibraryProvider implements SublibraryProviderInterface
 {

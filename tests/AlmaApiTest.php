@@ -14,7 +14,6 @@ use Dbp\Relay\SublibraryBundle\Helpers\ItemNotLoadedException;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
 use Dbp\Relay\SublibraryBundle\Service\AlmaPersonProvider;
 use Dbp\Relay\SublibraryBundle\Service\ConfigurationService;
-use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;

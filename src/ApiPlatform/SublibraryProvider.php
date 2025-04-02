@@ -10,9 +10,9 @@ use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
-use Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Service\AlmaApi;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryProviderInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

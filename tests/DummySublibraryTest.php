@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-use Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
-class DummySublibraryTest extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class DummySublibraryTest extends TestCase
 {
     public function testBasic(): void
     {

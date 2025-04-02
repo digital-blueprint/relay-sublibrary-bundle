@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use Dbp\Relay\SublibraryBundle\API\SublibraryInterface;
+use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryInterface;
 
 class DummySublibrary implements SublibraryInterface
 {

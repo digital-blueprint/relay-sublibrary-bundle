@@ -18,10 +18,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider:
-        autowire: true
-        autoconfigure: true
-
     Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService:
         autowire: true
         autoconfigure: true
@@ -29,9 +25,6 @@ services:
     Dbp\Relay\SublibraryBundle\Authorization\HealthCheck:
         autowire: true
         autoconfigure: true
-
-    Dbp\Relay\SublibraryBundle\API\SublibraryProviderInterface:
-        '@Dbp\Relay\SublibraryBundle\Service\DummySublibraryProvider'
 
     Dbp\Relay\SublibraryBundle\Service\HealthCheck:
         autowire: true
@@ -41,3 +34,8 @@ services:
         parent: cache.app
         tags:
             - { name: 'cache.pool', default_lifetime: 60 }
+
+    Dbp\Relay\SublibraryBundle\Sublibrary\:
+        resource: '../../Sublibrary'
+        autowire: true
+        autoconfigure: true

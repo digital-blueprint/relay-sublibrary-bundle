@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\API;
+namespace Dbp\Relay\SublibraryBundle\Sublibrary;
 
 interface SublibraryInterface
 {
