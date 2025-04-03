@@ -86,6 +86,9 @@
         ],
         "cs": [
             "@php vendor/bin/php-cs-fixer --ansi fix --dry-run --diff"
+        ],
+        "coverage": [
+            "@php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html _coverage"
         ]
     }
 }
