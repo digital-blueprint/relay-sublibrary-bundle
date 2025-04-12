@@ -336,20 +336,20 @@
         },
         {
             "name": "dbp/relay-core-bundle",
-            "version": "v0.1.206",
+            "version": "v0.1.208",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-core-bundle.git",
-                "reference": "2cc63eb622d62d1c582cdeebfb362374535061dc"
+                "reference": "0cdea3bada45790633369098f1423160a3a21c2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/2cc63eb622d62d1c582cdeebfb362374535061dc",
-                "reference": "2cc63eb622d62d1c582cdeebfb362374535061dc",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/0cdea3bada45790633369098f1423160a3a21c2f",
+                "reference": "0cdea3bada45790633369098f1423160a3a21c2f",
                 "shasum": ""
             },
             "require": {
-                "api-platform/core": "^3.4",
+                "api-platform/core": "^3.4 | ^4.1",
                 "doctrine/orm": "^3.3",
                 "dragonmantank/cron-expression": "^3.3.3",
                 "ext-fileinfo": "*",
@@ -359,7 +359,7 @@
                 "guzzlehttp/guzzle": "^7.5",
                 "kekos/multipart-form-data-parser": "^1.1",
                 "kevinrob/guzzle-cache-middleware": "^4.0 || ^5.0 || ^6.0",
-                "monolog/monolog": "^2.9 || ^3.2",
+                "monolog/monolog": "^3.2",
                 "nelmio/cors-bundle": "^2.2",
                 "nyholm/psr7": "^1.8",
                 "php": ">=8.2",
@@ -434,9 +434,9 @@
             "description": "The core bundle of the Relay API gateway",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-core-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.206"
+                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.208"
             },
-            "time": "2025-03-20T10:50:45+00:00"
+            "time": "2025-04-11T11:40:23+00:00"
         },
         {
             "name": "doctrine/collections",
