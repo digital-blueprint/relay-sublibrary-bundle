@@ -4,8 +4,31 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\OpenApi\Model\Operation;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    shortName: 'ParcelDelivery',
+    description: 'A parcel delivery',
+    types: ['http://schema.org/ParcelDelivery'],
+    operations: [
+        new Get(
+            uriTemplate: '/parcel-deliveries/{identifier}',
+            openapi: new Operation(
+                tags: ['Sublibrary']
+            ),
+            provider: DummyProvider::class
+        ),
+    ],
+    routePrefix: '/sublibrary',
+    normalizationContext: [
+        'groups' => ['LibraryBookOrder:output'],
+        'jsonld_embed_context' => true,
+    ]
+)]
 class ParcelDelivery
 {
     /**
@@ -17,11 +40,13 @@ class ParcelDelivery
      *
      * @var string
      */
+    #[ApiProperty(identifier: true)]
     private $identifier;
 
     /**
      * @var DeliveryEvent
      */
+    #[ApiProperty(iris: ['http://schema.org/DeliveryEvent'])]
     #[Groups('LibraryBookOrder:output')]
     private $deliveryStatus;
 

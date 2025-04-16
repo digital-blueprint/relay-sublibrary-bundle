@@ -1,27 +1,4 @@
 resources:
-  Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery:
-    types: ['http://schema.org/ParcelDelivery']
-    description: "A parcel delivery"
-    shortName: "ParcelDelivery"
-    routePrefix: "/sublibrary"
-    normalizationContext:
-      groups: ["LibraryBookOrder:output"]
-      jsonld_embed_context: true
-
-    operations:
-
-      ApiPlatform\Metadata\Get:
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
-        uriTemplate: "/parcel-deliveries/{identifier}"
-        openapiContext:
-          tags: ["Sublibrary"]
-
-    properties:
-      identifier:
-        identifier: true
-        iri: "http://schema.org/identifier"
-      deliveryStatus:
-        iri: "http://schema.org/DeliveryEvent"
 
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem:
     types: ['http://schema.org/OrderItem']
