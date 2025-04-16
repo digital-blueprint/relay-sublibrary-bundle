@@ -4,8 +4,31 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\OpenApi\Model\Operation;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    shortName: 'EventStatusType',
+    description: 'A event status type',
+    types: ['https://schema.org/EventStatusType'],
+    operations: [
+        new Get(
+            uriTemplate: '/event-status-types/{identifier}',
+            openapi: new Operation(
+                tags: ['Sublibrary']
+            ),
+            provider: DummyProvider::class
+        ),
+    ],
+    routePrefix: '/sublibrary',
+    normalizationContext: [
+        'groups' => ['LibraryBookOrder:output'],
+        'jsonld_embed_context' => true,
+    ]
+)]
 class EventStatusType
 {
     /**
@@ -17,11 +40,13 @@ class EventStatusType
      *
      * @var string
      */
+    #[ApiProperty(identifier: true)]
     private $identifier;
 
     /**
      * @var string
      */
+    #[ApiProperty(iris: ['http://schema.org/name'])]
     #[Groups(['LibraryBookOrder:output'])]
     private $name;
 

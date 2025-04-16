@@ -1,28 +1,4 @@
 resources:
-  Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType:
-    types: ['https://schema.org/EventStatusType']
-    description: "A event status type"
-    shortName: "EventStatusType"
-    routePrefix: "/sublibrary"
-    normalizationContext:
-      groups: ["LibraryBookOrder:output"]
-      jsonld_embed_context: true
-
-    operations:
-
-      ApiPlatform\Metadata\Get:
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
-        uriTemplate: "/event-status-types/{identifier}"
-        openapiContext:
-          tags: ["Sublibrary"]
-
-    properties:
-      identifier:
-        identifier: true
-        iri: "http://schema.org/identifier"
-      name:
-        iri: "http://schema.org/name"
-
   Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent:
     types: ['http://schema.org/DeliveryEvent']
     description: "A delivery status"
