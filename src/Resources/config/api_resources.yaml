@@ -1,35 +1,5 @@
 resources:
 
-  Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem:
-    types: ['http://schema.org/OrderItem']
-    description: "A book order item from the library"
-    shortName: "LibraryBookOrderItem"
-    routePrefix: "/sublibrary"
-    normalizationContext:
-      groups: ["LibraryBookOrder:output"]
-      jsonld_embed_context: true
-
-    operations:
-
-      ApiPlatform\Metadata\Get:
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\DummyProvider
-        uriTemplate: "/book-order-items/{identifier}"
-        openapiContext:
-          tags: ["Sublibrary"]
-
-    properties:
-      identifier:
-        identifier: true
-        iri: "http://schema.org/identifier"
-      orderedItem:
-        iri: "http://schema.org/OrderItem"
-      orderDelivery:
-        iri: "http://schema.org/ParcelDelivery"
-      price:
-        iri: "http://schema.org/price"
-      priceCurrency:
-        iri: "http://schema.org/priceCurrency"
-
   Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrder:
     types: ['http://schema.org/Order']
     description: "A book order from the library"
