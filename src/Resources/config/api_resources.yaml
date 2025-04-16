@@ -1,40 +1,4 @@
 resources:
-  Dbp\Relay\SublibraryBundle\ApiPlatform\Book:
-    types: ['http://schema.org/Book']
-    description: "A book from the library"
-    shortName: "LibraryBook"
-    routePrefix: "/sublibrary"
-    normalizationContext:
-      groups: ["LibraryBook:output"]
-      jsonld_embed_context: true
-
-    operations:
-
-      ApiPlatform\Metadata\GetCollection:
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
-        uriTemplate: "/books"
-        openapiContext:
-          tags: ["Sublibrary"]
-
-      ApiPlatform\Metadata\Get:
-        provider: Dbp\Relay\SublibraryBundle\ApiPlatform\BookProvider
-        uriTemplate: "/books/{identifier}"
-        openapiContext:
-          tags: ["Sublibrary"]
-
-    properties:
-      identifier:
-        identifier: true
-        iri: "http://schema.org/identifier"
-      title:
-        iri: "http://schema.org/name"
-      isbn:
-        iri: "http://schema.org/isbn"
-      author:
-        iri: "https://schema.org/author"
-      publisher:
-        iri: "https://schema.org/publisher"
-
   Dbp\Relay\SublibraryBundle\ApiPlatform\Sublibrary:
     types: ['https://schema.org/Library']
     description: "Library of an Organization"
