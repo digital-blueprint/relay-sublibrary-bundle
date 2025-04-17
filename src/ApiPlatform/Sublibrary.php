@@ -26,7 +26,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         name: 'libraryManager',
                         in: 'query',
                         description: 'Get the Sublibraries the given person has library manager permissions for (ID of BasePerson resource)',
-                        required: true,
+                        required: false,
+                        deprecated: true,
                         schema: ['type' => 'string']
                     ),
                     new Parameter(

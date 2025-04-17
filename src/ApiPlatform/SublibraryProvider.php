@@ -42,26 +42,38 @@ final class SublibraryProvider implements ProviderInterface
     {
         $this->api->checkPermissions();
 
+        $filters = $context['filters'] ?? [];
+        $options = [];
+        $options['lang'] = $filters['lang'] ?? 'de';
+
         if (!$operation instanceof CollectionOperationInterface) {
+            $sublibraryId = $uriVariables['identifier'];
+            $allowedIds = $this->authorizationService->getSublibraryIdsForCurrentUser();
+            if (in_array($sublibraryId, $allowedIds, true)) {
+                $sublibrary = $this->libraryProvider->getSublibrary($sublibraryId, $options);
+                if ($sublibrary !== null) {
+                    $lib = new Sublibrary();
+                    $lib->setIdentifier($sublibrary->getIdentifier());
+                    $lib->setName($sublibrary->getName());
+                    $lib->setCode($sublibrary->getCode());
+
+                    return $lib;
+                } else {
+                    return null;
+                }
+            }
+
             return null;
         }
 
-        $filters = $context['filters'] ?? [];
-        $personId = $filters[self::PERSON_ID_FILTER_NAME] ?? null;
-
-        if (empty($personId)) {
-            throw new ApiError(Response::HTTP_BAD_REQUEST, "parameter '".self::PERSON_ID_FILTER_NAME."' is mandatory.");
-        }
-
         $currentPerson = $this->api->getCurrentPerson(false);
+        $currentPersonId = $currentPerson->getIdentifier();
+        $personId = $filters[self::PERSON_ID_FILTER_NAME] ?? $currentPersonId;
 
         // users are only allowed to fetch this for themselves
-        if ($personId !== $currentPerson->getIdentifier()) {
+        if ($personId === null || $personId !== $currentPersonId) {
             throw new ApiError(Response::HTTP_FORBIDDEN, 'Only allowed with person ID of currently logged-in person.');
         }
-
-        $options = [];
-        $options['lang'] = $filters['lang'] ?? 'de';
 
         $sublibraries = [];
         try {

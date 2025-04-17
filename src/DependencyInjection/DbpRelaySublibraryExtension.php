@@ -33,7 +33,6 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
             '/sublibrary/parcel-deliveries/{identifier}',
             '/sublibrary/book-order-items/{identifier}',
             '/sublibrary/event-status-types/{identifier}',
-            '/sublibrary/sublibraries/{identifier}',
             '/sublibrary/books',
             '/sublibrary/budget-monetary-amounts/{identifier}',
             '/sublibrary/book-locations/{identifier}',
