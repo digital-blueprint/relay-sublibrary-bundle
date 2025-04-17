@@ -36,9 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Get(
             uriTemplate: '/budget-monetary-amounts/{identifier}',
-            openapi: new Operation(
-                tags: ['Sublibrary']
-            ),
+            openapi: false,
             provider: BudgetMonetaryAmountProvider::class
         ),
     ],

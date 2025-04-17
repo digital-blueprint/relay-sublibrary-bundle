@@ -19,16 +19,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             uriTemplate: '/book-locations',
-            openapi: new Operation(
-                tags: ['Sublibrary']
-            ),
+            openapi: false,
             provider: DummyProvider::class
         ),
         new Get(
             uriTemplate: '/book-locations/{identifier}',
-            openapi: new Operation(
-                tags: ['Sublibrary']
-            ),
+            openapi: false,
             provider: DummyProvider::class
         ),
         new GetCollection(

@@ -18,9 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             uriTemplate: '/books',
-            openapi: new Operation(
-                tags: ['Sublibrary']
-            ),
+            openapi: false,
             provider: BookProvider::class
         ),
         new Get(

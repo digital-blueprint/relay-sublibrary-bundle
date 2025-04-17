@@ -7,7 +7,6 @@ namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\OpenApi\Model\Operation;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -17,9 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(
             uriTemplate: '/book-order-items/{identifier}',
-            openapi: new Operation(
-                tags: ['Sublibrary']
-            ),
+            openapi: false,
             provider: DummyProvider::class
         ),
     ],

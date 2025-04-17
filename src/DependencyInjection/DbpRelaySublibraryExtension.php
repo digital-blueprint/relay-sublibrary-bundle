@@ -28,20 +28,6 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
     {
         $this->addResourceClassDirectory($container, __DIR__.'/../ApiPlatform');
 
-        $pathsToHide = [
-            '/sublibrary/delivery-statuses/{identifier}',
-            '/sublibrary/parcel-deliveries/{identifier}',
-            '/sublibrary/book-order-items/{identifier}',
-            '/sublibrary/event-status-types/{identifier}',
-            '/sublibrary/books',
-            '/sublibrary/budget-monetary-amounts/{identifier}',
-            '/sublibrary/book-locations/{identifier}',
-            '/sublibrary/book-locations',
-        ];
-        foreach ($pathsToHide as $path) {
-            $this->addPathToHide($container, $path);
-        }
-
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
