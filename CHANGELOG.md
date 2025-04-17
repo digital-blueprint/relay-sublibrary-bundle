@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.5.4
+
+* Added support for api-platform 4.1+ (in addition to 3.4)
+* Implemented `GET /sublibrary/sublibraries/{identifier}`
+* For `GET /sublibrary/sublibraries` the `libraryManager` query parameter is no
+  longer required and is deprecated. It defaults to the authenticated user now.
+
 ## 0.5.3
 
 * Drop support for the library connector and depend on the base organization
