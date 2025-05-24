@@ -332,16 +332,16 @@
         },
         {
             "name": "dbp/relay-core-bundle",
-            "version": "v0.1.211",
+            "version": "v0.1.212",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-core-bundle.git",
-                "reference": "ecccb2e882b31a77a338e21baa9dbe182c2f8472"
+                "reference": "4e1ee1e68b30a3338e1c72def11d808b0c005823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/ecccb2e882b31a77a338e21baa9dbe182c2f8472",
-                "reference": "ecccb2e882b31a77a338e21baa9dbe182c2f8472",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/4e1ee1e68b30a3338e1c72def11d808b0c005823",
+                "reference": "4e1ee1e68b30a3338e1c72def11d808b0c005823",
                 "shasum": ""
             },
             "require": {
@@ -410,12 +410,13 @@
                 "phpstan/phpstan": "^2.0.0",
                 "phpstan/phpstan-phpunit": "^2.0.0",
                 "phpstan/phpstan-symfony": "^2.0.0",
-                "phpunit/phpunit": "^10.1",
+                "phpunit/phpunit": "^11.1",
                 "symfony/browser-kit": "^6.4",
                 "symfony/doctrine-messenger": "^6.4",
                 "symfony/http-client": "^6.4",
                 "symfony/monolog-bridge": "^6.4",
-                "symfony/phpunit-bridge": "^7.0.6"
+                "symfony/phpunit-bridge": "^7.0.6",
+                "symfony/runtime": "^6.4"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -430,9 +431,9 @@
             "description": "The core bundle of the Relay API gateway",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-core-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.211"
+                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.212"
             },
-            "time": "2025-04-24T12:36:25+00:00"
+            "time": "2025-05-19T09:02:19+00:00"
         },
         {
             "name": "doctrine/collections",
