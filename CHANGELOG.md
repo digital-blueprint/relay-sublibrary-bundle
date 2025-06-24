@@ -2,9 +2,13 @@
 
 ## Unreleased
 
+## 0.5.5
+
 * `/sublibraries` now uses the "Accept-Language" header to determine the
   language of the response. The "lang" query parameter is deprecated and will be
   removed in a future version.
+* Drop support for api-platform 3.4
+
 
 ## 0.5.4
 
