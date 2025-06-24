@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
+use Dbp\Relay\CoreBundle\Locale\Locale;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\WholeResultPaginator;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
@@ -31,7 +32,7 @@ final class SublibraryProvider implements ProviderInterface
     /** @var AuthorizationService */
     private $authorizationService;
 
-    public function __construct(AlmaApi $api, SublibraryProviderInterface $libraryProvider, AuthorizationService $authorizationService)
+    public function __construct(AlmaApi $api, SublibraryProviderInterface $libraryProvider, AuthorizationService $authorizationService, private Locale $locale)
     {
         $this->api = $api;
         $this->libraryProvider = $libraryProvider;
@@ -44,7 +45,10 @@ final class SublibraryProvider implements ProviderInterface
 
         $filters = $context['filters'] ?? [];
         $options = [];
-        $options['lang'] = $filters['lang'] ?? 'de';
+
+        // Read the query param for backwards compat
+        $this->locale->setCurrentRequestLocaleFromQuery();
+        $options['lang'] = $this->locale->getCurrentPrimaryLanguage();
 
         if (!$operation instanceof CollectionOperationInterface) {
             $sublibraryId = $uriVariables['identifier'];

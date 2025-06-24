@@ -30,17 +30,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         deprecated: true,
                         schema: ['type' => 'string']
                     ),
-                    new Parameter(
-                        name: 'lang',
-                        in: 'query',
-                        description: 'Language of result',
-                        required: false,
-                        schema: [
-                            'type' => 'string',
-                            'enum' => ['de', 'en'],
-                        ],
-                        example: 'de'
-                    ),
                 ]
             ),
             provider: SublibraryProvider::class
@@ -57,17 +46,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         required: true,
                         schema: ['type' => 'string'],
                         example: '1190'
-                    ),
-                    new Parameter(
-                        name: 'lang',
-                        in: 'query',
-                        description: 'Language of result',
-                        required: false,
-                        schema: [
-                            'type' => 'string',
-                            'enum' => ['de', 'en'],
-                        ],
-                        example: 'de'
                     ),
                 ]
             ),
