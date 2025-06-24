@@ -6,7 +6,7 @@
         "php": ">=8.2",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "api-platform/core": "^3.4 || ^4.1",
+        "api-platform/core": "^4.1",
         "dbp/relay-base-person-bundle": "^0.2.33",
         "dbp/relay-base-organization-bundle": "^0.2.11",
         "dbp/relay-core-bundle": "^0.1.190",
