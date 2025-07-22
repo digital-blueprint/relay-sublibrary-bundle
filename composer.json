@@ -9,7 +9,7 @@
         "api-platform/core": "^4.1",
         "dbp/relay-base-person-bundle": "^0.2.33",
         "dbp/relay-base-organization-bundle": "^0.2.11",
-        "dbp/relay-core-bundle": "^0.1.190",
+        "dbp/relay-core-bundle": "^0.1.217",
         "doctrine/collections": "^1.6 || ^2",
         "doctrine/common": "^3.1",
         "guzzlehttp/guzzle": "^7.5",
