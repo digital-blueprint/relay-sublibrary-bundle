@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* Workaround erroneous phpstan type error
+* Avoid api-platform boot kernel deprecation warning
+
 ## 0.5.5
 
 * `/sublibraries` now uses the "Accept-Language" header to determine the

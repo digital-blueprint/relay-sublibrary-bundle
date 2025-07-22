@@ -52,6 +52,7 @@ class AlmaUtils
     public static function getRows(\SimpleXMLElement $queryResult): array
     {
         // Around 2024-11 they added namespaces to rowset, so match by tag name only to support both versions
+        /** @var array|false|null $res */
         $res = $queryResult->xpath('ResultXml//*[local-name()="Row"]');
         assert(is_array($res));
 
