@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use Dbp\Relay\SublibraryBundle\Service\AlmaUtils;
+use Dbp\Relay\SublibraryBundle\Alma\AlmaUtils;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlmaUtilsTest extends WebTestCase

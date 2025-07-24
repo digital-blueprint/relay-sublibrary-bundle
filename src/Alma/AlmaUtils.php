@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dbp\Relay\SublibraryBundle\Service;
+namespace Dbp\Relay\SublibraryBundle\Alma;
 
 class AlmaUtils
 {
