@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.5.7
+
+- Adjust for Alma Analytics API changes in the latest ALMA release
+
 ## v0.5.6
 
 - Workaround erroneous phpstan type error
