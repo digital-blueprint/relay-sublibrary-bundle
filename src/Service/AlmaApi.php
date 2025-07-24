@@ -1223,7 +1223,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->almaUrlApi->getBookOfferAnalyticsUrl($sublibrary, $resumptionToken);
+            $url = $this->almaUrlApi->getBookOfferAnalyticsUrl($sublibrary->getCode(), $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 
@@ -1270,7 +1270,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->almaUrlApi->getBookLoanAnalyticsUrl($library, $resumptionToken);
+            $url = $this->almaUrlApi->getBookLoanAnalyticsUrl($library->getCode(), $resumptionToken);
 
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
@@ -1319,7 +1319,7 @@ class AlmaApi implements LoggerAwareInterface
 
         try {
             // http://docs.guzzlephp.org/en/stable/quickstart.html?highlight=get#making-a-request
-            $url = $this->almaUrlApi->getBookOrderAnalyticsUrl($library, $resumptionToken);
+            $url = $this->almaUrlApi->getBookOrderAnalyticsUrl($library->getCode(), $resumptionToken);
             $response = $client->request('GET', $url, $options);
             $dataArray = $this->decodeResponse($response);
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOffer;
-use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryInterface;
 use League\Uri\Contracts\UriException;
 use League\Uri\UriTemplate;
 
@@ -204,13 +203,10 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $resumptionToken
-     *
      * @throws UriException
      */
-    public function getBookOfferAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
+    public function getBookOfferAnalyticsUrl(string $libraryCode, string $resumptionToken = ''): string
     {
-        $libraryCode = $library->getCode();
         $limit = 1000;
         //        $limit = 25;
 
@@ -225,15 +221,12 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $resumptionToken
-     *
      * @throws UriException
      */
-    public function getBookLoanAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
+    public function getBookLoanAnalyticsUrl(string $libraryCode, string $resumptionToken = ''): string
     {
         $limit = 1000;
         //        $limit = 25;
-        $libraryCode = $library->getCode();
         $filterExpression = '"Item Location at time of loan"."Library Code"';
         //        $filterExpression = '"Physical Items"."Library Unit"."Library Code"';
 
@@ -263,13 +256,10 @@ class AlmaUrlApi
     }
 
     /**
-     * @param string $resumptionToken
-     *
      * @throws UriException
      */
-    public function getBookOrderAnalyticsUrl(SublibraryInterface $library, $resumptionToken = ''): string
+    public function getBookOrderAnalyticsUrl(string $libraryCode, string $resumptionToken = ''): string
     {
-        $libraryCode = $library->getCode();
         $libraryCode = $libraryCode.'MON';
         $limit = 1000;
         //        $limit = 25;
