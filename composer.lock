@@ -278,16 +278,16 @@
         },
         {
             "name": "dbp/relay-base-person-bundle",
-            "version": "v0.2.40",
+            "version": "v0.2.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-base-person-bundle.git",
-                "reference": "6d11ac75f6d0000e21c3dd05fdee562c17da21af"
+                "reference": "74355b7fd78acc9134f5edce00c6d7c1e41f6da2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/6d11ac75f6d0000e21c3dd05fdee562c17da21af",
-                "reference": "6d11ac75f6d0000e21c3dd05fdee562c17da21af",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/74355b7fd78acc9134f5edce00c6d7c1e41f6da2",
+                "reference": "74355b7fd78acc9134f5edce00c6d7c1e41f6da2",
                 "shasum": ""
             },
             "require": {
@@ -328,22 +328,22 @@
             ],
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-base-person-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.40"
+                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.41"
             },
-            "time": "2025-07-09T10:11:31+00:00"
+            "time": "2025-07-21T07:38:46+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",
-            "version": "v0.1.217",
+            "version": "v0.1.218",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-core-bundle.git",
-                "reference": "137972bb5ae33331b8585cba7048f7dd72386150"
+                "reference": "a8a42fa9b6d2cee757367507c8a06663d2bc38ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/137972bb5ae33331b8585cba7048f7dd72386150",
-                "reference": "137972bb5ae33331b8585cba7048f7dd72386150",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-core-bundle/zipball/a8a42fa9b6d2cee757367507c8a06663d2bc38ec",
+                "reference": "a8a42fa9b6d2cee757367507c8a06663d2bc38ec",
                 "shasum": ""
             },
             "require": {
@@ -439,9 +439,9 @@
             "description": "The core bundle of the Relay API gateway",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-core-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.217"
+                "source": "https://github.com/digital-blueprint/relay-core-bundle/tree/v0.1.218"
             },
-            "time": "2025-07-09T10:27:43+00:00"
+            "time": "2025-07-24T08:54:09+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -7913,16 +7913,16 @@
     "packages-dev": [
         {
             "name": "captainhook/captainhook",
-            "version": "5.25.6",
+            "version": "5.25.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhook-git/captainhook.git",
-                "reference": "8d84101821228609d48f0f2439ed29c9915002e9"
+                "reference": "ecd69917a9ed03e9b3053b193089fc2c64e50114"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhook-git/captainhook/zipball/8d84101821228609d48f0f2439ed29c9915002e9",
-                "reference": "8d84101821228609d48f0f2439ed29c9915002e9",
+                "url": "https://api.github.com/repos/captainhook-git/captainhook/zipball/ecd69917a9ed03e9b3053b193089fc2c64e50114",
+                "reference": "ecd69917a9ed03e9b3053b193089fc2c64e50114",
                 "shasum": ""
             },
             "require": {
@@ -7985,7 +7985,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhook-git/captainhook/issues",
-                "source": "https://github.com/captainhook-git/captainhook/tree/5.25.6"
+                "source": "https://github.com/captainhook-git/captainhook/tree/5.25.9"
             },
             "funding": [
                 {
@@ -7993,7 +7993,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-02T22:06:49+00:00"
+            "time": "2025-07-25T09:18:08+00:00"
         },
         {
             "name": "captainhook/secrets",
