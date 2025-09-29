@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v0.5.8
+
+- Add support for kevinrob/guzzle-cache-middleware v7
+- Some minor cleanups
+
 ## v0.5.7
 
 - Adjust for Alma Analytics API changes in the latest ALMA release
