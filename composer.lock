@@ -229,21 +229,21 @@
         },
         {
             "name": "dbp/relay-base-organization-bundle",
-            "version": "v0.2.15",
+            "version": "v0.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-base-organization-bundle.git",
-                "reference": "60f91b51266673588636aa7ac347966b8f9a62f7"
+                "reference": "a7e03aac654fa1eb00f1433f75e3a8305251536f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-base-organization-bundle/zipball/60f91b51266673588636aa7ac347966b8f9a62f7",
-                "reference": "60f91b51266673588636aa7ac347966b8f9a62f7",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-base-organization-bundle/zipball/a7e03aac654fa1eb00f1433f75e3a8305251536f",
+                "reference": "a7e03aac654fa1eb00f1433f75e3a8305251536f",
                 "shasum": ""
             },
             "require": {
                 "api-platform/core": "^3.4 || ^4.1",
-                "dbp/relay-core-bundle": "^0.1.186",
+                "dbp/relay-core-bundle": "^0.1.220",
                 "ext-json": "*",
                 "php": ">=8.2",
                 "symfony/config": "^6.4",
@@ -277,27 +277,27 @@
             ],
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-base-organization-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-base-organization-bundle/tree/v0.2.15"
+                "source": "https://github.com/digital-blueprint/relay-base-organization-bundle/tree/v0.2.16"
             },
-            "time": "2025-04-16T11:40:31+00:00"
+            "time": "2025-10-02T08:41:57+00:00"
         },
         {
             "name": "dbp/relay-base-person-bundle",
-            "version": "v0.2.41",
+            "version": "v0.2.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-base-person-bundle.git",
-                "reference": "74355b7fd78acc9134f5edce00c6d7c1e41f6da2"
+                "reference": "d846d5b258f3b144107f7296eefc172639613290"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/74355b7fd78acc9134f5edce00c6d7c1e41f6da2",
-                "reference": "74355b7fd78acc9134f5edce00c6d7c1e41f6da2",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/d846d5b258f3b144107f7296eefc172639613290",
+                "reference": "d846d5b258f3b144107f7296eefc172639613290",
                 "shasum": ""
             },
             "require": {
                 "api-platform/core": "^4.1",
-                "dbp/relay-core-bundle": "^0.1.216",
+                "dbp/relay-core-bundle": "^0.1.220",
                 "ext-json": "*",
                 "php": ">=8.2",
                 "symfony/config": "^6.4",
@@ -333,9 +333,9 @@
             ],
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-base-person-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.41"
+                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.42"
             },
-            "time": "2025-07-21T07:38:46+00:00"
+            "time": "2025-10-02T08:42:58+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",
