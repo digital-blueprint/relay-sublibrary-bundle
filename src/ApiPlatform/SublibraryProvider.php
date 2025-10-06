@@ -39,6 +39,9 @@ final class SublibraryProvider implements ProviderInterface
         $this->authorizationService = $authorizationService;
     }
 
+    /**
+     * @return WholeResultPaginator<Sublibrary>|Sublibrary|null
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?object
     {
         $this->api->checkPermissions();
@@ -95,6 +98,9 @@ final class SublibraryProvider implements ProviderInterface
             throw new ApiError(Response::HTTP_INTERNAL_SERVER_ERROR, $exc->getMessage());
         }
 
+        /**
+         * @var WholeResultPaginator<Sublibrary>
+         */
         return new WholeResultPaginator($sublibraries,
             Pagination::getCurrentPageNumber($filters),
             Pagination::getMaxNumItemsPerPage($filters));

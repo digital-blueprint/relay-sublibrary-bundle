@@ -34,6 +34,9 @@ final class BudgetMonetaryAmountProvider implements ProviderInterface
         $this->api = $api;
     }
 
+    /**
+     * @return WholeResultPaginator<BudgetMonetaryAmount>|null
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?object
     {
         $api = $this->api;
@@ -59,6 +62,9 @@ final class BudgetMonetaryAmountProvider implements ProviderInterface
         // fetch budget monetary amounts of organization
         $budgetMonetaryAmounts = $api->getBudgetMonetaryAmountsByLibrary($library);
 
+        /**
+         * @var WholeResultPaginator<BudgetMonetaryAmount>
+         */
         return new WholeResultPaginator($budgetMonetaryAmounts,
             Pagination::getCurrentPageNumber($filters),
             Pagination::getMaxNumItemsPerPage($filters));
