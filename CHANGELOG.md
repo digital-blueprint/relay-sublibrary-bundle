@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.5.9
+
+- Fix some minor phpstan issues
+
 ## v0.5.8
 
 - Add support for kevinrob/guzzle-cache-middleware v7
