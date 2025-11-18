@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.5.10
+
+- Dependency cleanups
+
 ## v0.5.9
 
 - Fix some minor phpstan issues
