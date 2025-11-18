@@ -6,7 +6,9 @@
         "php": ">=8.2",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "api-platform/core": "^4.1",
+        "api-platform/metadata": "^4.1",
+        "api-platform/openapi": "^4.1",
+        "api-platform/state": "^4.1",
         "dbp/relay-base-person-bundle": "^0.2.33",
         "dbp/relay-base-organization-bundle": "^0.2.11",
         "dbp/relay-core-bundle": "^0.1.217",
@@ -31,6 +33,7 @@
         "symfony/event-dispatcher-contracts": "^2.5 || ^3"
     },
     "require-dev": {
+        "api-platform/symfony": "^4.1",
         "captainhook/captainhook": "^5.25",
         "friendsofphp/php-cs-fixer": "^3.50",
         "mockery/mockery": "^1.6.7",
