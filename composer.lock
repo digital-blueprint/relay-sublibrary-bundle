@@ -399,16 +399,16 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v4.2.12",
+            "version": "v4.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "429ee219f930efd274a9f4e91e92921add7f988a"
+                "reference": "590195d1038e66a039f1847b43040b7e6b78475f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/429ee219f930efd274a9f4e91e92921add7f988a",
-                "reference": "429ee219f930efd274a9f4e91e92921add7f988a",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/590195d1038e66a039f1847b43040b7e6b78475f",
+                "reference": "590195d1038e66a039f1847b43040b7e6b78475f",
                 "shasum": ""
             },
             "require": {
@@ -491,22 +491,22 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v4.2.12"
+                "source": "https://github.com/api-platform/metadata/tree/v4.2.13"
             },
-            "time": "2025-12-27T22:15:57+00:00"
+            "time": "2026-01-12T13:36:15+00:00"
         },
         {
             "name": "api-platform/openapi",
-            "version": "v4.2.12",
+            "version": "v4.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/openapi.git",
-                "reference": "3417415125f3ebbcb620f84ef9dd1cd07e2b2621"
+                "reference": "3600d57bf2729c8fa82d831edbdd21244037ee1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/openapi/zipball/3417415125f3ebbcb620f84ef9dd1cd07e2b2621",
-                "reference": "3417415125f3ebbcb620f84ef9dd1cd07e2b2621",
+                "url": "https://api.github.com/repos/api-platform/openapi/zipball/3600d57bf2729c8fa82d831edbdd21244037ee1b",
+                "reference": "3600d57bf2729c8fa82d831edbdd21244037ee1b",
                 "shasum": ""
             },
             "require": {
@@ -581,9 +581,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/openapi/tree/v4.2.12"
+                "source": "https://github.com/api-platform/openapi/tree/v4.2.13"
             },
-            "time": "2026-01-08T18:17:35+00:00"
+            "time": "2026-01-16T15:43:25+00:00"
         },
         {
             "name": "api-platform/serializer",
@@ -680,16 +680,16 @@
         },
         {
             "name": "api-platform/state",
-            "version": "v4.2.12",
+            "version": "v4.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/state.git",
-                "reference": "348d19a2e5fedb01aa55ff7b866691777e54ec39"
+                "reference": "fa3e7b41bcb54e7ba6d3078de224620e422d6732"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/state/zipball/348d19a2e5fedb01aa55ff7b866691777e54ec39",
-                "reference": "348d19a2e5fedb01aa55ff7b866691777e54ec39",
+                "url": "https://api.github.com/repos/api-platform/state/zipball/fa3e7b41bcb54e7ba6d3078de224620e422d6732",
+                "reference": "fa3e7b41bcb54e7ba6d3078de224620e422d6732",
                 "shasum": ""
             },
             "require": {
@@ -771,9 +771,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/state/tree/v4.2.12"
+                "source": "https://github.com/api-platform/state/tree/v4.2.13"
             },
-            "time": "2025-12-27T22:15:57+00:00"
+            "time": "2026-01-12T13:36:15+00:00"
         },
         {
             "name": "api-platform/symfony",
@@ -9797,35 +9797,35 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "11.0.11",
+            "version": "11.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4f7722aa9a7b76aa775e2d9d4e95d1ea16eeeef4"
+                "reference": "2c1ed04922802c15e1de5d7447b4856de949cf56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4f7722aa9a7b76aa775e2d9d4e95d1ea16eeeef4",
-                "reference": "4f7722aa9a7b76aa775e2d9d4e95d1ea16eeeef4",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2c1ed04922802c15e1de5d7447b4856de949cf56",
+                "reference": "2c1ed04922802c15e1de5d7447b4856de949cf56",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^5.4.0",
+                "nikic/php-parser": "^5.7.0",
                 "php": ">=8.2",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-text-template": "^4.0.1",
                 "sebastian/code-unit-reverse-lookup": "^4.0.1",
                 "sebastian/complexity": "^4.0.1",
-                "sebastian/environment": "^7.2.0",
+                "sebastian/environment": "^7.2.1",
                 "sebastian/lines-of-code": "^3.0.1",
                 "sebastian/version": "^5.0.2",
-                "theseer/tokenizer": "^1.2.3"
+                "theseer/tokenizer": "^1.3.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.5.2"
+                "phpunit/phpunit": "^11.5.46"
             },
             "suggest": {
                 "ext-pcov": "PHP extension that provides line coverage",
@@ -9863,7 +9863,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.11"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.12"
             },
             "funding": [
                 {
@@ -9883,7 +9883,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-27T14:37:49+00:00"
+            "time": "2025-12-24T07:01:01+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -10132,16 +10132,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.46",
+            "version": "11.5.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "75dfe79a2aa30085b7132bb84377c24062193f33"
+                "reference": "fe3665c15e37140f55aaf658c81a2eb9030b6d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/75dfe79a2aa30085b7132bb84377c24062193f33",
-                "reference": "75dfe79a2aa30085b7132bb84377c24062193f33",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fe3665c15e37140f55aaf658c81a2eb9030b6d89",
+                "reference": "fe3665c15e37140f55aaf658c81a2eb9030b6d89",
                 "shasum": ""
             },
             "require": {
@@ -10155,7 +10155,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.2",
-                "phpunit/php-code-coverage": "^11.0.11",
+                "phpunit/php-code-coverage": "^11.0.12",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-invoker": "^5.0.1",
                 "phpunit/php-text-template": "^4.0.1",
@@ -10213,7 +10213,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.46"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.48"
             },
             "funding": [
                 {
@@ -10237,7 +10237,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-06T08:01:15+00:00"
+            "time": "2026-01-16T16:26:27+00:00"
         },
         {
             "name": "react/cache",
