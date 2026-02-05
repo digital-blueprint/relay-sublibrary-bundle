@@ -24,17 +24,16 @@ dbp_relay_sublibrary:
   # The full paths to the used analytics reports
   analytics_reports:
     # Full path to the report containing information about all book offers
-    book_offer:           '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Bestand-Institute-pbeke'
+    book_offer:           ~ # Required, Example: /shared/MyUni/Reports/book_offer
     # Full path to the report containing information about all book orders
-    book_order:           '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/PO-List-pbeke_bearb_SF_6c'
+    book_order:           ~ # Required, Example: /shared/MyUni/Reports/book_order
     # Full path to the report containing information about all book loans
-    book_loan:            '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Ausleihen-Institute-pbeke'
+    book_loan:            ~ # Required, Example: /shared/MyUni/Reports/book_loan
     # Full path to the report containing information about the budget of the libraries
-    budget:               '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Funds-List-SF_2'
+    budget:               ~ # Required, Example: /shared/MyUni/Reports/budget
     # Full path to the report containing information about when the analytics were last updated
-    update_check:         '/shared/Technische Universität Graz 43ACC_TUG/Reports/vpu/Analytics-Updates'
+    update_check:         ~ # Required, Example: /shared/MyUni/Reports/update_check
   authorization:
-    policies:             []
     roles:
       # Returns true if the user is allowed to use the dispatch API.
       ROLE_LIBRARY_MANAGER: 'false'
