@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v0.5.12
+
+- Add support for the Alma 2026-02 release (book_loan related report changes)
+- config: specifying analytics_reports is now required in the bundle config
+
 ## v0.5.11
 
 - Add support for Symfony 7.4
