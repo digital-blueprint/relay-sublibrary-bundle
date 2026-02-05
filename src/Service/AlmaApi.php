@@ -831,7 +831,7 @@ class AlmaApi implements LoggerAwareInterface
             $mmsId = $values['Bibliographic Details::MMS Id'];
             $loanId = $values['Loan Details::Item Loan Id'];
             $itemId = $values['Physical Item Details::Physical Item Id'] ?? $values['Physical Item Details::Item Id'];
-            $holdingId = $values['Holdings Details::Holdings ID'] ?? $values['Holding Details::Holding Id'];
+            $holdingId = $values['Physical Item Details::Holdings Id'] ?? ($values['Holdings Details::Holdings ID'] ?? $values['Holding Details::Holding Id']);
 
             if ($mmsId === '' || $loanId === '' || $itemId === '' || $holdingId === '') {
                 continue;
@@ -1527,7 +1527,7 @@ class AlmaApi implements LoggerAwareInterface
         foreach ($rows as $row) {
             $values = AlmaUtils::mapRowColumns($row, $mapping);
             $mmsId = $values['Bibliographic Details::MMS Id'];
-            $holdingId = $values['Holdings Details::Holdings ID'] ?? $values['Holding Details::Holding Id'];
+            $holdingId = $values['Physical Item Details::Holdings Id'] ?? ($values['Holdings Details::Holdings ID'] ?? $values['Holding Details::Holding Id']);
             $itemId = $values['Physical Item Details::Physical Item Id'] ?? $values['Physical Item Details::Item Id'];
 
             if ($mmsId === '' || $holdingId === '' || $itemId === '') {
