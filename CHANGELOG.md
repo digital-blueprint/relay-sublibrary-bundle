@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v0.5.13
+
+- Drop support for Symfony 6
+- Ensure APIs only return UTC datetimes, independent of the global timezone configuration.
+
 ## v0.5.12
 
 - Add support for the Alma 2026-02 release (book_loan related report changes)
