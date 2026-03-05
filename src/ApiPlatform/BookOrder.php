@@ -11,6 +11,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     shortName: 'LibraryBookOrder',
@@ -89,6 +91,7 @@ class BookOrder
      */
     #[ApiProperty(iris: ['http://schema.org/DateTime'])]
     #[Groups(['LibraryBookOrder:output'])]
+    #[Context(normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'])]
     private $orderDate;
 
     public function setIdentifier(string $identifier): self
