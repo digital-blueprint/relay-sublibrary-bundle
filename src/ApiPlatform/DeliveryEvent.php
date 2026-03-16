@@ -7,9 +7,9 @@ namespace Dbp\Relay\SublibraryBundle\ApiPlatform;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use Dbp\Relay\CoreBundle\Serializer\DateTimeUtcNormalizer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     shortName: 'DeliveryStatus',
@@ -46,7 +46,7 @@ class DeliveryEvent
      * @var \DateTimeInterface
      */
     #[ApiProperty(iris: ['http://schema.org/DateTime'])]
-    #[Context(normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'])]
+    #[Context(normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true])]
     private $availableFrom;
 
     /**

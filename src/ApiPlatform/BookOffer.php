@@ -13,9 +13,9 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\Model\RequestBody;
+use Dbp\Relay\CoreBundle\Serializer\DateTimeUtcNormalizer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     shortName: 'LibraryBookOffer',
@@ -162,11 +162,8 @@ class BookOffer
     #[ApiProperty(iris: ['http://schema.org/availabilityStarts'])]
     #[Groups(['LibraryBookOffer:output', 'LibraryBookOffer:input'])]
     #[Context(
-        normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'],
-        denormalizationContext: [
-            DateTimeNormalizer::TIMEZONE_KEY => 'UTC',
-            DateTimeNormalizer::FORCE_TIMEZONE_KEY => true,
-        ],
+        normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true],
+        denormalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true],
     )]
     private $availabilityStarts;
 

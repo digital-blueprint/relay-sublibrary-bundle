@@ -10,9 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
+use Dbp\Relay\CoreBundle\Serializer\DateTimeUtcNormalizer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     shortName: 'LibraryBookOrder',
@@ -91,7 +91,7 @@ class BookOrder
      */
     #[ApiProperty(iris: ['http://schema.org/DateTime'])]
     #[Groups(['LibraryBookOrder:output'])]
-    #[Context(normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'])]
+    #[Context(normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true])]
     private $orderDate;
 
     public function setIdentifier(string $identifier): self

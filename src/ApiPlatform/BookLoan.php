@@ -14,9 +14,9 @@ use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\Model\RequestBody;
 use Dbp\Relay\BasePersonBundle\Entity\Person;
+use Dbp\Relay\CoreBundle\Serializer\DateTimeUtcNormalizer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     shortName: 'LibraryBookLoan',
@@ -163,7 +163,7 @@ class BookLoan
      */
     #[ApiProperty(iris: ['https://schema.org/DateTime'])]
     #[Groups(['LibraryBookLoan:output'])]
-    #[Context(normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'])]
+    #[Context(normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true])]
     private $startTime;
 
     /**
@@ -172,11 +172,8 @@ class BookLoan
     #[ApiProperty(iris: ['https://schema.org/DateTime'])]
     #[Groups(['LibraryBookLoan:output', 'LibraryBookLoan:input'])]
     #[Context(
-        normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'],
-        denormalizationContext: [
-            DateTimeNormalizer::TIMEZONE_KEY => 'UTC',
-            DateTimeNormalizer::FORCE_TIMEZONE_KEY => true,
-        ],
+        normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true],
+        denormalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true],
     )]
     private $endTime;
 
@@ -185,7 +182,7 @@ class BookLoan
      */
     #[ApiProperty(iris: ['https://schema.org/DateTime'])]
     #[Groups(['LibraryBookLoan:output'])]
-    #[Context(normalizationContext: [DateTimeNormalizer::TIMEZONE_KEY => 'UTC'])]
+    #[Context(normalizationContext: [DateTimeUtcNormalizer::CONTEXT_KEY => true])]
     private $returnTime;
 
     #[ApiProperty(iris: ['http://schema.org/Text'])]
