@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v0.5.14
+
+- Adjust datetime format to include milliseconds and end with "Z" instead of
+  "+00:00" for consistency.
+
 ## v0.5.13
 
 - Drop support for Symfony 6
