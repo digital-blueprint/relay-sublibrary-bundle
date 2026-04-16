@@ -21,7 +21,7 @@ class DbpRelaySublibraryExtension extends ConfigurableExtension implements Prepe
 
     public function prepend(ContainerBuilder $container): void
     {
-        $this->addExposeHeader($container, 'X-Analytics-Update-Date');
+        $this->addExposeHeader($container, 'X-Analytics-Update-Date', '/sublibrary/');
     }
 
     public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
