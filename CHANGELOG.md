@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## v0.5.15
+
+- Limit CORS header exceptions required by this bundle to the endpoints this
+  bundle actually provides.
+- Expose the analytics update time also for the
+  "/sublibrary/budget-monetary-amounts" endpoint.
+
 ## v0.5.14
 
 - Adjust datetime format to include milliseconds and end with "Z" instead of
