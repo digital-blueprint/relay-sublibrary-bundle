@@ -62,6 +62,8 @@ final class BudgetMonetaryAmountProvider implements ProviderInterface
         // fetch budget monetary amounts of organization
         $budgetMonetaryAmounts = $api->getBudgetMonetaryAmountsByLibrary($library);
 
+        $api->setAnalyticsUpdateDateHeader();
+
         /**
          * @var WholeResultPaginator<BudgetMonetaryAmount>
          */
