@@ -1188,13 +1188,13 @@ class AlmaApi implements LoggerAwareInterface
     public function checkCurrentPersonBookOfferPermissions(BookOffer &$bookOffer)
     {
         if (!$this->authorizationService->isLibraryManagerByAlmaId($bookOffer->getLibrary())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $bookOffer->getLibrary()));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $bookOffer->getLibrary()));
         }
     }
 
-    public function getCurrentPerson(bool $addInternalAttributes): Person
+    public function getCurrentPerson(): Person
     {
-        $person = $this->almaPersonProvider->getCurrentPerson($addInternalAttributes);
+        $person = $this->almaPersonProvider->getCurrentPerson(false);
         if ($person === null) {
             throw new AccessDeniedException('Person required');
         }
@@ -1877,7 +1877,7 @@ class AlmaApi implements LoggerAwareInterface
     public function checkCurrentPersonLibraryPermissions(SublibraryInterface $library)
     {
         if (!$this->authorizationService->isLibraryManagerById($library->getIdentifier())) {
-            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson(false)->getIdentifier(), $library->getCode()));
+            throw new AccessDeniedException(sprintf("Person '%s' is not allowed to work with library '%s'!", $this->getCurrentPerson()->getIdentifier(), $library->getCode()));
         }
     }
 }

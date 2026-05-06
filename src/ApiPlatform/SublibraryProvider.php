@@ -73,7 +73,7 @@ final class SublibraryProvider implements ProviderInterface
             return null;
         }
 
-        $currentPerson = $this->api->getCurrentPerson(false);
+        $currentPerson = $this->api->getCurrentPerson();
         $currentPersonId = $currentPerson->getIdentifier();
         $personId = $filters[self::PERSON_ID_FILTER_NAME] ?? $currentPersonId;
 
