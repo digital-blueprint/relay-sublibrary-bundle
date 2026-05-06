@@ -27,19 +27,6 @@ class AlmaPersonProvider
         $this->almaIdAttribute = $personLocalDataAttributes['alma_id'];
     }
 
-    public function getCurrentPerson(bool $addInternalAttributes): ?Person
-    {
-        $options = [];
-        $attributes = [$this->emailAttribute];
-        if ($addInternalAttributes) {
-            $attributes[] = $this->almaIdAttribute;
-        }
-
-        Options::requestLocalDataAttributes($options, $attributes);
-
-        return $this->personProvider->getCurrentPerson($options);
-    }
-
     public function getPersonForAlmaId(string $almaId, bool $addInternalAttributes): ?Person
     {
         $options = [];
