@@ -142,6 +142,29 @@ class AlmaApiTest extends WebTestCase
         $this->assertEquals($offer->getBarcode(), $barcode);
     }
 
+    public function testLibraryUserEmailMapping()
+    {
+        $user = $this->api->libraryUserFromJsonItem([
+            'primary_id' => 'alma-id',
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'contact_info' => [
+                'email' => [
+                    [
+                        'email_address' => 'jane.private@example.com',
+                        'preferred' => false,
+                    ],
+                    [
+                        'email_address' => 'jane.doe@example.com',
+                        'preferred' => true,
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertSame('jane.doe@example.com', $user->getEmail());
+    }
+
     public function testTokenError()
     {
         $identifier = 'foo';

@@ -9,6 +9,7 @@ namespace Dbp\Relay\SublibraryBundle\Service;
 
 use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
+use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
 use Dbp\Relay\SublibraryBundle\Alma\AlmaUtils;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\Book;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BookLoan;
@@ -19,6 +20,7 @@ use Dbp\Relay\SublibraryBundle\ApiPlatform\BookOrderItem;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\BudgetMonetaryAmount;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\DeliveryEvent;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\EventStatusType;
+use Dbp\Relay\SublibraryBundle\ApiPlatform\LibraryUser;
 use Dbp\Relay\SublibraryBundle\ApiPlatform\ParcelDelivery;
 use Dbp\Relay\SublibraryBundle\Authorization\AuthorizationService;
 use Dbp\Relay\SublibraryBundle\Helpers\ItemNotFoundException;
@@ -429,6 +431,95 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         return null;
+    }
+
+    /**
+     * @throws ItemNotLoadedException
+     */
+    public function getLibraryUser(string $identifier): ?LibraryUser
+    {
+        $client = $this->getClient();
+        $options = [
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ];
+
+        try {
+            $response = $client->request('GET', $this->almaUrlApi->getUserUrl($identifier), $options);
+            $dataArray = $this->decodeResponse($response);
+
+            return $this->libraryUserFromJsonItem($dataArray);
+        } catch (RequestException $e) {
+            $message = $this->getRequestExceptionMessage($e);
+            throw new ItemNotLoadedException(sprintf("LibraryUser with id '%s' could not be loaded! Message: %s", $identifier, $message));
+        } catch (GuzzleException|UriException $e) {
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+        }
+    }
+
+    /**
+     * @return LibraryUser[]
+     *
+     * @throws ItemNotLoadedException
+     */
+    public function getLibraryUsers(array $filters): array
+    {
+        $client = $this->getClient();
+        $options = [
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ];
+        $page = Pagination::getCurrentPageNumber($filters);
+        $limit = min(100, Pagination::getMaxNumItemsPerPage($filters));
+        $offset = Pagination::getFirstItemIndex($page, $limit);
+        $search = $filters['search'] ?? null;
+        assert($search === null || is_string($search));
+
+        try {
+            $response = $client->request('GET', $this->almaUrlApi->getUsersUrl($search, $limit, $offset), $options);
+            $dataArray = $this->decodeResponse($response);
+
+            return array_map(function (array $item): LibraryUser {
+                return $this->libraryUserFromJsonItem($item);
+            }, $dataArray['user'] ?? []);
+        } catch (RequestException $e) {
+            $message = $this->getRequestExceptionMessage($e);
+            throw new ItemNotLoadedException(sprintf('LibraryUsers could not be loaded! Message: %s', $message));
+        } catch (GuzzleException|UriException $e) {
+            throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
+        }
+    }
+
+    public function libraryUserFromJsonItem(array $item): LibraryUser
+    {
+        $libraryUser = new LibraryUser();
+        $libraryUser->setIdentifier($item['primary_id'] ?? null);
+        $libraryUser->setGivenName($item['first_name'] ?? null);
+        $libraryUser->setFamilyName($item['last_name'] ?? null);
+        $libraryUser->setEmail($this->getLibraryUserEmail($item));
+
+        return $libraryUser;
+    }
+
+    private function getLibraryUserEmail(array $item): ?string
+    {
+        $emails = $item['contact_info']['email'] ?? [];
+
+        $fallback = null;
+        foreach ($emails as $email) {
+            if ($email['email_address'] === '') {
+                continue;
+            }
+
+            $fallback ??= $email['email_address'];
+            if ($email['preferred']) {
+                return $email['email_address'];
+            }
+        }
+
+        return $fallback;
     }
 
     /**

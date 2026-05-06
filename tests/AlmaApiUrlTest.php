@@ -80,6 +80,24 @@ class AlmaApiUrlTest extends WebTestCase
             $this->urls->getLoansByUserIdUrl('bla?', 20));
     }
 
+    public function testGetUserUrl()
+    {
+        $this->assertEquals(
+            'users/bla%3F',
+            $this->urls->getUserUrl('bla?'));
+    }
+
+    public function testGetUsersUrl()
+    {
+        $this->assertEquals(
+            'users?q=general_info~Jane%20AND%20general_info~Doe&limit=20&offset=40&order_by=last_name&expand=full',
+            $this->urls->getUsersUrl('Jane Doe', 20, 40));
+
+        $this->assertEquals(
+            'users?limit=10&offset=0&order_by=last_name&expand=full',
+            $this->urls->getUsersUrl(null));
+    }
+
     public function testGetBarcodeBookOfferUrl()
     {
         $this->assertEquals(

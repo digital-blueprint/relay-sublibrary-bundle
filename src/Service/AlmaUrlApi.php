@@ -172,6 +172,45 @@ class AlmaUrlApi
     /**
      * @throws UriException
      */
+    public function getUserUrl(string $userId): string
+    {
+        $uriTemplate = new UriTemplate('users/{userId}');
+
+        return (string) $uriTemplate->expand([
+            'userId' => $userId,
+        ]);
+    }
+
+    /**
+     * @throws UriException
+     */
+    public function getUsersUrl(?string $search, int $limit = 10, int $offset = 0): string
+    {
+        if ($limit < 0 || $limit > 100) {
+            throw new \RuntimeException('Valid values are 0-100');
+        }
+
+        $uriTemplate = new UriTemplate('users{?q,limit,offset,order_by,expand}');
+        $terms = preg_split('/\s+/', trim((string) $search), -1, PREG_SPLIT_NO_EMPTY);
+        $parameters = [
+            'limit' => $limit,
+            'offset' => $offset,
+            'order_by' => 'last_name',
+            'expand' => 'full',
+        ];
+
+        if ($terms !== []) {
+            $parameters['q'] = implode(' AND ', array_map(static function (string $term): string {
+                return 'general_info~'.$term;
+            }, $terms));
+        }
+
+        return (string) $uriTemplate->expand($parameters);
+    }
+
+    /**
+     * @throws UriException
+     */
     public function getBarcodeBookOfferUrl(string $barcode): string
     {
         $uriTemplate = new UriTemplate('items{?item_barcode}');
