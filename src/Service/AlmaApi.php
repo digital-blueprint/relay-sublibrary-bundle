@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Service;
 
-use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Exception\ApiError;
 use Dbp\Relay\CoreBundle\Rest\Query\Pagination\Pagination;
 use Dbp\Relay\SublibraryBundle\Alma\AlmaUtils;
@@ -64,9 +63,8 @@ class AlmaApi implements LoggerAwareInterface
     private ?object $clientHandler = null;
     private AlmaUrlApi $almaUrlApi;
     private string $analyticsUpdatesHash = '';
-    private AlmaPersonProvider $almaPersonProvider;
 
-    public function __construct(AlmaPersonProvider $almaPersonProvider,
+    public function __construct(
         SublibraryProviderInterface $libraryProvider,
         AuthorizationService $authorizationService,
         private ConfigurationService $config)
@@ -74,7 +72,6 @@ class AlmaApi implements LoggerAwareInterface
         $this->almaUrlApi = new AlmaUrlApi($config);
         $this->libraryProvider = $libraryProvider;
         $this->authorizationService = $authorizationService;
-        $this->almaPersonProvider = $almaPersonProvider;
     }
 
     public function setCache(?CacheItemPoolInterface $cachePool)
@@ -436,7 +433,7 @@ class AlmaApi implements LoggerAwareInterface
     /**
      * @throws ItemNotLoadedException
      */
-    public function getLibraryUser(string $identifier): ?LibraryUser
+    public function getLibraryUser(string $identifier): LibraryUser
     {
         $client = $this->getClient();
         $options = [
@@ -453,7 +450,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotLoadedException(sprintf("LibraryUser with id '%s' could not be loaded! Message: %s", $identifier, $message));
-        } catch (GuzzleException|UriException $e) {
+        } catch (GuzzleException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
     }
@@ -472,7 +469,7 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
         $page = Pagination::getCurrentPageNumber($filters);
-        $limit = min(100, Pagination::getMaxNumItemsPerPage($filters));
+        $limit = min(50, Pagination::getMaxNumItemsPerPage($filters));
         $offset = Pagination::getFirstItemIndex($page, $limit);
         $search = $filters['search'] ?? null;
         assert($search === null || is_string($search));
@@ -487,7 +484,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
             throw new ItemNotLoadedException(sprintf('LibraryUsers could not be loaded! Message: %s', $message));
-        } catch (GuzzleException|UriException $e) {
+        } catch (GuzzleException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         }
     }
@@ -540,7 +537,7 @@ class AlmaApi implements LoggerAwareInterface
     public function bookLoansFromJsonItems(array $items): array
     {
         $bookLoans = [];
-        $personCache = [];
+        $userCache = [];
 
         foreach ($items as $item) {
             $bookLoan = new BookLoan();
@@ -558,16 +555,11 @@ class AlmaApi implements LoggerAwareInterface
             $bookLoan->setLoanStatus($item['loan_status']);
 
             $almaId = $item['user_id'];
-            if (!isset($personCache[$almaId])) {
-                $personCache[$almaId] = $this->almaPersonProvider->getPersonForAlmaId($item['user_id'], false);
+            if (!isset($userCache[$almaId])) {
+                $userCache[$almaId] = $this->getLibraryUser($item['user_id']);
             }
-            $person = $personCache[$almaId];
-
-            // must be handled in the frontend
-            // Returning without a person has the advantage that we can return the book even if no person was found at least
-            if ($person !== null) {
-                $bookLoan->setBorrower($person);
-            }
+            $libraryUser = $userCache[$almaId];
+            $bookLoan->setBorrower($libraryUser);
 
             // we need to fetch the book offer for the loan because the loan data provided by Alma doesn't contain all information we need
             $bookOffer = $this->getBookOffer("{$item['mms_id']}-{$item['holding_id']}-{$item['item_id']}");
@@ -695,11 +687,8 @@ class AlmaApi implements LoggerAwareInterface
         }
 
         if (!empty($borrowerId)) {
-            $person = $this->almaPersonProvider->getPerson($borrowerId, true);
-            if ($person === null) {
-                throw new ItemNotFoundException('borrower not found');
-            }
-            $bookLoansData = $this->getBookLoansJsonDataByPerson($person);
+            $libraryUser = $this->getLibraryUser($borrowerId);
+            $bookLoansData = $this->getBookLoansJsonDataByLibraryUser($libraryUser);
 
             $bookLoansDataFiltered = [];
             foreach ($bookLoansData as $bookLoanData) {
@@ -789,10 +778,10 @@ class AlmaApi implements LoggerAwareInterface
         }
     }
 
-    private function getPersonName(Person $person): string
+    private function getLibraryUserName(LibraryUser $libraryUser): string
     {
-        $givenName = $person->getGivenName() ?? '';
-        $familyName = $person->getFamilyName() ?? '';
+        $givenName = $libraryUser->getGivenName() ?? '';
+        $familyName = $libraryUser->getFamilyName() ?? '';
 
         return "{$givenName} {$familyName}";
     }
@@ -824,22 +813,18 @@ class AlmaApi implements LoggerAwareInterface
         ];
 
         // XXX: Is there a better way to get an object for a API path?
-        $personPath = $bodyData['borrower'];
-        $res = preg_match('/^\/base\/people\/(.*)$/', $personPath, $match);
+        $userPath = $bodyData['borrower'];
+        $res = preg_match('/^\/sublibrary\/users\/(.*)$/', $userPath, $match);
         if ($res !== 1) {
             throw new ItemNotFoundException('person not found');
         }
-        $personId = $match[1];
+        $userId = urldecode($match[1]);
 
-        $person = $this->almaPersonProvider->getPerson($personId, true);
-        if ($person === null) {
-            throw new ItemNotFoundException('person not found');
+        if ($userId === '') {
+            throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned! Person not registered in Alma!", $bookOffer->getName()));
         }
-        $userId = $this->almaPersonProvider->getAlmaId($person);
 
-        if ($userId === null || $userId === '') {
-            throw new ItemNotUsableException(sprintf("LibraryBookOffer '%s' cannot be loaned by %s! Person not registered in Alma!", $bookOffer->getName(), $this->getPersonName($person)));
-        }
+        $libraryUser = $this->getLibraryUser($userId);
 
         $client = $this->getClient();
         $options = [
@@ -858,7 +843,7 @@ class AlmaApi implements LoggerAwareInterface
             $data = $this->decodeResponse($response);
             $bookLoan = $this->bookLoanFromJsonItem($data);
 
-            $this->log("Loan was created for book offer <{$identifier}> ({$bookOffer->getName()}) for <{$person->getIdentifier()}> ({$this->getPersonName($person)})",
+            $this->log("Loan was created for book offer <{$identifier}> ({$bookOffer->getName()}) for <{$userId}> ({$this->getLibraryUserName($libraryUser)})",
                 ['library' => $libraryCode, 'userId' => $userId]);
 
             return $bookLoan;
@@ -880,7 +865,7 @@ class AlmaApi implements LoggerAwareInterface
                     case 401651:
                         throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' is not loanable!", $bookOffer->getName()));
                     case 401168:
-                        throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' cannot be loaded by %s! Patrons card has expired!", $bookOffer->getName(), $this->getPersonName($person)));
+                        throw new ItemNotStoredException(sprintf("LibraryBookOffer '%s' cannot be loaded by %s! Patrons card has expired!", $bookOffer->getName(), $this->getLibraryUserName($libraryUser)));
                 }
             }
 
@@ -996,12 +981,12 @@ class AlmaApi implements LoggerAwareInterface
 
             $bookLoan->setObject($bookOffer);
 
-            $person = new Person();
+            $libraryUser = new LibraryUser();
             // TODO: fetch Person by AlmaId? takes long!
-            $person->setIdentifier('unknown');
-            $person->setGivenName($values['Borrower Details::First Name']);
-            $person->setFamilyName($values['Borrower Details::Last Name']);
-            $bookLoan->setBorrower($person);
+            $libraryUser->setIdentifier('unknown');
+            $libraryUser->setGivenName($values['Borrower Details::First Name']);
+            $libraryUser->setFamilyName($values['Borrower Details::Last Name']);
+            $bookLoan->setBorrower($libraryUser);
 
             $collection->add($bookLoan);
         }
@@ -1227,7 +1212,7 @@ class AlmaApi implements LoggerAwareInterface
      * @throws ItemNotUsableException
      * @throws UriException
      */
-    public function getBookLoansJsonDataByPerson(Person $person): ?array
+    public function getBookLoansJsonDataByLibraryUser(LibraryUser $libraryUser): ?array
     {
         $client = $this->getClient();
         $options = [
@@ -1236,11 +1221,10 @@ class AlmaApi implements LoggerAwareInterface
             ],
         ];
 
-        $identifier = $person->getIdentifier();
-        $userId = $this->almaPersonProvider->getAlmaId($person);
+        $userId = $libraryUser->getIdentifier();
 
         if ($userId === null || $userId === '') {
-            throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $this->getPersonName($person)));
+            throw new ItemNotUsableException(sprintf('LibraryBookLoans cannot be fetched for %s! Person not registered in Alma!', $this->getLibraryUserName($libraryUser)));
         }
 
         try {
@@ -1264,7 +1248,7 @@ class AlmaApi implements LoggerAwareInterface
             return $resultList;
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
-            throw new ItemNotLoadedException(sprintf("LibraryBookLoans of Person with id '%s' could not be loaded! Message: %s", $identifier, $message));
+            throw new ItemNotLoadedException(sprintf("LibraryBookLoans of Person with id '%s' could not be loaded! Message: %s", $userId, $message));
         } catch (GuzzleException $e) {
         }
 

@@ -13,7 +13,6 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\Model\RequestBody;
-use Dbp\Relay\BasePersonBundle\Entity\Person;
 use Dbp\Relay\CoreBundle\Serializer\DateTimeUtcNormalizer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\Context;
@@ -128,7 +127,7 @@ use Symfony\Component\Serializer\Attribute\Context;
     ],
     routePrefix: '/sublibrary',
     normalizationContext: [
-        'groups' => ['LibraryBookLoan:output', 'BasePerson:output', 'LibraryBookOffer:output', 'LibraryBook:output', 'LocalData:output'],
+        'groups' => ['LibraryBookLoan:output', 'LibraryUser:output', 'LibraryBookOffer:output', 'LibraryBook:output', 'LocalData:output'],
         'jsonld_embed_context' => true,
     ],
     denormalizationContext: [
@@ -152,7 +151,7 @@ class BookLoan
     private $object;
 
     /**
-     * @var Person
+     * @var LibraryUser
      */
     #[ApiProperty(iris: ['http://schema.org/Person'])]
     #[Groups(['LibraryBookLoan:output'])]
@@ -215,12 +214,12 @@ class BookLoan
         return $this;
     }
 
-    public function getBorrower(): ?Person
+    public function getBorrower(): ?LibraryUser
     {
         return $this->borrower;
     }
 
-    public function setBorrower(Person $borrower): self
+    public function setBorrower(LibraryUser $borrower): self
     {
         $this->borrower = $borrower;
 

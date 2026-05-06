@@ -13,11 +13,6 @@ dbp_relay_sublibrary:
   analytics_api_key:    ~ # Example: your_key
   # Makes all write operations error out, even if the API key would allow them.
   readonly:             false
-  person_local_data_attributes:
-    # The person local data attribute to request for the person email address
-    email:                email
-    # The person local data attribute to request for the person ALMA ID
-    alma_id:              almaId
   organization_local_data_attributes:
     # The organization local data attribute that contains the library code
     code:                 code

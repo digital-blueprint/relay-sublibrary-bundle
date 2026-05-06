@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f028211d00700a118cb02944a2d15bc",
+    "content-hash": "561daac0bd6d3612bfffe68fc091cf21",
     "packages": [
         {
             "name": "api-platform/documentation",
@@ -1034,65 +1034,6 @@
                 "source": "https://github.com/digital-blueprint/relay-base-organization-bundle/tree/v0.2.19"
             },
             "time": "2026-03-05T08:07:58+00:00"
-        },
-        {
-            "name": "dbp/relay-base-person-bundle",
-            "version": "v0.2.45",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/digital-blueprint/relay-base-person-bundle.git",
-                "reference": "839ba9cb07b7883b4cc510d407534007572ceba0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-base-person-bundle/zipball/839ba9cb07b7883b4cc510d407534007572ceba0",
-                "reference": "839ba9cb07b7883b4cc510d407534007572ceba0",
-                "shasum": ""
-            },
-            "require": {
-                "api-platform/metadata": "^4.1",
-                "api-platform/openapi": "^4.1",
-                "dbp/relay-core-bundle": "^0.1.231",
-                "ext-json": "*",
-                "php": ">=8.2",
-                "symfony/config": "^6.4 || ^7.4",
-                "symfony/dependency-injection": "^6.4 || ^7.4",
-                "symfony/framework-bundle": "^6.4 || ^7.4",
-                "symfony/http-foundation": "^6.4 || ^7.4",
-                "symfony/http-kernel": "^6.4 || ^7.4",
-                "symfony/serializer": "^6.4 || ^7.4"
-            },
-            "require-dev": {
-                "api-platform/symfony": "^4.1",
-                "captainhook/captainhook": "^5.25",
-                "friendsofphp/php-cs-fixer": "^3.50",
-                "phpstan/phpstan": "^2.0.0",
-                "phpstan/phpstan-phpunit": "^2.0.0",
-                "phpstan/phpstan-symfony": "^2.0.0",
-                "phpunit/phpunit": "^11.5",
-                "symfony/browser-kit": "^6.4 || ^7.4",
-                "symfony/error-handler": "^6.4 || ^7.4",
-                "symfony/http-client": "^6.4 || ^7.4",
-                "symfony/monolog-bridge": "^6.4 || ^7.4",
-                "symfony/monolog-bundle": "^4.0",
-                "symfony/phpunit-bridge": "^7.0.4",
-                "symfony/runtime": "*"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Dbp\\Relay\\BasePersonBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "AGPL-3.0-or-later"
-            ],
-            "support": {
-                "issues": "https://github.com/digital-blueprint/relay-base-person-bundle/issues",
-                "source": "https://github.com/digital-blueprint/relay-base-person-bundle/tree/v0.2.45"
-            },
-            "time": "2026-03-03T13:18:39+00:00"
         },
         {
             "name": "dbp/relay-core-bundle",

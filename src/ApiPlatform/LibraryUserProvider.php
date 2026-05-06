@@ -36,7 +36,7 @@ final class LibraryUserProvider implements ProviderInterface
 
         $filters = $context['filters'] ?? [];
         $users = $this->api->getLibraryUsers($filters);
-        $maxNumItemsPerPage = min(100, Pagination::getMaxNumItemsPerPage($filters));
+        $maxNumItemsPerPage = min(50, Pagination::getMaxNumItemsPerPage($filters));
 
         /** @var PartialPaginator<LibraryUser> $paginator */
         $paginator = new PartialPaginator($users,
