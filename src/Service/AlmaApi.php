@@ -56,6 +56,9 @@ class AlmaApi implements LoggerAwareInterface
     // 1h caching for the Analytics Updates
     private const ANALYTICS_UPDATES_CACHE_TTL = 3600;
 
+    // 5min cache for user information
+    private const USERS_CACHE_TTL = 60 * 5;
+
     private SublibraryProviderInterface $libraryProvider;
     private ?CacheItemPoolInterface $cachePool = null;
     private AuthorizationService $authorizationService;
@@ -101,7 +104,7 @@ class AlmaApi implements LoggerAwareInterface
         $this->clientHandler = $handler;
     }
 
-    private function getClient(): Client
+    private function getClient(bool $cache = false): Client
     {
         $stack = HandlerStack::create($this->clientHandler);
         $base_uri = $this->config->getApiUrl();
@@ -118,6 +121,19 @@ class AlmaApi implements LoggerAwareInterface
 
         if ($this->logger !== null) {
             $stack->push(Tools::createLoggerMiddleware($this->logger));
+        }
+
+        if ($cache && $this->cachePool !== null) {
+            $cacheMiddleWare = new CacheMiddleware(
+                new GreedyCacheStrategy(
+                    new Psr6CacheStorage($this->cachePool),
+                    self::USERS_CACHE_TTL,
+                    new KeyValueHttpHeader(['Authorization'])
+                )
+            );
+
+            $cacheMiddleWare->setHttpMethods(['GET' => true, 'HEAD' => true]);
+            $stack->push($cacheMiddleWare);
         }
 
         $client = new Client($client_options);
@@ -435,7 +451,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function getLibraryUser(string $identifier): LibraryUser
     {
-        $client = $this->getClient();
+        $client = $this->getClient(cache: true);
         $options = [
             'headers' => [
                 'Accept' => 'application/json',
@@ -462,7 +478,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     public function getLibraryUsers(array $filters): array
     {
-        $client = $this->getClient();
+        $client = $this->getClient(cache: true);
         $options = [
             'headers' => [
                 'Accept' => 'application/json',
