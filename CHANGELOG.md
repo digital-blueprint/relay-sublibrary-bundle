@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## v0.6.0
+
+- Multiple breaking changes due to library user handling changes:
+  - The library users are now fetch from Alma an are no longer via the
+    BasePersonConnector.
+  - There is a new "/sublibrary/users" resource which provides the users. E-Mail
+    addresses are now included by default, assuming one is set in Alma.
+  - "/sublibrary/users?search={query}" works similarly to the old base person
+    search, but might give slightly different results.
+  - "/book-loans" now embeds a library user instead of a base person.
+
 ## v0.5.15
 
 - Limit CORS header exceptions required by this bundle to the endpoints this
