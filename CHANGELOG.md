@@ -2,10 +2,14 @@
 
 ## Unreleased
 
+## v0.6.1
+
+- "/sublibrary/users" gained a new "idNumber" property, containing an ID number of the user, if available.
+
 ## v0.6.0
 
 - Multiple breaking changes due to library user handling changes:
-  - The library users are now fetch from Alma an are no longer via the
+  - The library users are now fetched from Alma and no longer via the
     BasePersonConnector.
   - There is a new "/sublibrary/users" resource which provides the users. E-Mail
     addresses are now included by default, assuming one is set in Alma.
