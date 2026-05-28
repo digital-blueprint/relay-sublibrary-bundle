@@ -154,6 +154,28 @@ class AlmaApiTest extends WebTestCase
         $this->assertSame('jane.doe@example.com', $user->getEmail());
     }
 
+    public function testLibraryUserIdNumberMapping()
+    {
+        $user = $this->api->libraryUserFromJsonItem([
+            'primary_id' => 'alma-id',
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'user_identifier' => [
+                [
+                    'value' => '$f4242424',
+                    'status' => 'ACTIVE',
+                    'id_type' => [
+                        'value' => '01',
+                        'desc' => 'Strichcode',
+                    ],
+                    'segment_type' => 'External',
+                ],
+            ],
+        ]);
+
+        $this->assertSame('$f4242424', $user->getIdNumber());
+    }
+
     public function testTokenError()
     {
         $identifier = 'foo';
@@ -173,5 +195,59 @@ class AlmaApiTest extends WebTestCase
         } catch (ItemNotLoadedException $e) {
             $this->assertStringNotContainsString($token, $e->getMessage());
         }
+    }
+
+    public function testGetLibraryUserEmail()
+    {
+        $partialResult = '
+ {
+    "contact_info": {
+        "email": [
+            {
+                "email_address": "test@test.local",
+                "email_type": [
+                    {
+                        "value": "work",
+                        "desc": "Work"
+                    }
+                ],
+                "preferred": true,
+                "segment_type": "External"
+            }
+        ]
+    }
+}
+';
+        $decoded = json_decode($partialResult, true, flags: JSON_THROW_ON_ERROR);
+        $email = AlmaApi::getLibraryUserEmail($decoded);
+        $this->assertSame('test@test.local', $email);
+
+        $email = AlmaApi::getLibraryUserEmail([]);
+        $this->assertNull($email);
+    }
+
+    public function testGetLibraryUserIdNumber()
+    {
+        $partialResult = '
+{
+    "user_identifier": [
+        {
+            "value": "$f4242424",
+            "status": "ACTIVE",
+            "id_type": {
+                "value": "01",
+                "desc": "Strichcode"
+            },
+            "segment_type": "External"
+        }
+    ]
+}
+';
+        $decoded = json_decode($partialResult, true, flags: JSON_THROW_ON_ERROR);
+        $email = AlmaApi::getLibraryUserIdNumber($decoded);
+        $this->assertSame('$f4242424', $email);
+
+        $idNum = AlmaApi::getLibraryUserIdNumber([]);
+        $this->assertNull($idNum);
     }
 }

@@ -512,11 +512,24 @@ class AlmaApi implements LoggerAwareInterface
         $libraryUser->setGivenName($item['first_name'] ?? null);
         $libraryUser->setFamilyName($item['last_name'] ?? null);
         $libraryUser->setEmail($this->getLibraryUserEmail($item));
+        $libraryUser->setIdNumber($this->getLibraryUserIdNumber($item));
 
         return $libraryUser;
     }
 
-    private function getLibraryUserEmail(array $item): ?string
+    public static function getLibraryUserIdNumber(array $item): ?string
+    {
+        $userIds = $item['user_identifier'] ?? [];
+        foreach ($userIds as $item) {
+            if ($item['id_type']['value'] === '01') {
+                return $item['value'];
+            }
+        }
+
+        return null;
+    }
+
+    public static function getLibraryUserEmail(array $item): ?string
     {
         $emails = $item['contact_info']['email'] ?? [];
 

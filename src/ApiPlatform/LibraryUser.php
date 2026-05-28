@@ -75,6 +75,10 @@ class LibraryUser
     #[Groups(['LibraryUser:output'])]
     private ?string $email = null;
 
+    #[ApiProperty()]
+    #[Groups(['LibraryUser:output'])]
+    private ?string $idNumber = null;
+
     public function getIdentifier(): ?string
     {
         return $this->identifier;
@@ -113,5 +117,15 @@ class LibraryUser
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getIdNumber(): ?string
+    {
+        return $this->idNumber;
+    }
+
+    public function setIdNumber(?string $idNumber): void
+    {
+        $this->idNumber = $idNumber;
     }
 }
