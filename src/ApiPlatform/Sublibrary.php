@@ -21,16 +21,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriTemplate: '/sublibraries',
             openapi: new Operation(
                 tags: ['Sublibrary'],
-                parameters: [
-                    new Parameter(
-                        name: 'libraryManager',
-                        in: 'query',
-                        description: 'Get the Sublibraries the given person has library manager permissions for (ID of BasePerson resource)',
-                        required: false,
-                        deprecated: true,
-                        schema: ['type' => 'string']
-                    ),
-                ]
             ),
             provider: SublibraryProvider::class
         ),

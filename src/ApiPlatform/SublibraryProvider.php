@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class SublibraryProvider implements ProviderInterface
 {
-    private const PERSON_ID_FILTER_NAME = 'libraryManager';
-
     /** @var AlmaApi */
     private $api;
 
@@ -71,14 +69,6 @@ final class SublibraryProvider implements ProviderInterface
             }
 
             return null;
-        }
-
-        $currentPersonId = $this->authorizationService->getUserIdentifier();
-        $personId = $filters[self::PERSON_ID_FILTER_NAME] ?? $currentPersonId;
-
-        // users are only allowed to fetch this for themselves
-        if ($personId === null || $personId !== $currentPersonId) {
-            throw new ApiError(Response::HTTP_FORBIDDEN, 'Only allowed with person ID of currently logged-in person.');
         }
 
         $sublibraries = [];
