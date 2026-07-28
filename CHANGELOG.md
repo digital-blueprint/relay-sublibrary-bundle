@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.6.2
+
 - "/sublibrary/sublibraries": the deprecated "libraryManager" query parameter was
   removed. It is ignored from now on; the sublibraries of the currently
   logged-in person are always returned.
