@@ -31,13 +31,12 @@ final class BookProvider implements ProviderInterface
 
         if ($operation instanceof CollectionOperationInterface) {
             return [];
-        } else {
-            $id = $uriVariables['identifier'];
-            assert(is_string($id));
-            $data = $api->getBookJsonData($id);
-            $book = $api->bookFromJsonItem($data);
-
-            return $book;
         }
+        $id = $uriVariables['identifier'];
+        assert(is_string($id));
+        $data = $api->getBookJsonData($id);
+        $book = $api->bookFromJsonItem($data);
+
+        return $book;
     }
 }

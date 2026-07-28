@@ -63,9 +63,9 @@ final class SublibraryProvider implements ProviderInterface
                     $lib->setCode($sublibrary->getCode());
 
                     return $lib;
-                } else {
-                    return null;
                 }
+
+                return null;
             }
 
             return null;
