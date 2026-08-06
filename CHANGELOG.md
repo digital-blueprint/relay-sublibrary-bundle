@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.6.3
+
 - Add support for guzzlehttp/guzzle v8
 
 ## v0.6.2
