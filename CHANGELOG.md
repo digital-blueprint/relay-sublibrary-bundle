@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add support for guzzlehttp/guzzle v8
+
 ## v0.6.2
 
 - "/sublibrary/sublibraries": the deprecated "libraryManager" query parameter was

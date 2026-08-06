@@ -31,6 +31,7 @@ use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryInterface;
 use Dbp\Relay\SublibraryBundle\Sublibrary\SublibraryProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
@@ -255,7 +256,7 @@ class AlmaApi implements LoggerAwareInterface
      */
     private function getRequestExceptionMessage(RequestException $e): string
     {
-        if (!$e->hasResponse()) {
+        if (!$e instanceof BadResponseException) {
             return Tools::filterErrorMessage($e->getMessage());
         }
 
@@ -314,7 +315,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $dataArray;
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -348,7 +349,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return [$dataArray];
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -385,7 +386,7 @@ class AlmaApi implements LoggerAwareInterface
 
             return $dataArray;
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -429,7 +430,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -879,7 +880,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -1064,7 +1065,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (RequestException $e) {
             $message = $this->getRequestExceptionMessage($e);
 
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -1130,7 +1131,7 @@ class AlmaApi implements LoggerAwareInterface
         } catch (InvalidIdentifierException $e) {
             throw new ItemNotLoadedException(Tools::filterErrorMessage($e->getMessage()));
         } catch (RequestException $e) {
-            if ($e->getCode() === 400) {
+            if ($e instanceof BadResponseException && $e->getCode() === 400) {
                 $dataArray = $this->decodeResponse($e->getResponse());
                 $errorCode = (int) $dataArray['errorList']['error'][0]['errorCode'];
 
@@ -1308,7 +1309,7 @@ class AlmaApi implements LoggerAwareInterface
         $options = [
             'headers' => [
                 'Accept' => 'application/json',
-                'X-Request-Counter' => $resumptionData['request-counter'],
+                'X-Request-Counter' => (string) $resumptionData['request-counter'],
                 'X-Analytics-Updates-Hash' => $this->getAnalyticsUpdatesHash(),
             ],
         ];
@@ -1355,7 +1356,7 @@ class AlmaApi implements LoggerAwareInterface
         $options = [
             'headers' => [
                 'Accept' => 'application/json',
-                'X-Request-Counter' => $resumptionData['request-counter'],
+                'X-Request-Counter' => (string) $resumptionData['request-counter'],
                 'X-Analytics-Updates-Hash' => $this->getAnalyticsUpdatesHash(),
             ],
         ];
@@ -1403,7 +1404,7 @@ class AlmaApi implements LoggerAwareInterface
         $options = [
             'headers' => [
                 'Accept' => 'application/json',
-                'X-Request-Counter' => $resumptionData['request-counter'],
+                'X-Request-Counter' => (string) $resumptionData['request-counter'],
                 'X-Analytics-Updates-Hash' => $this->getAnalyticsUpdatesHash(),
             ],
         ];
