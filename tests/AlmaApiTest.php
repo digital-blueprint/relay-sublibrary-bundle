@@ -16,13 +16,10 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlmaApiTest extends WebTestCase
 {
-    use MockeryPHPUnitIntegration;
-
     /* @var AlmaApi */
     private $api;
 
