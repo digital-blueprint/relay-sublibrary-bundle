@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.6.4
+
+- Removed mockery/mockery dev dependency
+
 ## v0.6.3
 
 - Add support for guzzlehttp/guzzle v8
