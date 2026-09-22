@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use Dbp\Relay\CoreBundle\TestUtils\AbstractApiTest;
+use Dbp\Relay\CoreBundle\TestUtils\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class Test extends AbstractApiTest
+class Test extends ApiTestCase
 {
+    public function setUp(): void
+    {
+        $this->createTestClient();
+    }
+
     public function testIndex()
     {
         $response = $this->testClient->request('GET', '/sublibrary/books', token: null);
