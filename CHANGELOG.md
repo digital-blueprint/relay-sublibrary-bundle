@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.6.5
+
+- Dependency updates
+
 ## v0.6.4
 
 - Removed mockery/mockery dev dependency
