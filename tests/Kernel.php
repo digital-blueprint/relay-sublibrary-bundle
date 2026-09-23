@@ -4,51 +4,24 @@ declare(strict_types=1);
 
 namespace Dbp\Relay\SublibraryBundle\Tests;
 
-use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Dbp\Relay\BaseOrganizationBundle\DbpRelayBaseOrganizationBundle;
-use Dbp\Relay\CoreBundle\DbpRelayCoreBundle;
+use Dbp\Relay\CoreBundle\TestUtils\CoreTestKernelTrait;
 use Dbp\Relay\SublibraryBundle\DbpRelaySublibraryBundle;
-use Nelmio\CorsBundle\NelmioCorsBundle;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Bundle\MonologBundle\MonologBundle;
-use Symfony\Bundle\SecurityBundle\SecurityBundle;
-use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
-    use MicroKernelTrait;
+    use CoreTestKernelTrait;
 
-    public function registerBundles(): iterable
+    protected function registerAdditionalBundles(): iterable
     {
-        yield new FrameworkBundle();
-        yield new SecurityBundle();
-        yield new TwigBundle();
-        yield new NelmioCorsBundle();
-        yield new MonologBundle();
-        yield new ApiPlatformBundle();
         yield new DbpRelayBaseOrganizationBundle();
         yield new DbpRelaySublibraryBundle();
-        yield new DbpRelayCoreBundle();
     }
 
-    protected function configureRoutes(RoutingConfigurator $routes)
+    protected function configureAdditionalContainer(ContainerConfigurator $container): void
     {
-        $routes->import('@DbpRelayCoreBundle/Resources/config/routing.yaml');
-    }
-
-    protected function configureContainer(ContainerConfigurator $container)
-    {
-        $container->import('@DbpRelayCoreBundle/Resources/config/services_test.yaml');
-        $container->extension('framework', [
-            'test' => true,
-            'secret' => 'something',
-            'annotations' => false,
-        ]);
-
         $container->extension('dbp_relay_sublibrary', [
             'api_url' => '',
             'api_key' => '',
